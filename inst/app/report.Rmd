@@ -1,0 +1,113 @@
+---
+title: ""
+output: html_document
+params:
+  selectTreatment: NA
+  rendered_by_shiny: FALSE
+  reportHeader: NA
+  meddraVersion: NA
+  SI_var: NA
+  SI_order_by: NA
+  SI_disp: NA
+  SI_adjust: NA
+  SI_strat: NA
+  SI_fisher_alternative: NA
+  SI_filter: NA
+  SI_alpha: NA
+  adae_file: NA
+  adsl_file: NA
+  pickerinput_Verum: NA
+  pickerinput_Comparator: NA
+  pickerinput_adae: NA
+  pickerinput_adsl: NA
+  plotInfo: NA
+  meddraVersion_text: NA 
+  SI_var_text: NA 
+  SI_disp_text: NA  
+  SI_filter_text: NA 
+  filter_text: NA
+---
+
+<div align="left">
+![](AppSign_black_BAG_DetectoR_220x76mm_RGB.png){width=440px; height=152px}
+</div>
+
+Created: `r Sys.time()`
+
+### Double Dot Plot
+
+`r params$reportHeader`
+
+```{r echo=FALSE, warning = FALSE, fig.width=15}
+library(dplyr)
+
+plotInfo <- params$plotInfo %>%
+        dplyr::mutate(PT_collapsed = PT %>%
+                 stringr::str_sub(1, 20) %>%
+                 stringr::str_c("...") %>%
+                 factor(levels = PT %>%
+                          stringr::str_sub(1,20) %>%
+                          stringr::str_c("...") %>%
+                          unique() %>%
+                          rev()
+                 ))
+
+  dp1 <- double_dot_plot_p1(
+    data = plotInfo[1:50,],
+    adjustment = params$SI_adjust,
+    variable = params$SI_var,
+    display = params$SI_disp,
+    numberAEs = 50,
+    label = "PT_collapsed",
+    color_theme = "report"
+  )
+
+  dp2 <- double_dot_plot_p2(
+    data = params$plotInfo[1:50,],
+    adjustment = params$SI_adjust,
+    variable = params$SI_var,
+    display = params$SI_disp,
+    numberAEs = 50,
+    alpha = 0.05,
+    color_theme = "report"
+  )
+
+  dp3 <- double_dot_plot_p3(
+    data = params$plotInfo,
+    adjustment = params$SI_adjust,
+    variable = params$SI_var,
+    display = params$SI_disp,
+    numberAEs = 25,
+    color_theme = "report"
+  )
+
+  dp4 <- double_dot_plot_p4(
+    data = params$plotInfo,
+    adjustment = params$SI_adjust,
+    variable = params$SI_var,
+    display = params$SI_disp,
+    study_strat = params$SI_strat,
+    numberAEs = 25,
+    color_theme = "report"
+  )
+  
+gridExtra::grid.arrange(dp1,dp2,dp3,dp4,nrow = 1, widths = c(6,3,1.5,1.5))
+
+
+```
+
+ 
+##### Footnotes:
+
+Double dot plots presents results for `r params$SI_var_text``r params$meddraVersion_text` ordered by `r params$SI_order_by`.  
+
+`r params$SI_strat`  
+ 
+Multiplicity-adjustment using `r params$SI_adjust`-method and `r params$SI_alpha`-significance level based on `r params$SI_fisher_alternative` p-values.   
+Restriction: `r params$SI_filter_text`.  
+
+Treatment groups compared: `r params$pickerinput_Verum` vs. `r params$pickerinput_Comparator`.
+
+Filters applied: `r params$filter_text`.
+
+
