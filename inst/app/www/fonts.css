@@ -1,0 +1,35 @@
+/* Fonts */
+/* Bayer Sans */
+@font-face {
+    font-family: "Bayer Sans";
+    src: url("fonts/BayerSansWeb-Regular.woff2");
+}
+
+@font-face {
+    font-family: "Bayer Sans";
+    src: url("fonts/BayerSansWeb-Bold.woff2");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Bayer Sans";
+    src: url("fonts/BayerSansWeb-Italic.woff2");
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Bayer Sans";
+    src: url("fonts/BayerSansWeb-BoldItalic.woff2");
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Google Noto Sans (backup) */
+.noto-sans-100 {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    font-variation-settings:
+    "wdth" 100;
+}
