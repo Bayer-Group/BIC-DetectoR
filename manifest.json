@@ -5015,9 +5015,6 @@
     ".github/ISSUE_TEMPLATE/FEATURE.yml": {
       "checksum": "cd5ef7c9b3f9ac790a3dabbff3d7bb2d"
     },
-    ".github/workflows/deployment.yaml": {
-      "checksum": "d81c1e409af4535fab83a650dd28bf6a"
-    },
     ".github/workflows/format-check.yaml": {
       "checksum": "a59c38b18c33c2955ef32c76b2d07c7f"
     },
@@ -5031,7 +5028,7 @@
       "checksum": "f4994f578580807f5a09ff5c0a07b049"
     },
     ".Rprofile": {
-      "checksum": "5286f82f2b356e1c5ff25bc9197fc21d"
+      "checksum": "8da9f052c7be6211b34555f291146b0a"
     },
     ".vscode/extensions.json": {
       "checksum": "90d7891f1569632ae447aaa2d080d5c7"
