@@ -48,21 +48,20 @@ detector_pretty_toggle <- function(
   )
 }
 
-#' Default prettyRadioButtons
-#' @param input_id Input ID.
-#' @param label Text to show in the input.
-#' @param ... Options to pass to shinyWidgets::prettyRadioButtons
-#'
-detector_radio_buttons <- function(input_id, label, ...) {
-  shinyWidgets::prettyRadioButtons(
-    inputId = input_id,
-    label = label,
-    fill = TRUE,
-    status = "info",
-    ...
-  )
-}
-
+# #' Default prettyRadioButtons
+# #' @param input_id Input ID.
+# #' @param label Text to show in the input.
+# #' @param ... Options to pass to shinyWidgets::prettyRadioButtons
+# #'
+# detector_radio_buttons <- function(input_id, label, ...) {
+#   shinyWidgets::prettyRadioButtons(
+#     inputId = input_id,
+#     label = label,
+#     fill = TRUE,
+#     status = "info",
+#     ...
+#   )
+# }
 
 #' Shorthand for custom UI row
 #' @param ... Contents of the row.
