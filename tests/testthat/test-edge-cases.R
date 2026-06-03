@@ -5,7 +5,7 @@
 test_that("find_min_event returns NA when no event count yields significant p-value", {
   # Very small sample: only a few event counts are tried; use strict alpha
   # so that none are significant (e.g. n1=10, n2=10, alpha=0.001).
-  out <- DetectoR:::find_min_event(
+  out <- find_min_event(
     n1 = 10,
     n2 = 10,
     alternative = "two.sided",
@@ -16,7 +16,7 @@ test_that("find_min_event returns NA when no event count yields significant p-va
 
 test_that("find_min_event returns a finite integer when some count is significant", {
   # Larger n and moderate alpha: at least one event count should be significant
-  out <- DetectoR:::find_min_event(
+  out <- find_min_event(
     n1 = 100,
     n2 = 100,
     alternative = "two.sided",
@@ -41,7 +41,7 @@ test_that("filter_minimum_aes with method 'min' and non-finite min_events return
     big_n = c(10L, 10L, 10L, 10L)
   )
   # When find_min_event returns NA, filter should not drop all rows
-  out <- DetectoR:::filter_minimum_aes(
+  out <- filter_minimum_aes(
     data = data,
     variable = "AEDECOD",
     big_n = big_n,
@@ -61,7 +61,7 @@ test_that("filter_minimum_aes one_percent with zero sum_big_n does not error", {
     count = c(0L, 0L, 5L, 3L),
     big_n = c(0L, 0L, 10L, 10L) # AE1 has 0 subjects in both arms
   )
-  out <- DetectoR:::filter_minimum_aes(
+  out <- filter_minimum_aes(
     data = data,
     variable = "AEDECOD",
     big_n = tibble::tibble(
@@ -86,7 +86,7 @@ test_that("filter_minimum_aes no_method returns data unchanged", {
     big_n = 10L
   )
   big_n <- tibble::tibble(trta_detector = factor("Verum"), big_n = 10L)
-  out <- DetectoR:::filter_minimum_aes(
+  out <- filter_minimum_aes(
     data = data,
     variable = "AEDECOD",
     big_n = big_n,
@@ -99,12 +99,12 @@ test_that("filter_minimum_aes no_method returns data unchanged", {
 
 # get_fdr ----
 test_that("get_fdr with NULL returns NULL", {
-  expect_null(DetectoR:::get_fdr(NULL))
+  expect_null(get_fdr(NULL))
 })
 
 test_that("get_fdr with 0-row data returns 0-row data with FDR column", {
   data <- tibble::tibble(p = numeric(), x = character())
-  out <- DetectoR:::get_fdr(data)
+  out <- get_fdr(data)
   expect_s3_class(out, "data.frame")
   expect_equal(nrow(out), 0L)
   expect_true("FDR" %in% colnames(out))
@@ -112,12 +112,12 @@ test_that("get_fdr with 0-row data returns 0-row data with FDR column", {
 
 test_that("get_fdr with data missing 'p' column returns NULL", {
   data <- tibble::tibble(x = 1:3, y = runif(3))
-  expect_null(DetectoR:::get_fdr(data))
+  expect_null(get_fdr(data))
 })
 
 test_that("get_fdr with single row returns one FDR value", {
   data <- tibble::tibble(p = 0.01)
-  out <- DetectoR:::get_fdr(data)
+  out <- get_fdr(data)
   expect_equal(nrow(out), 1L)
   expect_equal(out$FDR, 0.01)
 })
@@ -131,7 +131,7 @@ test_that("get_new_dfdr handles SOC with empty or NULL get_fdr result", {
     big_n = c(100L, 100L),
     p = c(0.01, 0.03)
   )
-  out <- DetectoR:::get_new_dfdr(data, variable = "AEDECOD", alpha = 0.05)
+  out <- get_new_dfdr(data, variable = "AEDECOD", alpha = 0.05)
   expect_s3_class(out, "data.frame")
   expect_true("DFDR" %in% colnames(out))
   expect_true("DFDR_label" %in% colnames(out))
@@ -152,7 +152,7 @@ test_that("get_count_proportions incidence rates with zero pattime gives NA prop
     exposure_dur = c(0, 0, 100, 100),
     ae_dur = c(0, 0, 50, 10)
   )
-  out <- DetectoR:::get_count_proportions(
+  out <- get_count_proportions(
     comb_data = comb_data,
     big_n = big_n,
     variable = "AEDECOD",
@@ -162,15 +162,15 @@ test_that("get_count_proportions incidence rates with zero pattime gives NA prop
     exposure_duration_variable = "exposure_dur"
   )
   expect_false(any(is.infinite(out$prop)))
-  expect_true(any(is.na(out$prop)))
+  expect_true(anyNA(out$prop))
   expect_equal(sum(is.na(out$prop)), 1L)
 })
 
 # format_p_values with NA ----
 test_that("format_p_values returns empty string for NA", {
-  expect_equal(DetectoR:::format_p_values(NA_real_), "")
+  expect_equal(format_p_values(NA_real_), "")
 })
 
 test_that("format_p_values returns '<0.0001' for very small p", {
-  expect_equal(DetectoR:::format_p_values(1e-10), "<0.0001")
+  expect_equal(format_p_values(1e-10), "<0.0001")
 })

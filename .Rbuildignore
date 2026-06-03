@@ -15,3 +15,7 @@ $run_dev.*
 CODEOWNERS
 CODE_OF_CONDUCT\.md
 Dockerfile
+manifest.json
+^[.]?air[.]toml$
+^[.]?jarl[.]toml$
+^\.vscode$

@@ -28,7 +28,9 @@ app_server <- function(input, output, session) {
   # Communication between modules
   r <- shiny::reactiveValues()
   r$parent_session <- session
-  shiny::observe(r$theme <- theme())
+  shiny::observe({
+    r$theme <- theme()
+  })
 
   # Conditionally show sidebar menu items ----
   output$filter <- shinydashboard::renderMenu({

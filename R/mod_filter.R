@@ -506,13 +506,27 @@ mod_filter_server <- function(id, r) {
       )
     })
     # Return values to reactiveValues "r" to communicate with other modules ----
-    shiny::observe(r$filtered_data <- filtered_data())
-    shiny::observe(r$filtered_data_mlg <- filtered_data_mlg())
-    shiny::observe(r$filtered_data_smq <- filtered_data_smq())
-    shiny::observe(r$filter_list_adae <- filter_list_adae())
-    shiny::observe(r$filter_list_adsl <- filter_list_adsl())
-    shiny::observe(r$adae_filtered <- adae_filtered())
-    shiny::observe(r$adsl_filtered <- adsl_filtered())
+    shiny::observe({
+      r$filtered_data <- filtered_data()
+    })
+    shiny::observe({
+      r$filtered_data_mlg <- filtered_data_mlg()
+    })
+    shiny::observe({
+      r$filtered_data_smq <- filtered_data_smq()
+    })
+    shiny::observe({
+      r$filter_list_adae <- filter_list_adae()
+    })
+    shiny::observe({
+      r$filter_list_adsl <- filter_list_adsl()
+    })
+    shiny::observe({
+      r$adae_filtered <- adae_filtered()
+    })
+    shiny::observe({
+      r$adsl_filtered <- adsl_filtered()
+    })
     # Debug ----
     output$debug <- shiny::renderPrint({
       golem::cat_dev(
