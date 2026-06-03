@@ -1,2 +1,17 @@
+^renv$
+^renv\.lock$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^data-raw$
+dev_history.R
+^dev$
+$run_dev.*
+^.here$
+^LICENSE\.md$
+^README\.Rmd$
+^doc$
+^Meta$
+^\.github
+CODEOWNERS
+CODE_OF_CONDUCT\.md
+Dockerfile

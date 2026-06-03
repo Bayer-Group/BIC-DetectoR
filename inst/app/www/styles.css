@@ -1,0 +1,844 @@
+
+:root {
+  color-scheme: light dark;
+  --dt-row-selected: 131, 215, 250 !important; /* #83D7FA primary color*/
+  --dt-row-selected-text: 0, 0, 0 !important;
+  /* Light Theme */
+  --col-light-surface-level-0: #ffffff;
+  --col-light-surface-level-1: #e1f6fe; /* Bayer Core Blue tone 50 */
+  --col-light-surface-level-2: #83d7fa; /* Bayer Core Blue tone 200 */
+  --col-light-surface-level-3: #08aff6; /* Bayer Core Blue tone 500 */
+  --col-light-surface-level-4: #007cbf; /* Bayer Core Blue tone 800 */
+  --col-light-surface-level-5: #005c9d; /* Bayer Core Blue tone 900 */
+  --col-light-primary: #D30F4B; /* Bayer Core Raspberry*/
+  --col-light-secondary: #5EA611; /* Bayer Core Green */
+  --col-light-plot-blue: #1E90FF; /* DetectoR logo blue*/
+  --col-light-plot-red: #E72F32; /* DetectoR logo red*/
+  --col-light-error: #B00020; /* Material Design error color */
+  --col-light-on-surface: #000000;
+  --col-light-on-primary: #ffffff;
+  --col-light-plot-grid: #DDDDDD;
+  /* Dark Theme */
+  --col-dark-surface-level-0: rgb(18, 18, 18); /* #121212 */
+  --col-dark-surface-level-1: #1e1e1e;
+  --col-dark-surface-level-2: #242424;
+  --col-dark-surface-level-3: #2c2c2c;
+  --col-dark-surface-level-4: #2e2e2e;
+  --col-dark-surface-level-5: #333333;
+  --col-dark-primary: #f58ba3; /* Tone 200 Bayer Core Red*/
+  --col-dark-secondary: #c4e59b; /* Tone 200 Bayer Core Green*/;
+  --col-dark-plot-blue: #62bbff; /* Tone 300 DetectoR logo blue*/
+  --col-dark-plot-red: #F09899; /* Tone 200 DetectoR logo */
+  --col-dark-error: #D57B8C; /* Material Design error color dark theme*/
+  --col-dark-text-high: rgba(255, 255, 255, 0.87); /* Material Design text highlight*/
+  --col-dark-text-med: rgba(255, 255, 255, 0.60); /* Material Design text medium importance*/
+  --col-dark-on-surface: rgb(255, 255, 255);
+  --col-dark-on-primary: rgb(0, 0, 0);
+    /* Color Scheme */
+  --col-surface-level-0: light-dark(var(--col-light-surface-level-0), var(--col-dark-surface-level-0));
+  --col-surface-level-1: light-dark(var(--col-light-surface-level-1), var(--col-dark-surface-level-1));
+  --col-surface-level-2: light-dark(var(--col-light-surface-level-2), var(--col-dark-surface-level-2));
+  --col-surface-level-3: light-dark(var(--col-light-surface-level-3), var(--col-dark-surface-level-3));
+  --col-surface-level-4: light-dark(var(--col-light-surface-level-4), var(--col-dark-surface-level-4));
+  --col-surface-level-5: light-dark(var(--col-light-surface-level-5), var(--col-dark-surface-level-5));
+  --col-primary: light-dark(var(--col-light-primary), var(--col-dark-primary)); 
+  --col-secondary: light-dark(var(--col-light-secondary), var(--col-dark-secondary));
+  --col-plot-blue: light-dark(var(--col-light-plot-blue), var(--col-dark-plot-blue));
+  --col-plot-red: light-dark(var(--col-light-plot-red), var(--col-dark-plot-red));
+  --col-on-primary: light-dark(var(--col-light-on-primary), var(--col-dark-on-primary));
+  --col-on-surface: light-dark(var(--col-light-on-surface), var(--col-dark-on-surface));
+  --col-error: light-dark(var(--col-light-error), var(--col-dark-error));
+  /* Logos */
+  --logo-detector-white: url(logos/AppSign_white_BAG_DetectoR_220x76mm_RGB.png);
+  --logo-detector-black: url(logos/AppSign_black_BAG_DetectoR_220x76mm_RGB.png);
+  --logo-detector-colors: url(logos/AppIcon_BAG_DetectoR_210x210mm_RGB.png);
+}
+
+/* Force light theme on startup, change to dark when pressing button */
+body {
+  color-scheme: light;
+}
+
+body.dark {
+  color-scheme: dark;
+}
+
+/* Fonts */
+body, h1, h2, h3, h4, h5, h6 {
+  font-family: 'Bayer Sans', 'Noto Sans', 'Bayer Sans', 'Source Sans Pro', 'Helvetica Neue',
+  Helvetica, Arial, sans-serif;
+}
+
+/* Header */
+.main-header {
+  height: 6vh;
+}
+
+header .logo {
+  height: 100% !important;
+}
+
+.navbar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  & span {
+    font-size: 2rem;
+    margin: auto;
+  }
+}
+
+/* Toggle Theme button */
+#toggle-theme-container {
+  max-width: 160px;
+  & label > span {
+    font-size: 1.5rem;
+    color: var(--col-on-surface);
+  }
+  & i {
+    color: var(--col-on-surface);
+    position: static;
+  }
+  & > div > div {
+    display: flex;
+    padding: 0.5em;
+    border-radius: 10px;
+    background-color: var(--col-surface-level-0);
+  }
+  & div.state {
+    align-items: center;
+  }
+}
+
+/* Sidebar */
+.main-sidebar {
+  height: 100%;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+}
+
+.sidebar {
+  height: 100%;
+}
+
+.sidebar-menu {
+  padding-top: 10px;
+  height: 100%;
+  max-height: 93vh;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  & a {
+    text-transform: capitalize;
+  }
+}
+
+/* Logos */
+.detector-logo-header {
+  height: 90%;
+  aspect-ratio: 2.9;
+  margin: 5px auto;
+  background-image: var(--logo-detector-black);
+  background-size: cover;
+}
+
+.detector-logo-sidebar {
+  min-width: 50px;
+  width: 60%;
+  aspect-ratio: 2.9;
+  margin: auto auto 10px auto;
+  background-image: var(--logo-detector-white);
+  background-size: cover;
+}
+
+.detector-logo-about {
+  min-width: 50px;
+  width: 30%;
+  aspect-ratio: 1;
+  margin: 10px auto;
+  background-image: var(--logo-detector-colors);
+  background-size: cover;
+}
+
+/* Logos on dark theme */
+body.dark .detector-logo-header {
+  background-image: var(--logo-detector-white);
+}
+
+/* Layout */
+body{
+  font-size: 1.5rem;
+}
+
+.content-wrapper,
+.right-side {
+  /* Allow scrolling down when the content is too large */
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+  padding-right: 15px;
+}
+
+.container-fluid {
+  padding-bottom: 100px;
+}
+
+.flex-row {
+  display: flex;
+  min-width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.well.upload {
+  max-width: 750px;
+  margin: 10px auto;
+}
+
+.upload-left {
+  width: 60%;
+}
+
+.upload-right {
+  width: 30%;
+}
+
+.upload-half {
+  width: 45%;
+}
+
+.align-right {
+  float: right;
+}
+
+.width-750 {
+  max-width: 750px;
+}
+
+.align-center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  max-width: 300px;
+}
+
+.shiny-notification {
+  position: fixed;
+  top: calc(50%);
+  left: calc(40%);
+  width: 350px;
+  font-size: 2rem;
+}
+
+/* fillRow (filter module) */
+.flexfill-container {
+  gap: 5%;
+  flex-wrap: wrap;
+  justify-content: center;
+  border: 5px;
+  border-radius: 5px;
+  padding: 19px;
+}
+
+/* Style for shiny::wellPanel(), class="well" */
+.well {
+  border: 5px;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+
+/* Invisible text that triggers conditional panels */
+.invisible-text {
+  visibility: hidden;
+  height: 0;
+}
+
+/* Style for tables */
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid var(--col-surface-level-2);
+  text-align: left;
+  padding: 8px;
+}
+
+/* Buttons */
+.btn-file,
+.action-button,
+.actions-btn,
+.option.selected,
+.action-button:focus,
+.actions-btn:focus,
+.dt-button,
+.dt-button:focus {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+/* ------ input elements -------- */
+
+label {
+  text-transform: capitalize;
+}
+
+.required label::after {
+	content: "  *required";
+	color: var(--col-error);
+	font-weight: normal;
+	font-style: italic;
+}
+
+.duration-mode label.control-label::after {
+  content: " (only needed for Incidence Rates)";
+  color: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-med));
+  font-weight: normal;
+  font-style: italic;
+}
+
+.form-group {
+  margin: 10px 0;
+}
+
+.well .shiny-input-container {
+  max-width: 500px;
+}
+
+input[type="radio"] {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.selectize-input {
+  margin-right: 25px;
+}
+
+/* Style for shinyWidgets::prettyToggle() */
+.p-toggle {
+  font-size: 1.5rem;
+}
+
+button.close {
+  text-shadow: 0 0 0;
+  opacity: 1; 
+  &:hover {
+    text-shadow: 0 0 0;
+    opacity: 1;
+  }
+}
+
+/* Style for double dot plot headers */
+.plot_header {
+  text-align: center;
+  &:is(.double_dot_plot_header, .effect_plot_header) {
+    font-size: 3rem;
+    padding: 0;
+    margin-left: 0;
+  }
+}
+
+/* Shiny errors */
+.shiny-output-error-validation {
+  text-align: center;
+  height: 1.5em !important;
+  padding: 0 5px;
+  color: var(--col-on-primary);
+  background-color: var(--col-error);
+  &::before {
+    content: "⚠ Error! ";
+    font-weight: inherit;
+  }
+}
+
+.inactiveLink {
+  pointer-events: none;
+  cursor: default;
+}
+
+/* ------ Plots -------- */
+div.plotly.html-widget-output {
+  height: auto !important;
+  margin-top: 10px;
+}
+
+/* Background color */
+.plot-container.plotly {
+  border-radius: 5px;
+}
+
+svg.main-svg {
+  background-color: transparent !important;
+}
+
+.js-plotly-plot .plotly .cursor-pointer {
+  cursor: default !important;
+}
+
+
+/* Improve appearance of Data Manual and About pages */
+.about {
+  line-height: 1.6;
+  margin-left: 15%;
+  margin-right: 15%;
+  font-size: 1.7rem;
+  &.well {
+    padding-left: 10%;
+    padding-right: 10%;
+  } 
+  & :is(h1, h2, h3, h4) {
+  text-align: center;
+  margin-bottom: 1em;
+  text-transform: capitalize;
+  font-weight: bold;
+  }
+  & :is(h2, h3, h4) {
+    margin-top: 1em;
+  }
+  & p, li {
+    margin-bottom: 30px;
+  }
+  & img {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    &.logo-about {
+      height: 210px;
+      width: 210px;
+    }
+  }
+  & table {
+    font-size: 1.5rem;
+    padding: 15px;
+  }
+  & th {
+    text-align: center;
+  }
+}
+
+.callout-info {
+  margin: 20px;
+  padding: 15px;
+  background-color: light-dark(
+    var(--col-light-surface-level-3),
+    var(--col-dark-surface-level-5));
+  border-left: solid 5px light-dark(
+    var(--col-light-surface-level-5),
+    var(--col-dark-plot-blue));
+}
+
+.callout-warning {
+  margin: 20px;
+  padding: 15px;
+  background-color: light-dark(
+    var(--col-dark-plot-red),
+    var(--col-dark-surface-level-5));
+  border-left: solid 5px var(--col-plot-red);
+}
+
+.callout-info, .callout-warning {
+  color: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-high)
+  );
+}
+
+
+/* ---- Colors ---- */
+body {
+  color: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-high));
+}
+
+p, ul {
+  color: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-med));
+}
+
+hr {
+  border-top-color: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-high)
+  );
+}
+
+input[type="radio"] {
+  background-color: light-dark(
+    var(--col-light-surface-level-1),
+    var(--col-dark-surface-level-5));
+  &:checked {
+    background-color: var(--col-primary);
+  }
+}
+
+.btn-file,
+.action-button,
+.actions-btn,
+.option.selected,
+.action-button:focus,
+.actions-btn:focus,
+.dt-button,
+.dt-button:focus {
+  background-color: var(--col-primary) !important;
+  border-color: var(--col-primary) !important;
+  color: var(--col-on-primary) !important;
+}
+
+.action-button:hover,
+.actions-btn:hover,
+dt-button:hover {
+  color: var(--col-on-primary) !important;
+  background-color: var(--col-secondary) !important;
+  border-color: var(--col-secondary) !important;
+}
+
+.label-success {
+  background-color: var(--col-primary) !important;
+}
+
+.content-wrapper,
+.right-side {
+  background-color: light-dark(
+    var(--col-light-surface-level-1),
+    var(--col-dark-surface-level-0));
+}
+
+/* Header*/
+body.skin-blue .main-header :is(.logo, .logo:hover, .navbar) {
+  background-color: light-dark(
+    var(--col-light-surface-level-3),
+    var(--col-dark-surface-level-1));
+  color: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-high))
+    !important;
+}
+/* Sidebar */
+body.skin-blue :is(
+  .main-sidebar,
+  .left-side,
+  .sidebar,
+  .sidebar a,
+  .sidebar p) {
+  background-color: light-dark(
+    var(--col-light-surface-level-4),
+    var(--col-dark-surface-level-1));
+  color: light-dark(
+    var(--col-light-on-primary),
+    var(--col-dark-text-high))
+    !important;
+}
+
+.sidebar-toggle, .fa-bars {
+  color: var(--col-primary) !important;
+}
+
+.skin-blue :is(
+  .main-sidebar .sidebar .sidebar-menu :is(.active a, a:hover),
+  .main-header .navbar .sidebar-toggle:hover) {
+  background-color: light-dark(
+    var(--col-light-surface-level-5),
+    var(--col-dark-surface-level-2));
+}
+
+/* Active tab */
+.skin-blue .sidebar-menu > li.active > a,
+.skin-blue .sidebar-menu > li:hover > a {
+  border-left-color: var(--col-primary);
+}
+
+/* Notifications */
+.shiny-notification {
+  background-color: light-dark(
+    var(--col-light-surface-level-0),
+    var(--col-dark-on-surface));
+  color: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-surface-level-1));
+}
+
+/* fillRow (filter module) */
+.flexfill-container {
+  background-color: light-dark(
+    var(--col-light-surface-level-2),
+    var(--col-dark-surface-level-1));
+  border-color: light-dark(
+    var(--col-light-surface-level-2),
+    var(--col-dark-surface-level-1));
+}
+
+/* Tables */
+tr:nth-child(odd) {
+  color: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-high));
+  background-color: light-dark(
+    var(--col-light-surface-level-0),
+    var(--col-dark-surface-level-2))
+    !important;
+}
+
+tr:nth-child(even) {
+  color: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-high));
+  background-color: light-dark(
+    var(--col-light-surface-level-1),
+    var(--col-dark-surface-level-3))
+    !important;
+}
+
+/* Style for shiny::wellPanel()*/
+.well {
+  background-color: light-dark(
+    var(--col-light-surface-level-2),
+    var(--col-dark-surface-level-1));
+  border-color: light-dark(
+    var(--col-light-surface-level-2),
+    var(--col-dark-surface-level-1));
+}
+
+/* ------ input elements -------- */
+/* Style for shinyWidgets::prettyToggle() and shinyWidgets::materialSwitch() */
+.p-toggle,
+.material-switch,
+div.state > i {
+  color: var(--col-on-surface) !important;
+}
+
+/* Style for shinyWidgets::pickerInput */
+.form-control,
+.shiny-input-select,
+.selectize-input input,
+.selectize-input,
+.selectize-dropdown-content,
+.btn.dropdown-toggle,
+.dropdown-menu,
+li.no-results,
+.dropdown-menu > li > a {
+  background-color: light-dark(
+    var(--col-light-surface-level-0),
+    var(--col-dark-surface-level-3))
+    !important;
+  border-color: light-dark(
+    var(--col-light-surface-level-0),
+    var(--col-dark-surface-level-3))
+    !important;
+  color: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-high))
+    !important;
+}
+
+/* Selectize Inputs arrows to expand list of options */
+.selectize-control.single .selectize-input:not(.no-arrow)::after{
+  border-color: transparent;
+  border-top-color: var(--col-on-surface);
+}
+
+.selectize-control.single .selectize-input:not(.no-arrow).dropdown-active::after {
+  border-color: transparent;
+  border-bottom-color: var(--col-on-surface);
+}
+
+/* Close the button */
+button.close {
+  color: var(--col-primary);
+  &:hover {
+    color: var(--col-secondary);
+  }
+}
+
+.popover-title {
+  background-color: var(--col-surface-level-3);
+  border-bottom-color: var(--col-primary);
+}
+
+/* Errors */
+button.btn.dropdown-toggle.bs-placeholder,
+.button-error,
+.button-error:focus {
+  background-color: var(--col-error) !important;
+  border-color: var(--col-error) !important;
+  color: var(--col-on-primary) !important;
+}
+
+/* Search boxes */
+div.bs-searchbox > input.form-control,
+div.has-feedback > input.form-control {
+  background-color: light-dark(
+    var(--col-light-surface-level-0),
+    var(--col-dark-surface-level-5))
+    !important;
+}
+
+/* Colors for verum and comparator symbols (plot header) */
+.verum-col {
+  color: var(--col-plot-blue);
+}
+
+.comparator-col {
+  color: var(--col-plot-red);
+}
+
+/* Data table */
+div.dt-button-collection,
+div.dt-button-info {
+  background-color: var(--col-surface-level-1) !important;
+}
+
+/* Table header and footer */
+caption,
+.sorting,
+.dataTables_paginate,
+.dataTables_info {
+  color: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-high))
+    !important;
+}
+
+/* ------ Plots -------- */
+
+/* Background color */
+.plot-container.plotly {
+  background-color: light-dark(
+    var(--col-light-surface-level-0),
+    var(--col-dark-surface-level-1));
+}
+
+/* Grid lines */
+path.xgrid,
+path.ygrid,
+path.zl {
+  stroke: light-dark(
+    var(--col-light-plot-grid),
+    var(--col-dark-surface-level-5))
+    !important;
+}
+
+g.layer-above > g.shapelayer > path {
+  stroke: var(--col-on-surface) !important;
+}
+
+/* Axis ticks and titles */
+g.ytick > text,
+g.xtick > text,
+g.x2tick > text,
+g > text.xtitle,
+g > text.x2title,
+text.gtitle,
+text.ytitle {
+  fill: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-high))
+    !important;
+}
+
+/* Changes significant color (set to red and blue) to a custom color */
+
+/* Non-significant = white */
+path.js-line[style*="rgb(255, 255, 255)"]:not(div#heatmap_1-heatmap_plot path.js-line) {
+  stroke: var(--col-on-surface) !important;
+}
+path[style*="rgb(255, 255, 255)"]:not(div#heatmap_1-heatmap_plot path) {
+  color: var(--col-on-surface) !important;
+}
+
+/* Favours comparator = red */
+path[style*="rgb(255, 0, 0)"],
+path[style*="fill: rgb(255, 0, 0); stroke: rgb(255, 255, 255)"]  {
+  stroke: var(--col-plot-red) !important;
+}
+
+g.ytick > text[data-unformatted*="favours-comparator"],
+g.textpoint > text[style*="rgb(255, 0, 0)"],
+path[style*="rgb(255, 0, 0)"] {
+  fill: var(--col-plot-red) !important;
+}
+
+/* Favours verum = blue */
+path[style*="rgb(0, 0, 255)"],
+path[style*="fill: rgb(0, 0, 255); stroke: rgb(255, 255, 255)"] {
+  stroke: var(--col-plot-blue) !important;
+}
+
+g.ytick > text[data-unformatted*="favours-verum"],
+g.textpoint > text[style*="rgb(0, 0, 255)"],
+path[style*="rgb(0, 0, 255)"] {
+  fill: var(--col-plot-blue) !important;
+}
+
+/* Text on hover boxes */
+text.nums:not(div#heatmap_1-heatmap_plot text.nums) {
+  fill: var(--col-on-primary) !important;
+}
+
+/* Text on hover boxes for non-significant values (white background) */
+text.nums[style*="rgb(68, 68, 68)"]:not(div#heatmap_1-heatmap_plot text.nums) {
+  fill: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-on-primary))
+    !important;
+}
+
+/* Changes non-significant color (set to white) for a custom color */
+path.point[style*="rgb(255, 255, 255)"]:not(div#heatmap_1-heatmap_plot path.point),
+g.textpoint > text[style*="rgb(255, 255, 255)"]:not(div#heatmap_1-heatmap_plot text) {
+  fill: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-high))
+    !important;
+}
+
+/* Heatmap (keep same color palette in dark and light themes at the moment)*/
+
+/* Show outline for boxes */
+div#heatmap_1-heatmap_plot path.surface {
+  stroke-width: 0 !important;
+  outline: 
+    var(--col-dark-surface-level-0)
+    solid 1px;
+}
+
+/* Remove outline for largest box */
+#heatmap_1-heatmap_plot g.treemaplayer > g > g:nth-child(1) > path {
+  outline: 0;
+}
+
+/* Add some padding on top of treemap */
+#heatmap_1-heatmap_plot > div > div > svg:nth-child(1) {
+  padding-top: 10px;
+}
+
+/* Heatmap legend */
+/* Change legend text color*/
+#heatmap_1-heatmap_plot g.infolayer text {
+  fill: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-high)
+    )
+    !important;
+}
+
+/* Change legend ticks color */
+#heatmap_1-heatmap_plot g.infolayer g.cbaxis.crisp > path {
+  stroke: light-dark(
+    var(--col-light-on-surface),
+    var(--col-dark-text-high)
+    )
+    !important;
+}
