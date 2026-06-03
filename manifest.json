@@ -5022,13 +5022,13 @@
       "checksum": "3f4504da6bf82220cdb39c57da164290"
     },
     ".github/workflows/R-CMD-check.yaml": {
-      "checksum": "6908fd8dfce7d17ea6531bf175caf872"
+      "checksum": "555d28b636a880c4ffdc41bf402a8b1f"
     },
     ".Rbuildignore": {
       "checksum": "f4994f578580807f5a09ff5c0a07b049"
     },
     ".Rprofile": {
-      "checksum": "8da9f052c7be6211b34555f291146b0a"
+      "checksum": "5d85177bdb3831a8b6fad451217ca081"
     },
     ".vscode/extensions.json": {
       "checksum": "90d7891f1569632ae447aaa2d080d5c7"
