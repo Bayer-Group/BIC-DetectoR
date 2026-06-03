@@ -3,8 +3,8 @@
   "locale": "en_US",
   "platform": "4.5.1",
   "metadata": {
-    "appmode": "rmd-static",
-    "primary_rmd": "README.Rmd",
+    "appmode": "shiny",
+    "primary_rmd": null,
     "primary_html": null,
     "content_category": null,
     "has_parameters": false
@@ -5028,10 +5028,10 @@
       "checksum": "6908fd8dfce7d17ea6531bf175caf872"
     },
     ".Rbuildignore": {
-      "checksum": "b80252afb15b2b7e829db037f219315e"
+      "checksum": "f4994f578580807f5a09ff5c0a07b049"
     },
     ".Rprofile": {
-      "checksum": "b0de950f23ed9fd966e3e5be646efe72"
+      "checksum": "1b64897700da29e97dc617e60b999eaf"
     },
     ".vscode/extensions.json": {
       "checksum": "90d7891f1569632ae447aaa2d080d5c7"
@@ -5042,8 +5042,8 @@
     "air.toml": {
       "checksum": "ab72a457679794cb1d6236d954fe4bf9"
     },
-    "CODE_OF_CONDUCT.md": {
-      "checksum": "f44aaac51a60237b86f18e87c40f234c"
+    "app.R": {
+      "checksum": "dd54e016e4a66f5907b67a46f6a1a643"
     },
     "data-raw/adae_data_demo_04_09_2024.rds": {
       "checksum": "d11c774708087c2c4736cfa4a42328a3"
@@ -5055,25 +5055,7 @@
       "checksum": "313cc1a4bf9b97f780607d450e3d568d"
     },
     "DESCRIPTION": {
-      "checksum": "33792697d067946956732efe517fa776"
-    },
-    "dev/01_start.R": {
-      "checksum": "f8b30cbf5356a241b134c2c43d084f84"
-    },
-    "dev/02_dev.R": {
-      "checksum": "4ed3b06f8dd090b03235f3f23eb415fc"
-    },
-    "dev/03_deploy.R": {
-      "checksum": "8f60d232c82f906cd3b739f8180153ec"
-    },
-    "dev/config_attachment.yaml": {
-      "checksum": "a7efc9ea3e81f3b8936c1353cdbbf252"
-    },
-    "dev/run_dev.R": {
-      "checksum": "e21d8f5db5d57cd4d0f2db6d012a6109"
-    },
-    "dev/setup.R": {
-      "checksum": "1441c5d1c6a83cfb3a08d9c267f612f3"
+      "checksum": "f175301865883cfc1b5da73e6fc08c83"
     },
     "Dockerfile": {
       "checksum": "854f110b4a917f5952c7b1b1f9cfa7d1"
@@ -5147,251 +5129,11 @@
     "jarl.toml": {
       "checksum": "25919309600dcdcb0b06893e034cb0ee"
     },
-    "LICENSE.md": {
-      "checksum": "29a9012941a6bcb26bf0fb4382c5dd75"
-    },
-    "man/add_heatmap_colors.Rd": {
-      "checksum": "0dd47620a178d02000368d70b5d41ea2"
-    },
-    "man/add_heatmap_hover_text.Rd": {
-      "checksum": "e01ca09d006afad9e475e814fd977db2"
-    },
-    "man/add_hover_text.Rd": {
-      "checksum": "1f715f0b558dccedda31f34d0a89e222"
-    },
-    "man/arrange_data.Rd": {
-      "checksum": "f109b4f2baba64499b170e866507f490"
-    },
-    "man/assert_columns.Rd": {
-      "checksum": "b6e9158717faa825db3329a17a3fb4a0"
-    },
-    "man/assert_is_not_null.Rd": {
-      "checksum": "52e3a3a26561d648a5e6f888d8b9c97e"
-    },
-    "man/calc_summary_data.Rd": {
-      "checksum": "4a6500fc103f1907b5968f067490b093"
-    },
-    "man/calculate_results.Rd": {
-      "checksum": "cbb1ea8f5454cd5cba49d5168e126e32"
-    },
-    "man/calculate_stratified_incidence.Rd": {
-      "checksum": "30d2c347704c41a367551d4ed550dc18"
-    },
-    "man/catch_error_message.Rd": {
-      "checksum": "ee656d74022cc7347cd99dd27c2437fa"
-    },
-    "man/check_adae_data.Rd": {
-      "checksum": "74d3b1fde2434ef635ea0d0d8577ef30"
-    },
-    "man/check_adsl_data.Rd": {
-      "checksum": "92674109a29da01a783111e9fe61a09c"
-    },
-    "man/check_meddra_data.Rd": {
-      "checksum": "50c2afa24611336e48afe63e921bc9c6"
-    },
-    "man/check_smq_data.Rd": {
-      "checksum": "04245f91ff09ed7d5df0f87631d56863"
-    },
-    "man/color_volcano.Rd": {
-      "checksum": "aac95b99d930c456e048ef4130c883e7"
-    },
-    "man/count_events_by_arm.Rd": {
-      "checksum": "bd836dbe0b3542b45ccc57e8c95082d8"
-    },
-    "man/count_heatmap_data.Rd": {
-      "checksum": "4dbcf7e2faa55d0c78d2c7b26696d2c3"
-    },
-    "man/count_subjects.Rd": {
-      "checksum": "b8ea1d80c467c469e63c311c433efe3c"
-    },
-    "man/count_total_proportions.Rd": {
-      "checksum": "7896533105c5f0ed02787e12c17c8367"
-    },
-    "man/create_heatmap_palette.Rd": {
-      "checksum": "d1f1c4ed00dc8b55364280c59240c50c"
-    },
-    "man/detector_pretty_toggle.Rd": {
-      "checksum": "55bb539f3a3d4ffebc22b5408f334c1d"
-    },
-    "man/DetectoR-package.Rd": {
-      "checksum": "380338d559b63457122a8aea448c58da"
-    },
-    "man/display_info_summary.Rd": {
-      "checksum": "1ef956100bb2bd9f1b6872f086b4a098"
-    },
-    "man/draw_treemap.Rd": {
-      "checksum": "22e0d72e099a0176bcdcdf2cc0cf0d63"
-    },
-    "man/draw_volcano.Rd": {
-      "checksum": "ccd49941424234311387190a10ac581c"
-    },
-    "man/filter_ae_type.Rd": {
-      "checksum": "c81d63cbd3fe475ca298f3814af6d4ee"
-    },
-    "man/filter_empty_variable.Rd": {
-      "checksum": "28cccaf67045a0c050eff59645773c15"
-    },
-    "man/filter_minimum_aes.Rd": {
-      "checksum": "66b1b786cf6106b9147c5edf091c3b90"
-    },
-    "man/find_min_event.Rd": {
-      "checksum": "3d67ac9987c0c0b1fddec05d3319e5db"
-    },
-    "man/flag_significant.Rd": {
-      "checksum": "2546d8b41f2a8f2de64e7e7cea4b3ff3"
-    },
-    "man/flex_row.Rd": {
-      "checksum": "42b3b91446de3d7cf76302d818bdc640"
-    },
-    "man/format_decimals.Rd": {
-      "checksum": "73898b0f2314443e5b016b4fb8cd05d7"
-    },
-    "man/format_p_values.Rd": {
-      "checksum": "17b7f3c3709c1afc8d25c4eb64ae3803"
-    },
-    "man/get_big_n.Rd": {
-      "checksum": "e55d99995b0da0b466f5f9393f85816d"
-    },
-    "man/get_child_parent.Rd": {
-      "checksum": "3ee7b91a574d0079bf87795757c40e9d"
-    },
-    "man/get_count_proportions.Rd": {
-      "checksum": "e9a32bc9f22910685b244623c6c38284"
-    },
-    "man/get_fdr_p_values.Rd": {
-      "checksum": "99de3469398d7dc1987f521470848a0b"
-    },
-    "man/get_fdr.Rd": {
-      "checksum": "3dd3461d661b0aaec69ac939b900dac4"
-    },
-    "man/get_fisher_p_value.Rd": {
-      "checksum": "07d48d9facc758867291545d42399d78"
-    },
-    "man/get_fisher_rr_proportions.Rd": {
-      "checksum": "d269b16d2719e7fefca96d561a5ebfb7"
-    },
-    "man/get_fisher_rr_rates.Rd": {
-      "checksum": "b569b9ab79d795cb81249ac4efcc439f"
-    },
-    "man/get_new_dfdr.Rd": {
-      "checksum": "a645d8d38ed2ec32a85b98fc4575a9c7"
-    },
-    "man/get_parents_heatmap.Rd": {
-      "checksum": "a562e8d3d6971254cfef14765ab8afe3"
-    },
-    "man/get_rd.Rd": {
-      "checksum": "b92e768c05f2c42bcc827bdf9c92a423"
-    },
-    "man/get_rr.Rd": {
-      "checksum": "8cb62eac8c9a1d7d384c48f672c4edc5"
-    },
-    "man/get_stratified_rr_rd.Rd": {
-      "checksum": "b29cee4c789d7099cb173f59fbb011df"
-    },
-    "man/get_variable_labels.Rd": {
-      "checksum": "06f7ee35f69e8a7611f6c728b638e1c2"
-    },
-    "man/invisible_text.Rd": {
-      "checksum": "9fff108b22302bdf71accbdb0dddab6d"
-    },
-    "man/join_adsl_adae.Rd": {
-      "checksum": "255384b4735e7e83b70e1dce1d4d3a2d"
-    },
-    "man/join_meddra_data.Rd": {
-      "checksum": "d4d6974a94b7f894ae7c3a3db18e5c39"
-    },
-    "man/make_double_dot_plotly.Rd": {
-      "checksum": "d11ca55cd30663e9894a4b2011f7a94d"
-    },
-    "man/make_treemap_data.Rd": {
-      "checksum": "15a25cef92a8556c65d35228c76d4b5b"
-    },
-    "man/make_treemap_legend.Rd": {
-      "checksum": "da4ed83357e88ce65861055dedf42102"
-    },
-    "man/mod_table_server.Rd": {
-      "checksum": "9ac688fc2e2741a5d48a31cb5167d7ef"
-    },
-    "man/mod_table_ui.Rd": {
-      "checksum": "a567a4d84c5e30940cd39074aa35dc4d"
-    },
-    "man/mod_upload_server.Rd": {
-      "checksum": "0f744c4680ccd0b4e8f75dd34a1572f4"
-    },
-    "man/mod_upload_ui.Rd": {
-      "checksum": "c8b60aa014799633094566b7a2f0a3a6"
-    },
-    "man/mod_volcano_server.Rd": {
-      "checksum": "1b2bfd6dc8bf09c6f705ef07ee0bb1d4"
-    },
-    "man/mod_volcano_ui.Rd": {
-      "checksum": "1af492de1bfab9849ef9039d3b68d38b"
-    },
-    "man/picker_input_options.Rd": {
-      "checksum": "5da25d8947ef84ab90f11c77f9808106"
-    },
-    "man/prepare_adae_data.Rd": {
-      "checksum": "918903dfe87213f6b9ee8a1fb49151f6"
-    },
-    "man/prepare_adsl_data.Rd": {
-      "checksum": "92db4a627db12df613de04bc385d93e6"
-    },
-    "man/prepare_heatmap_data.Rd": {
-      "checksum": "c06897d697362acc4d393841789be864"
-    },
-    "man/prepare_meddra_data.Rd": {
-      "checksum": "9547021c052bef11c7b89fba76b2861e"
-    },
-    "man/prepare_mlg_data.Rd": {
-      "checksum": "d180b30a6757856950b3243ebcd3fd44"
-    },
-    "man/prepare_smq_data.Rd": {
-      "checksum": "73372e5c96e3b37530610aa5d3890431"
-    },
-    "man/prepare_volcano.Rd": {
-      "checksum": "da68bb4b4ffb7ef2ee1d4818503f6f79"
-    },
-    "man/reorder_levels.Rd": {
-      "checksum": "9a04c895bb5b4e5584ddd7e1a344dee9"
-    },
-    "man/reorder_pattern.Rd": {
-      "checksum": "546a947255a4dc73f40a4882fdbfa73b"
-    },
-    "man/row_half.Rd": {
-      "checksum": "954c832e98096ccb47efa26213b02d4b"
-    },
-    "man/row_left_side.Rd": {
-      "checksum": "7cae8bbaeafdd0fd23edd7864f50cf38"
-    },
-    "man/row_right_side.Rd": {
-      "checksum": "334ead5f8457e2e7ed0da6d259b925fe"
-    },
-    "man/run_app.Rd": {
-      "checksum": "db153f001c7c98594f4a6e64193fbf8a"
-    },
-    "man/show_error.Rd": {
-      "checksum": "8872afcfd5f6e107b8f4fefef32447cb"
-    },
-    "man/try_null.Rd": {
-      "checksum": "98c8ed56dbc22482933bf95d23c067db"
-    },
-    "man/update_values_input.Rd": {
-      "checksum": "2e82708df527d66fe7da14ca604c5df6"
-    },
-    "man/update_variables_input.Rd": {
-      "checksum": "b8e4d290542f6788a1724e1de47d1f76"
-    },
-    "man/upload_file.Rd": {
-      "checksum": "4343818b140793492d79027475f13d99"
-    },
-    "man/validate_need.Rd": {
-      "checksum": "a10e712f9746e0efb98eee7f86a416fb"
-    },
     "NAMESPACE": {
       "checksum": "a6cd8d7f505c918f0ce8351f16cecb57"
     },
-    "NEWS.md": {
-      "checksum": "28973dd866849a2f01166b4229d8809d"
+    "R/_disable_autoload.R": {
+      "checksum": "1178c335d6c11555fd1c4ec6098dfee6"
     },
     "R/app_config.R": {
       "checksum": "71a63c646d002a30d4b31778ec065d41"
@@ -5492,83 +5234,8 @@
     "R/utils_inputs.R": {
       "checksum": "90d5b656306a7db1b8ca527c471e5958"
     },
-    "README.md": {
-      "checksum": "057964b569031480cd36180bf904262a"
-    },
-    "README.Rmd": {
-      "checksum": "92c006cbde031ad70d8739f550241e70"
-    },
     "renv.lock": {
       "checksum": "e8b657c4172ebe2eeb95d4f068d4937b"
-    },
-    "tests/spelling.R": {
-      "checksum": "6286c40603df000aaae222467ae8cd76"
-    },
-    "tests/testthat.R": {
-      "checksum": "edce14533693b115100e64ea98ea6013"
-    },
-    "tests/testthat/fixtures/adae_demo.sas7bdat": {
-      "checksum": "667d8a745d9041a681981090c484bbbc"
-    },
-    "tests/testthat/fixtures/adae_missing_aeptcd.sas7bdat": {
-      "checksum": "1a0b68525634f658c7be6cc13b6608f2"
-    },
-    "tests/testthat/fixtures/adae_missing_columns.rds": {
-      "checksum": "732f0b34b20a1c6e6ae0db843362524e"
-    },
-    "tests/testthat/fixtures/adae_missing_columns.sas7bdat": {
-      "checksum": "d87251b51acac0cae4c15c2eaed1b25f"
-    },
-    "tests/testthat/fixtures/adae.sas7bdat": {
-      "checksum": "840fca59fc40e1bb783d5cd2578be039"
-    },
-    "tests/testthat/fixtures/adsl_demo.sas7bdat": {
-      "checksum": "9dba75cf6812caf3ffa8f8d57bb96820"
-    },
-    "tests/testthat/fixtures/adsl_missing_columns.rds": {
-      "checksum": "225760860fd3b6a2806f7537f959867e"
-    },
-    "tests/testthat/fixtures/adsl_missing_columns.sas7bdat": {
-      "checksum": "5bd7e9152a653f4c2824d270d0d5f4e7"
-    },
-    "tests/testthat/fixtures/comb_data.rds": {
-      "checksum": "60ed1b6c6566002f8a3acd42ce7ccb56"
-    },
-    "tests/testthat/fixtures/create_useful_things.R": {
-      "checksum": "7a7d8f82c2308ad3f96ec6a614523977"
-    },
-    "tests/testthat/fixtures/double_dot_plot_data.rds": {
-      "checksum": "19a682c285879d5996a4beb80cef7b9c"
-    },
-    "tests/testthat/fixtures/mock_meddra.rds": {
-      "checksum": "ed6b32573093105ea4087a11af0e4f49"
-    },
-    "tests/testthat/fixtures/mock_smq.rds": {
-      "checksum": "66ee147ef73261fb56c92d3c6330f798"
-    },
-    "tests/testthat/fixtures/results_data.rds": {
-      "checksum": "609be63db4d76c50e57a3cc146822d32"
-    },
-    "tests/testthat/test-edge-cases.R": {
-      "checksum": "41a1c70e4c39bbc9886d9fe1950ddf59"
-    },
-    "tests/testthat/test-golem_utils_ui.R": {
-      "checksum": "0acb1dd82b5e6aab7ab866e2b8409b05"
-    },
-    "tests/testthat/test-golem-recommended.R": {
-      "checksum": "e94d21a80b4a7fd4f753a2015e7aaa0b"
-    },
-    "tests/testthat/test-meddra-integration.R": {
-      "checksum": "eb192b8016c87fe112ca87cff837b576"
-    },
-    "tests/testthat/test-mod_calculate.R": {
-      "checksum": "2c806b31785fe3ca88f4fcb4de4aaec1"
-    },
-    "tests/testthat/test-mod_heatmap.R": {
-      "checksum": "b51ad6d93cd4e6a1e49be451317f5280"
-    },
-    "tests/testthat/test-mod_upload.R": {
-      "checksum": "9a6d3c060ae871e539b9834540ad1d11"
     }
   },
   "users": null

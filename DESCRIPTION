@@ -22,6 +22,7 @@ Imports:
     golem,
     haven,
     metafor,
+    pkgload,
     plotly,
     purrr,
     readr,

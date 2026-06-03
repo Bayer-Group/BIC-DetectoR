@@ -20,3 +20,6 @@ manifest.json
 ^[.]?jarl[.]toml$
 ^\.vscode$
 ^\.github$
+^app\.R$
+^rsconnect$
+^\.rscignore$
