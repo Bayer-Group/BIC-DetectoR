@@ -11,7 +11,7 @@
   },
   "environment": {
     "r": {
-      "requires": ">= 4.1.0"
+      "requires": ">= 4.1"
     }
   },
   "packages": {
@@ -392,37 +392,6 @@
         "Date/Publication": "2019-03-21 14:53:46 UTC",
         "Encoding": "UTF-8",
         "Built": "R 4.5.1; ; 2026-04-24 12:16:48 UTC; unix"
-      }
-    },
-    "attachment": {
-      "Source": "CRAN",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "description": {
-        "Package": "attachment",
-        "Title": "Deal with Dependencies",
-        "Version": "0.4.5",
-        "Authors@R": "c(\n    person(\"Vincent\", \"Guyader\", , \"vincent@thinkr.fr\", role = c(\"cre\", \"aut\"),\n           comment = c(ORCID = \"0000-0003-0671-9270\")),\n    person(\"Sébastien\", \"Rochette\", , \"sebastienrochettefr@gmail.com\", role = c(\"aut\"),\n           comment = c(ORCID = \"0000-0002-1565-9313\", \"previous maintainer\")),\n    person(\"Murielle\", \"Delmotte\", , \"murielle@thinkr.fr\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-1339-2424\")),\n    person(\"Swann\", \"Floc'hlay\", , \"swann@thinkr.fr\", role = \"aut\",\n           comment = c(ORCID = \"0000-0003-1477-830X\")),\n    person(\"ThinkR\", role = c(\"cph\", \"fnd\"))\n  )",
-        "Description": "Manage dependencies during package development. This can\n    retrieve all dependencies that are used in \".R\" files in the \"R/\"\n    directory, in \".Rmd\" files in \"vignettes/\" directory and in 'roxygen2'\n    documentation of functions. There is a function to update the\n    \"DESCRIPTION\" file of your package with 'CRAN' packages or any other\n    remote package.  All functions to retrieve dependencies of \".R\"\n    scripts and \".Rmd\" or \".qmd\" files can be used independently of a\n    package development.",
-        "License": "GPL-3",
-        "URL": "https://thinkr-open.github.io/attachment/,\nhttps://github.com/ThinkR-open/attachment",
-        "BugReports": "https://github.com/ThinkR-open/attachment/issues",
-        "VignetteBuilder": "knitr",
-        "Config/fusen/version": "0.6.0",
-        "Config/Needs/website": "ThinkR-open/thinkrtemplate",
-        "Config/testthat/edition": "3",
-        "Encoding": "UTF-8",
-        "RoxygenNote": "7.3.2",
-        "Language": "en-US",
-        "Depends": "R (>= 3.4)",
-        "Imports": "cli, desc (>= 1.2.0), glue (>= 1.3.0), knitr (>= 1.20),\nmagrittr (>= 1.5), rmarkdown (>= 1.10), roxygen2, stats,\nstringr (>= 1.3.1), utils, withr, yaml",
-        "Suggests": "lifecycle, renv (>= 0.8.4), rstudioapi, testthat (>= 3.0.0)",
-        "NeedsCompilation": "no",
-        "Packaged": "2025-03-14 17:54:04 UTC; PC",
-        "Author": "Vincent Guyader [cre, aut] (<https://orcid.org/0000-0003-0671-9270>),\n  Sébastien Rochette [aut] (<https://orcid.org/0000-0002-1565-9313>,\n    previous maintainer),\n  Murielle Delmotte [aut] (<https://orcid.org/0000-0002-1339-2424>),\n  Swann Floc'hlay [aut] (<https://orcid.org/0000-0003-1477-830X>),\n  ThinkR [cph, fnd]",
-        "Maintainer": "Vincent Guyader <vincent@thinkr.fr>",
-        "Repository": "RSPM",
-        "Date/Publication": "2025-03-14 20:30:01 UTC",
-        "Built": "R 4.5.1; ; 2026-04-24 12:17:05 UTC; unix"
       }
     },
     "attempt": {
@@ -999,71 +968,6 @@
         "Repository": "RSPM",
         "Date/Publication": "2023-08-30 16:50:36 UTC",
         "Built": "R 4.5.0; ; 2025-04-05 03:16:15 UTC; unix"
-      }
-    },
-    "covr": {
-      "Source": "CRAN",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "description": {
-        "Encoding": "UTF-8",
-        "Package": "covr",
-        "Title": "Test Coverage for Packages",
-        "Version": "3.6.5",
-        "Authors@R": "c(\n    person(\"Jim\", \"Hester\", email = \"james.f.hester@gmail.com\", role = c(\"aut\", \"cre\")),\n    person(\"Willem\", \"Ligtenberg\", role = \"ctb\"),\n    person(\"Kirill\", \"Müller\", role = \"ctb\"),\n    person(\"Henrik\", \"Bengtsson\", role = \"ctb\"),\n    person(\"Steve\", \"Peak\", role = \"ctb\"),\n    person(\"Kirill\", \"Sevastyanenko\", role = \"ctb\"),\n    person(\"Jon\", \"Clayden\", role = \"ctb\"),\n    person(\"Robert\", \"Flight\", role = \"ctb\"),\n    person(\"Eric\", \"Brown\", role = \"ctb\"),\n    person(\"Brodie\", \"Gaslam\", role = \"ctb\"),\n    person(\"Will\", \"Beasley\", role = \"ctb\"),\n    person(\"Robert\", \"Krzyzanowski\", role = \"ctb\"),\n    person(\"Markus\", \"Wamser\", role = \"ctb\"),\n    person(\"Karl\", \"Forner\", role = \"ctb\"),\n    person(\"Gergely\", \"Daróczi\", role = \"ctb\"),\n    person(\"Jouni\", \"Helske\", role = \"ctb\"),\n    person(\"Kun\", \"Ren\", role = \"ctb\"),\n    person(\"Jeroen\", \"Ooms\", role = \"ctb\"),\n    person(\"Ken\", \"Williams\", role = \"ctb\"),\n    person(\"Chris\", \"Campbell\", role = \"ctb\"),\n    person(\"David\", \"Hugh-Jones\", role = \"ctb\"),\n    person(\"Qin\", \"Wang\", role = \"ctb\"),\n    person(\"Doug\", \"Kelkhoff\", role = \"ctb\"),\n    person(\"Ivan\", \"Sagalaev\", role = c(\"ctb\", \"cph\"), comment = \"highlight.js library\"),\n    person(\"Mark\", \"Otto\", role = \"ctb\", comment = \"Bootstrap library\"),\n    person(\"Jacob\", \"Thornton\", role = \"ctb\", comment = \"Bootstrap library\"),\n    person(family = \"Bootstrap contributors\", role = \"ctb\", comment = \"Bootstrap library\"),\n    person(family = \"Twitter, Inc\", role = \"cph\", comment = \"Bootstrap library\")\n    )",
-        "Description": "Track and report code coverage for your package and (optionally)\n    upload the results to a coverage service like 'Codecov' <https://about.codecov.io> or\n    'Coveralls' <https://coveralls.io>. Code coverage is a measure of the amount of\n    code being exercised by a set of tests. It is an indirect measure of test\n    quality and completeness. This package is compatible with any testing\n    methodology or framework and tracks coverage of both R code and compiled\n    C/C++/FORTRAN code.",
-        "URL": "https://covr.r-lib.org, https://github.com/r-lib/covr",
-        "BugReports": "https://github.com/r-lib/covr/issues",
-        "Depends": "R (>= 3.1.0), methods",
-        "Imports": "digest, stats, utils, jsonlite, rex, httr, cli, withr (>=\n1.0.2), yaml",
-        "Suggests": "R6, S7 (>= 0.2.0), curl, knitr, rmarkdown, htmltools, DT (>=\n0.2), testthat (>= 3.0.0), rlang, rstudioapi (>= 0.2), xml2 (>=\n1.0.0), parallel, memoise, covr, box (>= 1.2.0)",
-        "License": "MIT + file LICENSE",
-        "VignetteBuilder": "knitr",
-        "RoxygenNote": "7.3.3",
-        "Config/testthat/edition": "3",
-        "Config/testthat/parallel": "TRUE",
-        "NeedsCompilation": "yes",
-        "Packaged": "2025-11-06 16:15:28 UTC; jimhester",
-        "Author": "Jim Hester [aut, cre],\n  Willem Ligtenberg [ctb],\n  Kirill Müller [ctb],\n  Henrik Bengtsson [ctb],\n  Steve Peak [ctb],\n  Kirill Sevastyanenko [ctb],\n  Jon Clayden [ctb],\n  Robert Flight [ctb],\n  Eric Brown [ctb],\n  Brodie Gaslam [ctb],\n  Will Beasley [ctb],\n  Robert Krzyzanowski [ctb],\n  Markus Wamser [ctb],\n  Karl Forner [ctb],\n  Gergely Daróczi [ctb],\n  Jouni Helske [ctb],\n  Kun Ren [ctb],\n  Jeroen Ooms [ctb],\n  Ken Williams [ctb],\n  Chris Campbell [ctb],\n  David Hugh-Jones [ctb],\n  Qin Wang [ctb],\n  Doug Kelkhoff [ctb],\n  Ivan Sagalaev [ctb, cph] (highlight.js library),\n  Mark Otto [ctb] (Bootstrap library),\n  Jacob Thornton [ctb] (Bootstrap library),\n  Bootstrap contributors [ctb] (Bootstrap library),\n  Twitter, Inc [cph] (Bootstrap library)",
-        "Maintainer": "Jim Hester <james.f.hester@gmail.com>",
-        "Repository": "RSPM",
-        "Date/Publication": "2025-11-09 20:50:02 UTC",
-        "Built": "R 4.5.1; x86_64-pc-linux-gnu; 2026-04-24 12:17:48 UTC; unix"
-      }
-    },
-    "covrpage": {
-      "Source": "github",
-      "Repository": null,
-      "description": {
-        "Package": "covrpage",
-        "Title": "Create a Readme Summary Page for GitHub testthat and covr Outputs",
-        "Version": "0.2",
-        "Authors@R": "c(\n  person(given   = \"Jonathan\",\n         family  = \"Sidi\",\n         email   = \"yonicd@gmail.com\",\n         role    = c(\"aut\",'cre'),\n         comment = c(ORCID = \"0000-0002-4222-1819\")\n         ),\n  person(given   = \"Locke Data\",\n         role    = \"fnd\",\n         comment = \"https://itsalocke.com\")\n  )",
-        "Description": "Create a README file to place in package test subdirectory to communicate \n  with other users in more detail results of testthat and covr.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://github.com/yonicd/covrpage",
-        "BugReports": "https://github.com/yonicd/covrpage/issues",
-        "Encoding": "UTF-8",
-        "LazyData": "false",
-        "Depends": "R (>= 4.0)",
-        "Imports": "utils, git2r, rmarkdown, covr, stats, testthat, curl, whisker, withr, remotes",
-        "RoxygenNote": "7.2.1",
-        "Suggests": "knitr,spelling, rstudioapi",
-        "VignetteBuilder": "knitr",
-        "Language": "en-US",
-        "Author": "Jonathan Sidi [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-4222-1819>),\n  Locke Data [fnd] (https://itsalocke.com)",
-        "Maintainer": "Jonathan Sidi <yonicd@gmail.com>",
-        "Built": "R 4.5.1; ; 2026-04-24 12:18:06 UTC; unix",
-        "RemoteType": "github",
-        "RemoteHost": "api.github.com",
-        "RemoteRepo": "covrpage",
-        "RemoteUsername": "yonicd",
-        "RemoteRef": "HEAD",
-        "RemoteSha": "bafeb195d1999b8c3a48186e26f59cafcdfa3670",
-        "GithubHost": "api.github.com",
-        "GithubRepo": "covrpage",
-        "GithubUsername": "yonicd",
-        "GithubRef": "HEAD",
-        "GithubSHA1": "bafeb195d1999b8c3a48186e26f59cafcdfa3670"
       }
     },
     "cpp11": {
@@ -1847,35 +1751,6 @@
         "RemoteRepos": "https://ppm-dev.titans.int.bayer.com/cran/__linux__/jammy/latest",
         "RemotePkgPlatform": "x86_64-pc-linux-gnu-ubuntu-22.04",
         "RemoteSha": "1.5.0"
-      }
-    },
-    "git2r": {
-      "Source": "CRAN",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "description": {
-        "Type": "Package",
-        "Package": "git2r",
-        "Title": "Provides Access to Git Repositories",
-        "Authors@R": "c(person(\"Stefan\", \"Widgren\", role = c(\"aut\", \"cre\"),\n                    email = \"stefan.widgren@gmail.com\",\n                    comment = c(ORCID = \"0000-0001-5745-2284\")),\n             person(\"Gabor\", \"Csardi\", role = \"ctb\"),\n             person(\"Gregory\", \"Jefferis\", role = \"ctb\"),\n             person(\"Jennifer\", \"Bryan\", role = \"ctb\"),\n             person(\"Jeroen\", \"Ooms\", role = \"ctb\"),\n             person(\"Jim\", \"Hester\", role = \"ctb\"),\n             person(\"John\", \"Blischak\", role = \"ctb\"),\n             person(\"Karthik\", \"Ram\", role = \"ctb\"),\n             person(\"Peter\", \"Carbonetto\", role = \"ctb\"),\n             person(\"Scott\", \"Chamberlain\", role = \"ctb\"),\n             person(\"Thomas\", \"Rosendal\", role = \"ctb\"))",
-        "Description": "Interface to the 'libgit2' library, which is a pure C\n    implementation of the 'Git' core methods. Provides access to 'Git'\n    repositories to extract data and running some basic 'Git'\n    commands.",
-        "Version": "0.36.2",
-        "License": "GPL-2",
-        "URL": "https://docs.ropensci.org/git2r/,\nhttps://github.com/ropensci/git2r",
-        "BugReports": "https://github.com/ropensci/git2r/issues",
-        "Imports": "graphics, utils",
-        "Depends": "R (>= 4.0)",
-        "Suggests": "getPass",
-        "NeedsCompilation": "yes",
-        "SystemRequirements": "libgit2 (>= 1.0) and its dependencies libssh2 and\nopenssl header and libraries.",
-        "Collate": "'blame.R' 'blob.R' 'branch.R' 'bundle_r_package.R'\n'checkout.R' 'commit.R' 'config.R' 'contributions.R'\n'credential.R' 'diff.R' 'fetch.R' 'git2r.R' 'index.R'\n'libgit2.R' 'merge.R' 'note.R' 'odb.R' 'plot.R' 'pull.R'\n'punch_card.R' 'push.R' 'reference.R' 'reflog.R' 'refspec.R'\n'remote.R' 'repository.R' 'reset.R' 'revparse.R' 'sha.R'\n'signature.R' 'stash.R' 'status.R' 'tag.R' 'time.R' 'tree.R'\n'when.R'",
-        "Encoding": "UTF-8",
-        "RoxygenNote": "7.3.2",
-        "Packaged": "2025-03-29 09:17:55 UTC; stefan",
-        "Author": "Stefan Widgren [aut, cre] (<https://orcid.org/0000-0001-5745-2284>),\n  Gabor Csardi [ctb],\n  Gregory Jefferis [ctb],\n  Jennifer Bryan [ctb],\n  Jeroen Ooms [ctb],\n  Jim Hester [ctb],\n  John Blischak [ctb],\n  Karthik Ram [ctb],\n  Peter Carbonetto [ctb],\n  Scott Chamberlain [ctb],\n  Thomas Rosendal [ctb]",
-        "Maintainer": "Stefan Widgren <stefan.widgren@gmail.com>",
-        "Repository": "RSPM",
-        "Date/Publication": "2025-03-29 10:00:02 UTC",
-        "Built": "R 4.5.1; x86_64-pc-linux-gnu; 2026-04-24 12:17:54 UTC; unix"
       }
     },
     "gitcreds": {
@@ -3765,61 +3640,6 @@
         "Built": "R 4.5.1; ; 2026-04-24 12:09:16 UTC; unix"
       }
     },
-    "rex": {
-      "Source": "CRAN",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "description": {
-        "Type": "Package",
-        "Package": "rex",
-        "Title": "Friendly Regular Expressions",
-        "Version": "1.2.1",
-        "Authors@R": "c(\n    person(\"Kevin\", \"Ushey\", , \"kevinushey@gmail.com\", role = c(\"aut\", \"cre\")),\n    person(\"Jim\", \"Hester\", , \"james.f.hester@gmail.com\", role = \"aut\"),\n    person(\"Robert\", \"Krzyzanowski\", , \"rkrzyzanowski@gmail.com\", role = \"aut\")\n  )",
-        "Description": "A friendly interface for the construction of regular\n    expressions.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://github.com/kevinushey/rex",
-        "BugReports": "https://github.com/kevinushey/rex/issues",
-        "Imports": "lazyeval",
-        "Suggests": "covr, dplyr, ggplot2, Hmisc, knitr, magrittr, rmarkdown,\nroxygen2, rvest, stringr, testthat",
-        "VignetteBuilder": "knitr",
-        "Encoding": "UTF-8",
-        "RoxygenNote": "7.1.2",
-        "Collate": "'aaa.R' 'utils.R' 'escape.R' 'capture.R' 'character_class.R'\n'counts.R' 'lookarounds.R' 'match.R' 'or.R' 'rex-mode.R'\n'rex.R' 'shortcuts.R' 'wildcards.R' 'zzz.R'",
-        "NeedsCompilation": "no",
-        "Packaged": "2021-11-24 20:51:05 UTC; jhester",
-        "Author": "Kevin Ushey [aut, cre],\n  Jim Hester [aut],\n  Robert Krzyzanowski [aut]",
-        "Maintainer": "Kevin Ushey <kevinushey@gmail.com>",
-        "Repository": "RSPM",
-        "Date/Publication": "2021-11-26 16:11:02 UTC",
-        "Built": "R 4.5.1; ; 2026-04-24 12:17:44 UTC; unix"
-      }
-    },
-    "rhub": {
-      "Source": "CRAN",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "description": {
-        "Package": "rhub",
-        "Title": "Tools for R Package Developers",
-        "Version": "2.0.1",
-        "Authors@R": "c(\n    person(\"Gábor\", \"Csárdi\",, \"csardi.gabor@gmail.com\", role = c(\"aut\", \"cre\")),\n    person(\"Maëlle\", \"Salmon\", role = \"aut\",\n          email = \"maelle.salmon@yahoo.se\",\n          comment = c(ORCID = \"0000-0002-2815-0399\")),\n    person(\"R Consortium\", role = c(\"fnd\")))",
-        "Description": "R-hub v2 uses GitHub Actions to run 'R CMD check' and\n    similar package checks. The 'rhub' package helps you set up\n    R-hub v2 for your R package, and start running checks.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://github.com/r-hub/rhub, https://r-hub.github.io/rhub/",
-        "BugReports": "https://github.com/r-hub/rhub/issues",
-        "RoxygenNote": "7.3.2",
-        "Depends": "R (>= 4.0)",
-        "Imports": "callr, cli, curl, desc, gert, glue, gitcreds, jsonlite,\npkgbuild, processx, rappdirs, rematch, R6, rprojroot, utils,\nwhoami",
-        "Suggests": "asciicast, debugme, knitr, mockery, pillar, rmarkdown,\ntestthat (>= 3.0.0), webfakes, withr",
-        "Encoding": "UTF-8",
-        "Config/testthat/edition": "3",
-        "NeedsCompilation": "no",
-        "Packaged": "2025-03-06 22:13:05 UTC; gaborcsardi",
-        "Author": "Gábor Csárdi [aut, cre],\n  Maëlle Salmon [aut] (<https://orcid.org/0000-0002-2815-0399>),\n  R Consortium [fnd]",
-        "Maintainer": "Gábor Csárdi <csardi.gabor@gmail.com>",
-        "Repository": "RSPM",
-        "Date/Publication": "2025-03-06 22:40:02 UTC",
-        "Built": "R 4.5.1; ; 2026-04-24 12:22:04 UTC; unix"
-      }
-    },
     "rlang": {
       "Source": "CRAN",
       "Repository": "https://packagemanager.posit.co/cran/latest",
@@ -4752,29 +4572,36 @@
       "description": {
         "Package": "usethis",
         "Title": "Automate Package and Project Setup",
-        "Version": "3.1.0",
-        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\",\n           comment = c(ORCID = \"0000-0003-4757-117X\")),\n    person(\"Jennifer\", \"Bryan\", , \"jenny@posit.co\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-6983-2759\")),\n    person(\"Malcolm\", \"Barrett\", , \"malcolmbarrett@gmail.com\", role = \"aut\",\n           comment = c(ORCID = \"0000-0003-0299-5825\")),\n    person(\"Andy\", \"Teucher\", , \"andy.teucher@posit.co\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-7840-692X\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
+        "Version": "3.2.1",
+        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\",\n           comment = c(ORCID = \"0000-0003-4757-117X\")),\n    person(\"Jennifer\", \"Bryan\", , \"jenny@posit.co\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-6983-2759\")),\n    person(\"Malcolm\", \"Barrett\", , \"malcolmbarrett@gmail.com\", role = \"aut\",\n           comment = c(ORCID = \"0000-0003-0299-5825\")),\n    person(\"Andy\", \"Teucher\", , \"andy.teucher@posit.co\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-7840-692X\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"),\n           comment = c(ROR = \"03wc8by49\"))\n  )",
         "Description": "Automate package and project setup tasks that are otherwise\n    performed manually. This includes setting up unit testing, test\n    coverage, continuous integration, Git, 'GitHub', licenses, 'Rcpp',\n    'RStudio' projects, and more.",
         "License": "MIT + file LICENSE",
         "URL": "https://usethis.r-lib.org, https://github.com/r-lib/usethis",
         "BugReports": "https://github.com/r-lib/usethis/issues",
-        "Depends": "R (>= 3.6)",
-        "Imports": "cli (>= 3.0.1), clipr (>= 0.3.0), crayon, curl (>= 2.7), desc\n(>= 1.4.2), fs (>= 1.3.0), gert (>= 1.4.1), gh (>= 1.2.1), glue\n(>= 1.3.0), jsonlite, lifecycle (>= 1.0.0), purrr, rappdirs,\nrlang (>= 1.1.0), rprojroot (>= 1.2), rstudioapi, stats, tools,\nutils, whisker, withr (>= 2.3.0), yaml",
-        "Suggests": "covr, knitr, magick, pkgload (>= 1.3.2.1), rmarkdown,\nroxygen2 (>= 7.1.2), spelling (>= 1.2), styler (>= 1.2.0),\ntestthat (>= 3.1.8)",
+        "Depends": "R (>= 4.1)",
+        "Imports": "cli (>= 3.0.1), clipr (>= 0.3.0), crayon, curl (>= 2.7), desc\n(>= 1.4.2), fs (>= 1.3.0), gert (>= 1.4.1), gh (>= 1.2.1), glue\n(>= 1.3.0), jsonlite, lifecycle (>= 1.0.0), purrr, rappdirs,\nrlang (>= 1.1.0), rprojroot (>= 2.1.1), rstudioapi, stats,\ntools, utils, whisker, withr (>= 2.3.0), yaml",
+        "Suggests": "covr, knitr, magick, pkgload (>= 1.3.2.1), quarto (>= 1.5.1),\nrmarkdown, roxygen2 (>= 7.1.2), spelling (>= 1.2), testthat (>=\n3.1.8)",
         "Config/Needs/website": "r-lib/asciicast, tidyverse/tidytemplate, xml2",
         "Config/testthat/edition": "3",
         "Config/testthat/parallel": "TRUE",
         "Config/testthat/start-first": "github-actions, release",
+        "Config/usethis/last-upkeep": "2025-04-22",
         "Encoding": "UTF-8",
         "Language": "en-US",
-        "RoxygenNote": "7.3.2",
+        "RoxygenNote": "7.3.3",
         "NeedsCompilation": "no",
-        "Packaged": "2024-11-25 22:12:19 UTC; jenny",
-        "Author": "Hadley Wickham [aut] (<https://orcid.org/0000-0003-4757-117X>),\n  Jennifer Bryan [aut, cre] (<https://orcid.org/0000-0002-6983-2759>),\n  Malcolm Barrett [aut] (<https://orcid.org/0000-0003-0299-5825>),\n  Andy Teucher [aut] (<https://orcid.org/0000-0002-7840-692X>),\n  Posit Software, PBC [cph, fnd]",
+        "Packaged": "2025-09-05 20:27:33 UTC; jenny",
+        "Author": "Hadley Wickham [aut] (ORCID: <https://orcid.org/0000-0003-4757-117X>),\n  Jennifer Bryan [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-6983-2759>),\n  Malcolm Barrett [aut] (ORCID: <https://orcid.org/0000-0003-0299-5825>),\n  Andy Teucher [aut] (ORCID: <https://orcid.org/0000-0002-7840-692X>),\n  Posit Software, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>)",
         "Maintainer": "Jennifer Bryan <jenny@posit.co>",
         "Repository": "RSPM",
-        "Date/Publication": "2024-11-26 10:20:02 UTC",
-        "Built": "R 4.5.1; ; 2026-04-24 12:19:53 UTC; unix"
+        "Date/Publication": "2025-09-06 05:10:02 UTC",
+        "Built": "R 4.5.0; ; 2025-09-07 04:11:43 UTC; unix",
+        "RemoteType": "standard",
+        "RemotePkgRef": "usethis",
+        "RemoteRef": "usethis",
+        "RemoteRepos": "https://ppm-dev.titans.int.bayer.com/cran/__linux__/jammy/latest",
+        "RemotePkgPlatform": "x86_64-pc-linux-gnu-ubuntu-22.04",
+        "RemoteSha": "3.2.1"
       }
     },
     "utf8": {
@@ -4956,31 +4783,6 @@
         "RemoteRepos": "https://ppm-dev.titans.int.bayer.com/cran/__linux__/jammy/latest",
         "RemotePkgPlatform": "x86_64-pc-linux-gnu-ubuntu-22.04",
         "RemoteSha": "0.4.1"
-      }
-    },
-    "whoami": {
-      "Source": "CRAN",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "description": {
-        "Package": "whoami",
-        "Title": "Username, Full Name, Email Address, 'GitHub' Username of the\nCurrent User",
-        "Version": "1.3.0",
-        "Authors@R": "c(person(given = \"Gábor\",\n                    family = \"Csárdi\", \n                    email = \"csardi.gabor@gmail.com\", \n                    role = c(\"aut\", \"cre\")),\n            person(given = \"Maëlle\",\n                   family = \"Salmon\",\n                    role = \"ctb\"))",
-        "Description": "Look up the username and full name of the current user,\n    the current user's email address and 'GitHub' username,\n    using various sources of system and configuration information.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://github.com/r-lib/whoami#readme",
-        "BugReports": "https://github.com/r-lib/whoami/issues",
-        "Imports": "httr, jsonlite, utils",
-        "Suggests": "covr, mockery, testthat, withr",
-        "Encoding": "UTF-8",
-        "RoxygenNote": "6.1.1",
-        "NeedsCompilation": "no",
-        "Packaged": "2019-03-19 11:47:24 UTC; gaborcsardi",
-        "Author": "Gábor Csárdi [aut, cre],\n  Maëlle Salmon [ctb]",
-        "Maintainer": "Gábor Csárdi <csardi.gabor@gmail.com>",
-        "Repository": "RSPM",
-        "Date/Publication": "2019-03-19 12:00:03 UTC",
-        "Built": "R 4.5.1; ; 2026-04-24 12:22:01 UTC; unix"
       }
     },
     "withr": {
@@ -5216,17 +5018,32 @@
     ".github/workflows/deployment.yaml": {
       "checksum": "d81c1e409af4535fab83a650dd28bf6a"
     },
+    ".github/workflows/format-check.yaml": {
+      "checksum": "a59c38b18c33c2955ef32c76b2d07c7f"
+    },
+    ".github/workflows/jarl-check.yml": {
+      "checksum": "3f4504da6bf82220cdb39c57da164290"
+    },
+    ".github/workflows/R-CMD-check.yaml": {
+      "checksum": "6908fd8dfce7d17ea6531bf175caf872"
+    },
     ".Rbuildignore": {
-      "checksum": "e8f0077ae1db4500823b2f2351955629"
+      "checksum": "b80252afb15b2b7e829db037f219315e"
     },
     ".Rprofile": {
-      "checksum": "8a98470577470a898cddac7599931f94"
+      "checksum": "b0de950f23ed9fd966e3e5be646efe72"
+    },
+    ".vscode/extensions.json": {
+      "checksum": "90d7891f1569632ae447aaa2d080d5c7"
+    },
+    ".vscode/settings.json": {
+      "checksum": "d5c3df2e9f0bcd21c40b72f03fd48ea3"
+    },
+    "air.toml": {
+      "checksum": "ab72a457679794cb1d6236d954fe4bf9"
     },
     "CODE_OF_CONDUCT.md": {
       "checksum": "f44aaac51a60237b86f18e87c40f234c"
-    },
-    "CODEOWNERS": {
-      "checksum": "8f39c0b2d8a67feb14b3f86a9ef4b0b7"
     },
     "data-raw/adae_data_demo_04_09_2024.rds": {
       "checksum": "d11c774708087c2c4736cfa4a42328a3"
@@ -5238,7 +5055,7 @@
       "checksum": "313cc1a4bf9b97f780607d450e3d568d"
     },
     "DESCRIPTION": {
-      "checksum": "b963d8aadc3c711b1186a5e9417e8877"
+      "checksum": "33792697d067946956732efe517fa776"
     },
     "dev/01_start.R": {
       "checksum": "f8b30cbf5356a241b134c2c43d084f84"
@@ -5255,8 +5072,8 @@
     "dev/run_dev.R": {
       "checksum": "e21d8f5db5d57cd4d0f2db6d012a6109"
     },
-    "dev/write_manifest.R": {
-      "checksum": "16905bdd14b78d39673d67f6c6eb1483"
+    "dev/setup.R": {
+      "checksum": "1441c5d1c6a83cfb3a08d9c267f612f3"
     },
     "Dockerfile": {
       "checksum": "854f110b4a917f5952c7b1b1f9cfa7d1"
@@ -5325,7 +5142,10 @@
       "checksum": "ce1cf3dde4caf95e1feac54e54ac0681"
     },
     "inst/WORDLIST": {
-      "checksum": "f1df307d87ec6b461848582e9b7c749d"
+      "checksum": "7a5974274058366d021a56e2129b1288"
+    },
+    "jarl.toml": {
+      "checksum": "25919309600dcdcb0b06893e034cb0ee"
     },
     "LICENSE.md": {
       "checksum": "29a9012941a6bcb26bf0fb4382c5dd75"
@@ -5393,9 +5213,6 @@
     "man/detector_pretty_toggle.Rd": {
       "checksum": "55bb539f3a3d4ffebc22b5408f334c1d"
     },
-    "man/detector_radio_buttons.Rd": {
-      "checksum": "554241d88ae718859d4bd315102897fb"
-    },
     "man/DetectoR-package.Rd": {
       "checksum": "380338d559b63457122a8aea448c58da"
     },
@@ -5440,9 +5257,6 @@
     },
     "man/get_count_proportions.Rd": {
       "checksum": "e9a32bc9f22910685b244623c6c38284"
-    },
-    "man/get_exponent.Rd": {
-      "checksum": "94369507a459f9d2c869445c33894ae2"
     },
     "man/get_fdr_p_values.Rd": {
       "checksum": "99de3469398d7dc1987f521470848a0b"
@@ -5577,13 +5391,13 @@
       "checksum": "a6cd8d7f505c918f0ce8351f16cecb57"
     },
     "NEWS.md": {
-      "checksum": "5ead78dca34809e355eeab8cbe8e8873"
+      "checksum": "28973dd866849a2f01166b4229d8809d"
     },
     "R/app_config.R": {
       "checksum": "71a63c646d002a30d4b31778ec065d41"
     },
     "R/app_server.R": {
-      "checksum": "78b39b8721ddff57a380afe4cdab8a34"
+      "checksum": "0e914af3854c664f84f1b82f650fc436"
     },
     "R/app_ui.R": {
       "checksum": "195cb8cafc43a716b34d9921aec47e03"
@@ -5613,13 +5427,13 @@
       "checksum": "078f2a4358dd8083e0590d84af257649"
     },
     "R/mod_calculate.R": {
-      "checksum": "fc7da36c26b33465902d7ca20fff13bf"
+      "checksum": "4075f54f955a82d1d7d06c8e789ce32f"
     },
     "R/mod_filter.R": {
-      "checksum": "3c4a7e6c0196a381dc0493dab360faa6"
+      "checksum": "06adeeb89ee5f97eb903c05636828fd2"
     },
     "R/mod_graph_fct_plots.R": {
-      "checksum": "77ac9463f4d9dcc88a90373570e43a12"
+      "checksum": "aa8568e1ce01ee5c2cbfa89ee59940e2"
     },
     "R/mod_graph.R": {
       "checksum": "491d5a3c54aab9b365f494fb0f5f4908"
@@ -5655,7 +5469,7 @@
       "checksum": "24754d50f0f1a7e1a727f6f3087f56c2"
     },
     "R/mod_upload.R": {
-      "checksum": "01fd79fbc067a7699f66a6e0d7d6042d"
+      "checksum": "0182f4dba35067f33907ff989e0dee9a"
     },
     "R/mod_volcano_fct_plots.R": {
       "checksum": "932784f5a1c80a5c65ba6937e45a190f"
@@ -5673,19 +5487,19 @@
       "checksum": "d8b3ead428d3a1ac4599555038126522"
     },
     "R/utils_helpers.R": {
-      "checksum": "d90f1f2527f4ddfc017cc0da634ca843"
+      "checksum": "0b81cfbd3b2f8ba1001fa2db219068e5"
     },
     "R/utils_inputs.R": {
-      "checksum": "17e1e5a596ff2fe8ba2891696d4bb437"
+      "checksum": "90d5b656306a7db1b8ca527c471e5958"
     },
     "README.md": {
-      "checksum": "e73b414fa2ff2435f17cf6f3eb72ff02"
+      "checksum": "057964b569031480cd36180bf904262a"
     },
     "README.Rmd": {
-      "checksum": "fb241b8ad4a1e590d26ba1e159a87312"
+      "checksum": "92c006cbde031ad70d8739f550241e70"
     },
     "renv.lock": {
-      "checksum": "937abc8ced96403d623d2e3bd5341b01"
+      "checksum": "e8b657c4172ebe2eeb95d4f068d4937b"
     },
     "tests/spelling.R": {
       "checksum": "6286c40603df000aaae222467ae8cd76"

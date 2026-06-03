@@ -39,6 +39,8 @@ Imports:
     utils,
     vroom
 Suggests:
+    cli,
+    devtools,
     here,
     knitr,
     rsconnect,

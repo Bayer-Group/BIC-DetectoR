@@ -7,6 +7,7 @@
 * Add GHA for R CMD CHECK, air, jarl
 * Update DESCRIPTION file
 * Update NEWS
+* Make renv lockfile explicit
 
 # DetectoR 3.0.0
 
