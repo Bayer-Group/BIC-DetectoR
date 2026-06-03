@@ -17,18 +17,20 @@ Benjamini
 BinomDiffCI
 BinomRatioCI
 CDISC
+CMD
 Comparator
 DFDR
 DUREXP
 DescTools
 Devan
+Escobar
 HLGT
 HLGTs
 HLT
 HLTs
 Haenszel
 Hochberg
-Labelling
+Kathrin
 MEDDRA
 MLG
 MLGs
@@ -37,7 +39,6 @@ MedDRA’
 Mehrotra
 PRL
 PTs
-README
 RRL
 SAE
 SAEs
@@ -74,7 +75,6 @@ pattime
 pickerInput
 plotly
 pre
-prettyRadioButtons
 prettyToggle
 pvals
 rds
@@ -89,7 +89,6 @@ treemap
 trta
 tryCatch
 ucl
-unadjusted
 usubjid
 usubjid’
 verum

@@ -5,15 +5,19 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
-  knitr::opts_chunk$set(
-    collapse = TRUE,
-    comment = "#>",
-    fig.path = "man/figures/README-",
-    out.width = "100%"
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
 )
 ```
 
 # `{DetectoR}` - an R Shiny app for Clinical Trial Safety Data
+
+  <!-- badges: start -->
+  [![R-CMD-check](https://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svghttps://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svghttps://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml)
+  <!-- badges: end -->
 
 The DetectoR R Shiny app provides a handy platform allowing for early identification of signals and an ongoing monitoring of safety along the medical product development phase and lifecycle. DetectoR allows the user to upload the clinical trial data using the typical Analysis Data Model (**ADaM**) in Clinical Data Interchange Standards (**CDISC**). For this, upload the adverse event dataset (**ADAE**) and the subject-level dataset (**ADSL**) in SAS (sas7bdat), CSV, or RDS format via the Data Upload panel.
 
@@ -45,7 +49,7 @@ To get started, ensure you have the following installed: - **R** (\>= 4.1.0): Re
 
 To install DetectoR, run the following commands in your R console:
 
-``` r
+``` {r, eval=FALSE}
 install.packages(c("remotes", "usethis"))
 remotes::install_github("bayer-group/BIC-DetectoR")
 ```
@@ -54,7 +58,7 @@ remotes::install_github("bayer-group/BIC-DetectoR")
 
 After installation, you can launch the app with the following command:
 
-``` r
+``` {r, eval=FALSE}
 library(DetectoR)
 run_app()
 ```
@@ -241,22 +245,3 @@ Contributions are welcome! If you have suggestions for improvements or find bugs
 
 You are reading the doc about version : `r golem::pkg_version()`
 
-This README has been compiled on the
-
-```{r}
-Sys.time()
-```
-
-Here are the tests results and package coverage:
-
-```{r, error = TRUE}
-devtools::check(quiet = TRUE)
-```
-
-```{r echo = FALSE}
-unloadNamespace("DetectoR")
-```
-
-```{r, error = TRUE}
-covr::package_coverage()
-```
