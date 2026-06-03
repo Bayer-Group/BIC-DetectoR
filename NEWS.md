@@ -1,4 +1,4 @@
-# DetectoR (development version)
+# DetectoR 3.0.1
 * Add jarl linter
 * Apply jarl fixes
 * Add manifest.json
