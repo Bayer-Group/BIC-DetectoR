@@ -1,3 +1,13 @@
+# DetectoR (development version)
+* Add jarl linter
+* Apply jarl fixes
+* Add manifest.json
+* Add `rsconnect` to Suggests
+* Update README
+* Add GHA for R CMD CHECK, air, jarl
+* Update DESCRIPTION file
+* Update NEWS
+
 # DetectoR 3.0.0
 
 ## Overview
