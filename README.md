@@ -4,7 +4,7 @@
 # `{DetectoR}` - an R Shiny app for Clinical Trial Safety Data
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svghttps://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svghttps://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The DetectoR R Shiny app provides a handy platform allowing for early
@@ -382,7 +382,7 @@ please follow these steps:
 
 ## About
 
-You are reading the doc about version : 3.0.0
+You are reading the doc about version : 3.0.1
 
 [^1]: [Flagging clinical adverse experiences: reducing false discoveries
     without materially compromising power for detecting true signals
