@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 # `{DetectoR}` - an R Shiny app for Clinical Trial Safety Data
 
   <!-- badges: start -->
-  [![R-CMD-check](https://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svghttps://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svghttps://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml)
+  [![R-CMD-check](https://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml)
   <!-- badges: end -->
 
 The DetectoR R Shiny app provides a handy platform allowing for early identification of signals and an ongoing monitoring of safety along the medical product development phase and lifecycle. DetectoR allows the user to upload the clinical trial data using the typical Analysis Data Model (**ADaM**) in Clinical Data Interchange Standards (**CDISC**). For this, upload the adverse event dataset (**ADAE**) and the subject-level dataset (**ADSL**) in SAS (sas7bdat), CSV, or RDS format via the Data Upload panel.
