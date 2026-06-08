@@ -806,30 +806,64 @@ mod_calculate_server <- function(id, r, calculate_mode) {
     go_plot <- shiny::reactive(input$go_calculate)
     # Different reactives to ensure that each tab only updates its own plot
     if (calculate_mode == "double_dot") {
-      shiny::observe(r$double_dot_data <- double_dot_data())
-      shiny::observe(r$label_collapsed <- !input$show_full_labels)
-      shiny::observe(r$stratified_by <- input$stratified_by)
-      shiny::observe(r$go_double_dot <- go_plot())
+      shiny::observe({
+        r$double_dot_data <- double_dot_data()
+      })
+      shiny::observe({
+        r$label_collapsed <- !input$show_full_labels
+      })
+      shiny::observe({
+        r$stratified_by <- input$stratified_by
+      })
+      shiny::observe({
+        r$go_double_dot <- go_plot()
+      })
     } else if (calculate_mode == "volcano") {
-      shiny::observe(r$volcano_data <- volcano_data())
-      shiny::observe(r$go_volcano <- go_plot())
+      shiny::observe({
+        r$volcano_data <- volcano_data()
+      })
+      shiny::observe({
+        r$go_volcano <- go_plot()
+      })
     } else if (calculate_mode == "heatmap") {
-      shiny::observe(r$heatmap_data <- heatmap_data())
-      shiny::observe(r$heatmap_color <- input$heatmap_color)
-      shiny::observe(r$go_heatmap <- go_plot())
+      shiny::observe({
+        r$heatmap_data <- heatmap_data()
+      })
+      shiny::observe({
+        r$heatmap_color <- input$heatmap_color
+      })
+      shiny::observe({
+        r$go_heatmap <- go_plot()
+      })
     } else if (calculate_mode == "table") {
-      shiny::observe(r$table_data <- table_data())
-      shiny::observe(r$table_variable <- input$safety_variable)
-      shiny::observe(r$adjustment_method <- input$adjustment_method)
-      shiny::observe(r$go_table <- go_plot())
+      shiny::observe({
+        r$table_data <- table_data()
+      })
+      shiny::observe({
+        r$table_variable <- input$safety_variable
+      })
+      shiny::observe({
+        r$adjustment_method <- input$adjustment_method
+      })
+      shiny::observe({
+        r$go_table <- go_plot()
+      })
     }
     # Objects passed to several modules
     if (calculate_mode %in% c("double_dot", "volcano")) {
-      shiny::observe(r$frequency_measure <- input$frequency_measure)
-      shiny::observe(r$effect_measure <- input$effect_measure)
-      shiny::observe(r$adjustment_method <- input$adjustment_method)
+      shiny::observe({
+        r$frequency_measure <- input$frequency_measure
+      })
+      shiny::observe({
+        r$effect_measure <- input$effect_measure
+      })
+      shiny::observe({
+        r$adjustment_method <- input$adjustment_method
+      })
     }
     # Objects passed to all graphic modules
-    shiny::observe(r$alpha <- as.numeric(input$alpha))
+    shiny::observe({
+      r$alpha <- as.numeric(input$alpha)
+    })
   })
 }

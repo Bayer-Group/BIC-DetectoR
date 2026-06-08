@@ -1,6 +1,6 @@
 Package: DetectoR
 Title: Stay Safe; Don't Miss Any Adverse-Event Signal
-Version: 3.0.0
+Version: 3.0.1
 Authors@R: c(
     person("Carlos", "Fernandez-Escobar", , "carlos.fernandez4.ext@bayer.com", role = c("aut", "cre")),
     person("Steffen", "Jeske", role = "aut"),
@@ -22,6 +22,7 @@ Imports:
     golem,
     haven,
     metafor,
+    pkgload,
     plotly,
     purrr,
     readr,
@@ -39,13 +40,19 @@ Imports:
     utils,
     vroom
 Suggests:
+    cli,
+    devtools,
     here,
     knitr,
+    rsconnect,
     spelling,
-    testthat
+    testthat,
+    usethis
+Config/Needs/README: knitr, rmarkdown
+Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
+LazyData: true
 RoxygenNote: 7.3.3
-VignetteBuilder: knitr
 Depends:
-    R (>= 4.1.0)
+    R (>= 4.1)

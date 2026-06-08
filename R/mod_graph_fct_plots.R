@@ -338,29 +338,6 @@ make_effect_plotly <- function(
 }
 # Theme and color picker for plots ----
 
-#' Create an empty plot
-#'
-#'@param label A character string with the text to show in the plot.
-#'
-#'@return An empty plot
-#'
-#'@noRd
-empty_plotly <- function(label) {
-  p <- plotly::plotly_empty(type = "scatter", mode = "markers") |>
-    plotly::config(
-      displayModeBar = FALSE
-    ) |>
-    plotly::layout(
-      title = list(
-        text = label,
-        yref = "paper",
-        y = 0.5
-      )
-    )
-  p
-}
-
-
 #' Flags p-values by statistical significance
 #'
 #' @param data A dataframe of results. Must include columns called "p" and

@@ -954,40 +954,84 @@ mod_upload_server <- function(id, r) {
       )
     })
     # Pass objects to reactiveValues "r" ----
-    shiny::observe(r$mode <- input$mode)
-    shiny::observe(r$meddra_mode <- input$meddra_mode)
-    shiny::observe(r$meddra_data <- meddra_data())
-    shiny::observe(r$smq_data <- smq_data())
-    shiny::observe(r$mlg_data <- mlg_data())
-    shiny::observe(r$meddra_version <- input$meddra_version)
-    shiny::observe(r$treatment_variable <- input$treatment_variable)
-    shiny::observe(
+    shiny::observe({
+      r$mode <- input$mode
+    })
+    shiny::observe({
+      r$meddra_mode <- input$meddra_mode
+    })
+    shiny::observe({
+      r$meddra_data <- meddra_data()
+    })
+    shiny::observe({
+      r$smq_data <- smq_data()
+    })
+    shiny::observe({
+      r$mlg_data <- mlg_data()
+    })
+    shiny::observe({
+      r$meddra_version <- input$meddra_version
+    })
+    shiny::observe({
+      r$treatment_variable <- input$treatment_variable
+    })
+    shiny::observe({
       r$treatment_emergent_flag_variable <- input$treatment_emergent_flag
-    )
-    shiny::observe(
+    })
+    shiny::observe({
       r$treatment_emergent_flag_value <- input$treatment_emergent_flag_value
-    )
-    shiny::observe(r$serious_flag_variable <- input$serious_flag_variable)
-    shiny::observe(r$serious_flag_value <- input$serious_flag_value)
-    shiny::observe(
+    })
+    shiny::observe({
+      r$serious_flag_variable <- input$serious_flag_variable
+    })
+    shiny::observe({
+      r$serious_flag_value <- input$serious_flag_value
+    })
+    shiny::observe({
       r$drug_related_flag_variable <- input$drug_related_flag_variable
-    )
-    shiny::observe(r$drug_related_flag_value <- input$drug_related_flag_value)
-    shiny::observe(r$ae_outcome_variable <- input$ae_outcome_variable)
-    shiny::observe(r$duration_mode <- input$duration_mode)
-    shiny::observe(
+    })
+    shiny::observe({
+      r$drug_related_flag_value <- input$drug_related_flag_value
+    })
+    shiny::observe({
+      r$ae_outcome_variable <- input$ae_outcome_variable
+    })
+    shiny::observe({
+      r$duration_mode <- input$duration_mode
+    })
+    shiny::observe({
       r$exposure_duration_variable <- input$exposure_duration_variable
-    )
-    shiny::observe(r$ae_duration_variable <- input$ae_duration_variable)
-    shiny::observe(r$exposure_start_variable <- input$exposure_start_variable)
-    shiny::observe(r$exposure_end_variable <- input$exposure_end_variable)
-    shiny::observe(r$ae_start_variable <- input$ae_start_variable)
-    shiny::observe(r$verum_name <- input$verum_name)
-    shiny::observe(r$comparator_name <- input$comparator_name)
-    shiny::observe(r$adsl_data <- adsl_trta())
-    shiny::observe(r$adae_data <- adae_data_prepared())
-    shiny::observe(r$adsl_variable_names <- adsl_variable_names())
-    shiny::observe(r$adae_variable_names <- adae_variable_names())
+    })
+    shiny::observe({
+      r$ae_duration_variable <- input$ae_duration_variable
+    })
+    shiny::observe({
+      r$exposure_start_variable <- input$exposure_start_variable
+    })
+    shiny::observe({
+      r$exposure_end_variable <- input$exposure_end_variable
+    })
+    shiny::observe({
+      r$ae_start_variable <- input$ae_start_variable
+    })
+    shiny::observe({
+      r$verum_name <- input$verum_name
+    })
+    shiny::observe({
+      r$comparator_name <- input$comparator_name
+    })
+    shiny::observe({
+      r$adsl_data <- adsl_trta()
+    })
+    shiny::observe({
+      r$adae_data <- adae_data_prepared()
+    })
+    shiny::observe({
+      r$adsl_variable_names <- adsl_variable_names()
+    })
+    shiny::observe({
+      r$adae_variable_names <- adae_variable_names()
+    })
     # We store the datasets as "filtered data", even if they're not filtered,
     # because this will be the object that will be plotted later on. If we
     # later add filters using the Filter tab, filtered_data will be updated
@@ -995,8 +1039,14 @@ mod_upload_server <- function(id, r) {
       r$unfiltered_data <- unfiltered_data()
       r$filtered_data <- unfiltered_data()
     })
-    shiny::observe(r$filtered_data_mlg <- unfiltered_data_mlg())
-    shiny::observe(r$filtered_data_smq <- unfiltered_data_smq())
-    shiny::observe(r$go_select <- input$go_select)
+    shiny::observe({
+      r$filtered_data_mlg <- unfiltered_data_mlg()
+    })
+    shiny::observe({
+      r$filtered_data_smq <- unfiltered_data_smq()
+    })
+    shiny::observe({
+      r$go_select <- input$go_select
+    })
   })
 }

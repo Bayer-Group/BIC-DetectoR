@@ -3,6 +3,10 @@
 
 # `{DetectoR}` - an R Shiny app for Clinical Trial Safety Data
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svghttps://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svghttps://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Bayer-Group/BIC-DetectoR/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 The DetectoR R Shiny app provides a handy platform allowing for early
 identification of signals and an ongoing monitoring of safety along the
 medical product development phase and lifecycle. DetectoR allows the
@@ -379,63 +383,6 @@ please follow these steps:
 ## About
 
 You are reading the doc about version : 3.0.0
-
-This README has been compiled on the
-
-``` r
-Sys.time()
-#> [1] "2026-05-28 11:49:57 UTC"
-```
-
-Here are the tests results and package coverage:
-
-``` r
-devtools::check(quiet = TRUE)
-#> ℹ Loading DetectoR
-#> ── R CMD check results ───────────────────────────────────── DetectoR 3.0.0 ────
-#> Duration: 1m 15.6s
-#> 
-#> ❯ checking for future file timestamps ... NOTE
-#>   unable to verify current time
-#> 
-#> 0 errors ✔ | 0 warnings ✔ | 1 note ✖
-```
-
-``` r
-covr::package_coverage()
-#> DetectoR Coverage: 46.52%
-#> R/app_server.R: 0.00%
-#> R/mod_calculate_fct_volcano.R: 0.00%
-#> R/mod_info_fct_info.R: 0.00%
-#> R/mod_upload_utils_upload.R: 0.00%
-#> R/mod_volcano_fct_plots.R: 0.00%
-#> R/run_app.R: 0.00%
-#> R/mod_graph_fct_plots.R: 10.62%
-#> R/mod_filter.R: 19.92%
-#> R/mod_table.R: 22.12%
-#> R/mod_heatmap_fct_plots.R: 29.33%
-#> R/mod_calculate.R: 31.61%
-#> R/mod_heatmap.R: 33.33%
-#> R/mod_info.R: 39.29%
-#> R/mod_upload.R: 40.51%
-#> R/mod_graph.R: 47.89%
-#> R/utils_helpers.R: 51.19%
-#> R/mod_volcano.R: 55.32%
-#> R/mod_calculate_fct_effect.R: 67.86%
-#> R/mod_calculate_fct_heatmap.R: 69.46%
-#> R/mod_upload_fct_check_adae_adsl.R: 70.27%
-#> R/mod_calculate_fct_data.R: 75.45%
-#> R/mod_welcome.R: 80.43%
-#> R/utils_inputs.R: 81.08%
-#> R/mod_calculate_fct_adjustment.R: 96.95%
-#> R/mod_manual.R: 99.47%
-#> R/mod_about.R: 99.50%
-#> R/app_config.R: 100.00%
-#> R/app_ui.R: 100.00%
-#> R/golem_utils_ui.R: 100.00%
-#> R/mod_upload_fct_check_meddra.R: 100.00%
-#> R/mod_upload_fct_join.R: 100.00%
-```
 
 [^1]: [Flagging clinical adverse experiences: reducing false discoveries
     without materially compromising power for detecting true signals
