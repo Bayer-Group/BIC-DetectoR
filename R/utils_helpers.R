@@ -42,22 +42,6 @@ find_min_event <- function(
   min(sig)
 }
 
-# #' Purpose: get exponent of the mean of a variable in scientific notation
-# #'          for adaptive rounding
-# #'          When abs(mean)>=1, 0 is returned
-# #'@param x numeric value
-# #'@return integer
-# get_exponent <- function(x) {
-#   if (x == 0) {
-#     return(0) # Define the exponent for 0 as 0
-#   }
-#   # Convert the number to scientific notation
-#   sci_notation <- format(x, scientific = TRUE)
-#   # Use a regular expression to extract the exponent
-#   exponent <- as.numeric(sub(".*e([+-]?[0-9]+)", "\\1", sci_notation))
-#   min(0, exponent)
-# }
-
 #' Format p-values to four decimal places
 #'
 #' @param p A numeric vector of p-values

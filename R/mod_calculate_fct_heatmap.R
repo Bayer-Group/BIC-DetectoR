@@ -42,9 +42,12 @@ prepare_heatmap_data <- function(
   data <- data |>
     # Remove missing values (e.g., outdated PTs from older MedDRA versions,
     # with no HLT or HLGT)
-    dplyr::filter(dplyr::if_all(.cols = distinct_variables, .fns = \(x) {
-      !is.na(x)
-    })) |>
+    dplyr::filter(dplyr::if_all(
+      .cols = dplyr::all_of(distinct_variables),
+      .fns = \(x) {
+        !is.na(x)
+      }
+    )) |>
     dplyr::select(
       dplyr::all_of(distinct_variables),
       "trta_detector",
