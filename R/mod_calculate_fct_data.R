@@ -50,6 +50,7 @@ calculate_results <- function(
   exposure_end_variable = NULL,
   ae_start_variable = NULL
 ) {
+  logger::log_info("calculate_results started")
   variable <- match.arg(variable)
   effect_measure <- match.arg(effect_measure)
   adjustment <- match.arg(adjustment)
@@ -60,6 +61,7 @@ calculate_results <- function(
   assert_columns(joint_data, req_columns = variable)
   # Filter out empty or NA variable values
   comb_data <- filter_empty_variable(joint_data, variable)
+  logger::log_info("filter_empty_variable executed")
   # Get big N denominators for verum and comparison
   big_n <- get_big_n(
     adsl_filtered_data,
@@ -69,6 +71,7 @@ calculate_results <- function(
     exposure_start_variable = exposure_start_variable,
     exposure_end_variable = exposure_end_variable
   )
+  logger::log_info("big_n executed")
   # Calculation of RR / RD and p-values based on the condition of variable
   proportions_data <- comb_data |>
     get_count_proportions(
@@ -82,6 +85,7 @@ calculate_results <- function(
       exposure_end_variable = exposure_end_variable,
       ae_start_variable = ae_start_variable
     )
+  logger::log_info("get_count_proportions executed")
   # Add filters of minimum count of AEs
   filtered_data <- proportions_data |>
     filter_minimum_aes(
@@ -91,6 +95,7 @@ calculate_results <- function(
       alternative = alternative,
       alpha = alpha
     )
+  logger::log_info("fiter_minimum_aes executed")
   # Check that we still have rows left
   if (nrow(filtered_data) == 0) {
     # Early return of an empty tibble
@@ -106,6 +111,7 @@ calculate_results <- function(
           alpha = alpha,
           variable = variable
         )
+      logger::log_info("get_fisher_rr_proportions executed")
     } else {
       effect_data <- filtered_data |>
         get_fisher_rr_rates(
@@ -113,6 +119,7 @@ calculate_results <- function(
           alpha = alpha,
           variable = variable
         )
+      logger::log_info("get_fisher_rr_rates executed")
     }
   } else if (study_strat != "None") {
     effect_data <- comb_data |>
@@ -123,6 +130,7 @@ calculate_results <- function(
         stratify_variable = study_strat
       ) |>
       dplyr::filter(.data[[variable]] %in% filtered_data[[variable]])
+    logger::log_info("get_stratified_rr_rd executed")
   }
   checkmate::assert_data_frame(effect_data, min.rows = 1)
   # Benjamini-Hochberg FDR procedure adjusted p-values ----
@@ -133,6 +141,8 @@ calculate_results <- function(
       adjustment = "FDR",
       effect_measure = effect_measure
     )
+  logger::log_info("get_fdr_p_values executed")
+  logger::log_info("flag_significant executed")
   # Join p-values with count data by treatment
   results_fdr_data <- filtered_data |>
     dplyr::left_join(effect_fdr_data, by = variable)
@@ -379,6 +389,30 @@ get_count_proportions <- function(
           ) +
             1
         )
+      # Catch if there is an error with dates (submitting relative day instead of date, for example)
+      # It results in all duration values being negative
+      negative_exposure <- sum(comb_data$exposure_duration < 0, na.rm = TRUE)
+      if (negative_exposure > 0) {
+        logger::log_error(
+          "Negative values in exposure duration (n: {negative_exposure}). 
+          Please check study start and study end variables, they should be dates."
+        )
+        rlang::abort(
+          "Negative values in exposure duration. 
+          Please check study start and study end variables, they should be dates."
+        )
+      }
+      negative_time_to_ae <- sum(comb_data$ae_duration < 0, na.rm = TRUE)
+      if (negative_time_to_ae > 0) {
+        logger::log_error(
+          "Negative values in time to Advere Event onset (n: {negative_time_to_ae}). 
+          Please check AE start and study start variables, they should be dates."
+        )
+        rlang::abort(
+          "Negative values in time to Advere Event onset. 
+          Please check AE start and study start variables, they should be dates."
+        )
+      }
       exposure_duration_variable <- "exposure_duration"
       ae_duration_variable <- "ae_duration"
     }

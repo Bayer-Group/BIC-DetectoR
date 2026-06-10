@@ -21,6 +21,7 @@ Imports:
     DT,
     golem,
     haven,
+    logger,
     metafor,
     pkgload,
     plotly,
