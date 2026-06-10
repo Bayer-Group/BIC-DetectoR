@@ -776,7 +776,7 @@ mod_upload_server <- function(id, r) {
       update_variables_input(
         data_req = adsl_data_prepared(),
         var_names = adsl_variable_names(),
-        name_pattern = "RFSTDT|RANDDT",
+        name_pattern = "TRTSDT|RFSTDT|RANDDT",
         input_id = "exposure_start_variable",
         session = session
       )
@@ -786,7 +786,7 @@ mod_upload_server <- function(id, r) {
       update_variables_input(
         data_req = adsl_data_prepared(),
         var_names = adsl_variable_names(),
-        name_pattern = "RFENDT|EOSDT",
+        name_pattern = "TRTEDT|RFENDT|EOSDT",
         input_id = "exposure_end_variable",
         session = session
       )
