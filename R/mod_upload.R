@@ -717,7 +717,7 @@ mod_upload_server <- function(id, r) {
       update_variables_input(
         data_req = adae_data_prepared(),
         var_names = adae_variable_names(),
-        name_pattern = "AEREL",
+        name_pattern = "AREL|AEREL",
         input_id = "drug_related_flag_variable",
         session = session
       )
