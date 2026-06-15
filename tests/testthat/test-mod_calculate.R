@@ -31,7 +31,7 @@ test_that("calculate_results creates a valid tibble", {
     nrow()
   expect_s3_class(results, "tbl") # Result is a tibble
   expect_true(nrow(results) > 0) # Result is not an empty tibble
-  expect_equal(nrow(results), number_unique_pts * 2 + 2) # Two rows per AEDECOD plus OVERALL
+  expect_equal(nrow(results), number_unique_pts * 2) # Two rows per AEDECOD
   expect_true(sum(!is.na(results$DFDR)) > 0) # Some non-missing DFDR p-values
   expect_true(sum(is.na(results$DFDR)) > 0) # Some missing DFDR p-values
   expect_true(sum(results$DFDR_label == "<0.0001") > 0) # Some DFDR p-values
@@ -77,7 +77,7 @@ test_that("calculate_results stratified calculation works", {
     nrow()
   expect_s3_class(results, "tbl") # Result is a tibble
   expect_true(nrow(results) > 0) # Result is not an empty tibble
-  expect_equal(nrow(results), number_unique_pts * 2 + 2) # Two rows per AEDECOD plus OVERALL
+  expect_equal(nrow(results), number_unique_pts * 2) # Two rows per AEDECOD
   expect_true(sum(!is.na(results$DFDR)) > 0) # Some non-missing DFDR p-values
   expect_true(sum(is.na(results$DFDR)) > 0) # Some missing DFDR p-values
   expect_true(sum(results$DFDR_label == "<0.0001") > 0)

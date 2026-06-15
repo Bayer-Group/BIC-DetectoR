@@ -155,6 +155,9 @@ calculate_results <- function(
       equivalence_pt_soc <- comb_data |>
         dplyr::distinct(.data$MLG_label, .data$SOC_MLG)
     }
+    # Remove OVERALL group, if present
+    results_fdr_data <- results_fdr_data |> 
+      dplyr::filter(.data[[variable]] != "OVERALL")
     # Count the total cases by variable, and their total proportion
     aes_tier2 <- count_total_proportions(results_fdr_data, variable) |>
       dplyr::left_join(equivalence_pt_soc, by = variable)
