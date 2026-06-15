@@ -31,7 +31,7 @@ test_that("calculate_results creates a valid tibble", {
     nrow()
   expect_s3_class(results, "tbl") # Result is a tibble
   expect_true(nrow(results) > 0) # Result is not an empty tibble
-  expect_equal(nrow(results), number_unique_pts * 2) # Two rows per AEDECOD
+  expect_equal(nrow(results), number_unique_pts * 2 + 2) # Two rows per AEDECOD plus OVERALL
   expect_true(sum(!is.na(results$DFDR)) > 0) # Some non-missing DFDR p-values
   expect_true(sum(is.na(results$DFDR)) > 0) # Some missing DFDR p-values
   expect_true(sum(results$DFDR_label == "<0.0001") > 0) # Some DFDR p-values
@@ -77,7 +77,7 @@ test_that("calculate_results stratified calculation works", {
     nrow()
   expect_s3_class(results, "tbl") # Result is a tibble
   expect_true(nrow(results) > 0) # Result is not an empty tibble
-  expect_equal(nrow(results), number_unique_pts * 2) # Two rows per AEDECOD
+  expect_equal(nrow(results), number_unique_pts * 2 + 2) # Two rows per AEDECOD plus OVERALL
   expect_true(sum(!is.na(results$DFDR)) > 0) # Some non-missing DFDR p-values
   expect_true(sum(is.na(results$DFDR)) > 0) # Some missing DFDR p-values
   expect_true(sum(results$DFDR_label == "<0.0001") > 0)
@@ -496,4 +496,146 @@ testthat::test_that("Filter minimum number AEs works", {
   expect_equal(sum(is.na(results$prob1)), 0)
   expect_equal(sum(is.na(results$prob2)), 0)
   expect_equal(get_n_unique(results), n_distinct_categories_filtered)
+})
+
+# test overall results row for double dot plot ----
+testthat::test_that("Overall results are calculated", {
+  adae <- adae_data
+  adsl <- adsl_data |>
+    dplyr::mutate(
+      trta_detector = factor(TREATMGR)
+    )
+  joint_data <- join_adsl_adae(adsl, adae)
+  frequency_measure <- "proportions"
+  variable <- "AEBODSYS"
+  order_by <- "p-value"
+  effect_measure <- "RR"
+  adjustment <- "FDR"
+  number_aes <- 25
+  alpha <- 0.05
+  alternative <- "two.sided"
+  duration_mode <- "none"
+  filter <- "one_percent"
+
+  # Helper to count distinct categories
+  get_n_unique <- function(data) {
+    length(unique(data[[variable]]))
+  }
+
+  get_n_missing <- function(data) {
+    sum(is.na(data[[variable]]))
+  }
+
+  # Big N
+  big_n <- get_big_n(
+    adsl_filtered_data = adsl,
+    frequency_measure = frequency_measure,
+    duration_mode = duration_mode
+  )
+  # Count events
+  event_count <- joint_data |> count_ae_events(variable)
+  expect_s3_class(event_count, "tbl")
+  expect_equal(get_n_missing(event_count), 0)
+  expect_equal(
+    get_n_unique(event_count),
+    get_n_unique(joint_data |> dplyr::filter(!is.na(.data[[variable]])))
+  )
+
+  # Count overall events
+  overall_count <- joint_data |> count_ae_events(variable, overall = TRUE)
+  expect_s3_class(overall_count, "tbl")
+  expect_equal(nrow(overall_count), 2)
+  expect_equal(unique(overall_count[[variable]]), "OVERALL")
+  expect_equal(get_n_missing(overall_count), 0)
+  expect_equal(sum(is.na(overall_count$count)), 0)
+
+  # Proportion data
+  proportions_data <- joint_data |>
+    get_count_proportions(
+      big_n = big_n,
+      variable = variable,
+      frequency_measure = frequency_measure,
+      duration_mode = duration_mode
+    )
+  expect_s3_class(proportions_data, "tbl")
+  expect_true("OVERALL" %in% proportions_data[[variable]])
+  expect_equal(sum(is.na(proportions_data$count)), 0)
+  expect_equal(sum(is.na(proportions_data$prop)), 0)
+  expect_equal(sum(is.na(proportions_data[[variable]])), 0)
+
+  # Add filters of minimum count of AEs
+  filtered_data <- proportions_data |>
+    filter_minimum_aes(
+      variable = variable,
+      big_n = big_n,
+      method = filter,
+      alternative = alternative,
+      alpha = alpha
+    )
+
+  expect_equal(get_n_missing(filtered_data), 0)
+  expect_lt(get_n_unique(filtered_data), get_n_unique(proportions_data))
+  expect_true("OVERALL" %in% filtered_data[[variable]])
+
+  # Calculate RR and RD
+  effect_data <- filtered_data |>
+    get_fisher_rr_proportions(
+      alternative = alternative,
+      alpha = alpha,
+      variable = variable
+    )
+  expect_equal(get_n_missing(effect_data), 0)
+  expect_equal(get_n_unique(effect_data), get_n_unique(filtered_data))
+  expect_true("OVERALL" %in% effect_data[[variable]])
+
+  # Calculate FDR-adjusted p-values
+  effect_fdr_data <- effect_data |>
+    get_fdr_p_values() |>
+    flag_significant(
+      alpha = alpha,
+      adjustment = "FDR",
+      effect_measure = effect_measure
+    )
+  expect_equal(get_n_missing(effect_fdr_data), 0)
+  expect_equal(get_n_unique(effect_fdr_data), get_n_unique(effect_data))
+
+  # Join back
+  results_fdr_data <- filtered_data |>
+    dplyr::left_join(effect_fdr_data, by = variable)
+  expect_equal(get_n_missing(results_fdr_data), 0)
+  expect_equal(get_n_unique(results_fdr_data), get_n_unique(effect_fdr_data))
+  expect_true("OVERALL" %in% results_fdr_data[[variable]])
+
+  # Test whole flow
+  results <- calculate_results(
+    joint_data = joint_data,
+    adsl_filtered_data = adsl,
+    variable = variable,
+    filter = "one_percent"
+  )
+  expect_equal(sum(is.na(results$prob1)), 0)
+  expect_equal(sum(is.na(results$prob2)), 0)
+  expect_equal(get_n_unique(results), get_n_unique(filtered_data))
+  expect_true("OVERALL" %in% results[[variable]])
+
+  # Reorder factor levels
+  results_reordered <- results |>
+    reorder_levels(
+      variable = variable,
+      order_by = order_by,
+      effect_measure = effect_measure,
+      adjustment = adjustment
+    )
+  expect_equal(rev(levels(results_reordered$axis_var))[1], "OVERALL")
+
+  # Reorder and filter number of categories
+  results_arranged <- results_reordered |>
+    arrange_data(
+      order_by = order_by,
+      adjustment = adjustment,
+      effect_measure = effect_measure,
+      number_aes = number_aes
+    )
+  # First row should be OVERALL
+  expect_equal(results_arranged[[1, variable]], "OVERALL")
 })

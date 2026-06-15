@@ -297,6 +297,64 @@ get_big_n <- function(
   big_n
 }
 
+#' Count the AE events per treatment arm and AE category
+#' @param data Combined ADAE-ADSL data
+#' @param variable AE group category
+#' @param overall Whether to calculate events per AE category, or overall
+count_ae_events <- function(data, variable, overall = FALSE) {
+  # Remove ADSL rows without adverse events
+  data_filtered <- data |> dplyr::filter(!is.na(.data[[variable]]))
+  if (overall == FALSE) {
+    data_counts <- data_filtered |>
+      # Keep unique AEs per subject (we only count each category once)
+      dplyr::distinct(
+        .data[[variable]],
+        .data$USUBJID,
+        .data$trta_detector
+      ) |>
+      # Count the number of participants with AEs per treatment group
+      dplyr::count(
+        .data[[variable]],
+        .data$trta_detector,
+        name = "count",
+        .drop = FALSE # for counting 0 events
+      )
+  } else if (overall == TRUE) {
+    data_counts <- data_filtered |>
+      # Count number of subjects with any AE, per treatment arm
+      dplyr::distinct(
+        .data$USUBJID,
+        .data$trta_detector
+      ) |>
+      dplyr::count(
+        .data$trta_detector,
+        name = "count",
+        .drop = FALSE # for counting 0 events
+      ) |>
+      dplyr::mutate(
+        {{ variable }} := "OVERALL"
+      )
+  }
+  data_counts
+}
+
+#' Join denominators
+#' @param data_events Count of events
+#' @param data_denominators Count of denominators
+join_denominators <- function(data_events, data_denominators) {
+  dplyr::left_join(data_events, data_denominators, by = "trta_detector")
+}
+
+#' Add proportions
+#' @param data Data with events ("count") and denominators ("big_n")
+add_proportions <- function(data) {
+  data |>
+    dplyr::mutate(
+      no_count = .data$big_n - .data$count,
+      prop = .data$count / .data$big_n
+    )
+}
+
 #' Calculate counts and proportions of events
 #' @inheritParams calculate_results
 #' @param comb_data Filtered dataset combining ADSL and ADAE
@@ -333,33 +391,23 @@ get_count_proportions <- function(
     # Logic for incidence proportions -----
     assert_columns(comb_data, c(variable, "USUBJID", "trta_detector"))
     assert_columns(big_n, c("trta_detector", "big_n"))
+
     proportions_data <- comb_data |>
-      # Remove ADSL rows without adverse event
-      dplyr::filter(!is.na(.data[[variable]])) |>
-      # Keep unique AEs per subject (we only count each category once)
-      dplyr::distinct(.data[[variable]], .data$USUBJID, .data$trta_detector) |>
-      # Count the number of participants with AEs per treatment group
-      dplyr::count(
-        .data[[variable]],
-        .data$trta_detector,
-        name = "count",
-        .drop = FALSE # for counting 0 events
-      ) |>
-      # Add denominators
-      dplyr::left_join(big_n, by = "trta_detector") |>
-      # Calculate proportions and add labels
-      dplyr::mutate(
-        no_count = .data$big_n - .data$count,
-        prop = .data$count / .data$big_n
-      ) |>
-      dplyr::select(
-        tidyselect::all_of(variable),
-        "trta_detector",
-        "count",
-        "no_count",
-        "big_n",
-        "prop"
-      )
+      # Count events
+      count_ae_events(variable, overall = FALSE) |>
+      join_denominators(big_n) |>
+      add_proportions()
+
+    # Add overall rows (for double dot plot)
+    overall_proportions <- comb_data |>
+      count_ae_events(variable, overall = TRUE) |>
+      join_denominators(big_n) |>
+      add_proportions()
+
+    proportions_data <- dplyr::bind_rows(
+      proportions_data,
+      overall_proportions
+    )
   } else if (frequency_measure == "incidence rates") {
     # Logic for incidence rates -----
     assertthat::assert_that(duration_mode %in% c("duration", "start_end_date"))
@@ -591,21 +639,23 @@ reorder_levels <- function(
   effect_measure <- tolower(effect_measure)
   # Make sure that dataframe is ungrouped. Otherwise, factors only
   # have two levels
-  data <- data |>
-    dplyr::ungroup()
+  data_ae <- data |>
+    dplyr::ungroup() |>
+    # Deselect OVERALL (will be added at the end)
+    dplyr::filter(.data[[variable]] != "OVERALL")
 
   if (order_by == "effect") {
-    data_reordered <- data |>
+    data_reordered <- data_ae |>
       dplyr::arrange(
         dplyr::desc(.data[[effect_measure]]),
         .data$p,
         .data[[variable]]
       )
   } else if (adjustment == "FDR") {
-    data_reordered <- data |>
+    data_reordered <- data_ae |>
       dplyr::arrange(.data$p_adj, .data$p, .data[[variable]])
   } else if (adjustment == "DFDR") {
-    data_reordered <- data |>
+    data_reordered <- data_ae |>
       dplyr::arrange(.data$DFDR, .data$p, .data[[variable]])
   }
 
@@ -614,6 +664,9 @@ reorder_levels <- function(
     dplyr::distinct(.data[[variable]]) |>
     dplyr::pull(.data[[variable]]) |>
     rev() # By default, ggplot2 plots factors in reverse order
+
+  # Add back OVERALL level (on last place, it will display on top)
+  vector_reordered <- c(vector_reordered, "OVERALL")
 
   # Add those labels to variable axis_var (the one shown in plots in axis)
   data |>
@@ -649,25 +702,36 @@ arrange_data <- function(
   # Remove empty axis_var labels in SMQ view
   data <- data |>
     dplyr::filter(!is.na(.data$axis_var))
+
+  # Extract OVERALL rows (to add them back later)
+  data_overall <- data |>
+    dplyr::filter(.data$axis_var == "OVERALL")
+  data_aes <- data |>
+    dplyr::filter(.data$axis_var != "OVERALL")
+
   if (order_by == "p-value") {
     var <- dplyr::case_when(
       adjustment == "FDR" ~ "p_adj",
       adjustment == "DFDR" ~ "DFDR"
     )
-    data <- data |>
+    data_aes <- data_aes |>
       # ordered by adjusted p_value, then unadjusted p-value
       dplyr::arrange(.data[[var]], .data$p)
   } else if (order_by == "effect") {
-    data <- data |>
+    data_aes <- data_aes |>
       # order by RD or RR, descending
       dplyr::arrange(dplyr::desc(.data[[effect_measure]]))
   }
   # select only the rows to show on plots
-  data <- data |>
-    dplyr::slice_head(n = number_aes) |>
+  data_arranged <- dplyr::bind_rows(
+    # Add OVERALL back
+    data_overall,
+    data_aes |>
+      dplyr::slice_head(n = number_aes)
+  ) |>
     # Remove unused levels to restrict plotly output
     droplevels()
-  data
+  data_arranged
 }
 
 #' Filter by AE type (Serious, Treatment-Emergent, etc.)
