@@ -156,7 +156,7 @@ calculate_results <- function(
         dplyr::distinct(.data$MLG_label, .data$SOC_MLG)
     }
     # Remove OVERALL group, if present
-    results_fdr_data <- results_fdr_data |> 
+    results_fdr_data <- results_fdr_data |>
       dplyr::filter(.data[[variable]] != "OVERALL")
     # Count the total cases by variable, and their total proportion
     aes_tier2 <- count_total_proportions(results_fdr_data, variable) |>
@@ -307,7 +307,7 @@ get_big_n <- function(
 count_ae_events <- function(data, variable, overall = FALSE) {
   # Remove ADSL rows without adverse events
   data_filtered <- data |> dplyr::filter(!is.na(.data[[variable]]))
-  if (overall == FALSE) {
+  if (!overall) {
     data_counts <- data_filtered |>
       # Keep unique AEs per subject (we only count each category once)
       dplyr::distinct(
@@ -322,7 +322,7 @@ count_ae_events <- function(data, variable, overall = FALSE) {
         name = "count",
         .drop = FALSE # for counting 0 events
       )
-  } else if (overall == TRUE) {
+  } else if (overall) {
     data_counts <- data_filtered |>
       # Count number of subjects with any AE, per treatment arm
       dplyr::distinct(
