@@ -262,7 +262,9 @@ test_that("reordering levels works", {
     effect_measure = "RR",
     adjustment = "FDR"
   )
-  results_vector_rr <- levels(results_rr$axis_var)
+  results_vector_rr <- levels(results_rr$axis_var)[
+    levels(results_rr$axis_var) != "OVERALL"
+  ]
   expected_vector_rr <- res2 |>
     dplyr::arrange(desc(.data$rr), .data$p, .data$AEDECOD) |>
     dplyr::distinct(.data$AEDECOD) |>
@@ -279,7 +281,9 @@ test_that("reordering levels works", {
     effect_measure = "RR",
     adjustment = "FDR"
   )
-  results_vector_fdr <- levels(results_fdr$axis_var)
+  results_vector_fdr <- levels(results_fdr$axis_var)[
+    levels(results_fdr$axis_var) != "OVERALL"
+  ]
   expected_vector_fdr <- res2 |>
     dplyr::arrange(.data$p_adj, .data$p, .data$AEDECOD) |>
     dplyr::distinct(.data$AEDECOD) |>
@@ -358,7 +362,8 @@ testthat::test_that("All sub-steps for stratified analysis work", {
       alternative = alternative,
       alpha = alpha,
       variable = variable
-    )
+    ) |>
+    dplyr::filter(.data[[variable]] != "OVERALL")
   testthat::expect_equal(nrow(results_stratified), nrow(results_full))
 })
 

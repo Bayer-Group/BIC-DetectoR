@@ -47,6 +47,13 @@ mod_calculate_ui <- function(
           multiple = TRUE,
           options = picker_input_options()
         ),
+        if (calculate_mode == "double_dot") {
+          shiny::radioButtons(
+            ns("include_overall"),
+            "Include Overall",
+            choices = c("Yes" = TRUE, "No" = FALSE)
+          )
+        },
         ## AE type filter ----
         shiny::selectInput(
           ns("ae_type_filter"),
@@ -581,9 +588,17 @@ mod_calculate_server <- function(id, r, calculate_mode) {
           number_aes <- as.numeric(input$number_aes_shown)
           ae_grouping_filter <- input$ae_grouping_filter
           # Get results ----
+          # Also including OVERALL category
+          if (input$include_overall) {
+            ae_grouping <- c(ae_grouping_filter, "OVERALL")
+          } else {
+            ae_grouping <- ae_grouping_filter
+          }
           data_results <- results_all() |>
             # Filter AE categories (quick filter)
-            dplyr::filter(.data[[variable]] %in% ae_grouping_filter)
+            dplyr::filter(
+              .data[[variable]] %in% ae_grouping
+            )
 
           if (nrow(data_results) == 0) {
             tibble::tibble()
