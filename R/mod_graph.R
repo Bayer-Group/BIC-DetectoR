@@ -55,7 +55,8 @@ mod_graph_ui <- function(id) {
             shiny::span("Favours comparator", class = "comparator-col"),
             shiny::span(", "),
             shiny::span("Favours verum", class = "verum-col"),
-            shiny::span(", Non-significant.")
+            shiny::span(", Non-significant. "),
+            shiny::span("Subjects are counted once per category.")
           ),
           col_5(
             shiny::span(
