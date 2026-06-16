@@ -1,6 +1,6 @@
 Package: DetectoR
 Title: Stay Safe; Don't Miss Any Adverse-Event Signal
-Version: 3.0.1.9001
+Version: 3.0.1.9002
 Authors@R: c(
     person("Carlos", "Fernandez-Escobar", , "carlos.fernandez4.ext@bayer.com", role = c("aut", "cre")),
     person("Steffen", "Jeske", role = "aut"),
