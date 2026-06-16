@@ -18,13 +18,31 @@ adae_data <- readRDS(here::here("data-raw", "adae_data_demo_04_09_2024.rds")) |>
     ASTDT = as.Date(.data$RANDDT + .data$AAESDURN - 1) # AE start date
   )
 
-# Palette of 23 shades of color
-# By default, grayscale, then it will be changed using CSS depending on
-# light/dark theme
+# Save OCMQ data ----
+ocmq <- readxl::read_excel(
+  here::here("data-raw", "ocmqs_v4.1.xlsx"),
+  sheet = "Consolidated List",
+  col_types = c("text", "text", "skip", "text")
+)
+# Duplicate Narrow terms to be also counted as Broad Term
+ocmq_narrow <- ocmq |>
+  dplyr::filter(.data$`Final Classification` == "Narrow")
 
+ocmq_broad <- ocmq |>
+  dplyr::filter(.data$`Final Classification` == "Broad")
+
+ocmq_data <- dplyr::bind_rows(
+  ocmq_narrow,
+  ocmq_narrow |> dplyr::mutate(`Final Classification` = "Broad"),
+  ocmq_broad
+) |>
+  dplyr::mutate(version = "4.1")
+
+# Add internal data ----
 usethis::use_data(
   adae_data,
   adsl_data,
+  ocmq_data,
   overwrite = TRUE,
   internal = TRUE
 )

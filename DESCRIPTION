@@ -46,6 +46,7 @@ Suggests:
     devtools,
     here,
     knitr,
+    readxl,
     rsconnect,
     spelling,
     testthat,
