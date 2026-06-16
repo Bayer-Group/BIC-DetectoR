@@ -3,7 +3,7 @@
 #'@param joint_data Joined and filtered ADSL-ADAE data set with MedDRA data.
 #'@param adsl_filtered_data A dataframe with ADSL after filtering.
 #'@param variable A character, the variable name that will be shown in the plot
-#'  ("AEDECOD", "MLG_label", "SMQ_NAME" or "AEBODSYS").
+#'  ("AEDECOD", "MLG_label", "SMQ_NAME", "ocmq" or "AEBODSYS").
 #'@param effect_measure Display option RR (relative risks) or RD (risk
 #' differences).
 #'@param adjustment Adjustment variable FDR or DFDR.
@@ -34,7 +34,7 @@
 calculate_results <- function(
   joint_data,
   adsl_filtered_data,
-  variable = c("AEDECOD", "MLG_label", "SMQ_NAME", "AEBODSYS"),
+  variable = c("AEDECOD", "MLG_label", "SMQ_NAME", "ocmq", "AEBODSYS"),
   effect_measure = c("RR", "RD"),
   adjustment = c("FDR", "DFDR"),
   order_by = c("p-value", "effect"),
@@ -363,12 +363,12 @@ add_proportions <- function(data) {
 #' @param comb_data Filtered dataset combining ADSL and ADAE
 #' @param big_n Tibble with denominators for treatment arms (number of subjects)
 #' @param variable A character, the variable name that will be shown in the plot
-#'  ("AEDECOD", "MLG_label", "SMQ_NAME" or "AEBODSYS").
+#'  ("AEDECOD", "MLG_label", "SMQ_NAME", "ocmq", or "AEBODSYS").
 #' @param frequency_measure Either "proportions" or "incidence rates"
 #' @returns A tibble with columns:
 #' \describe{
 #'   \item{\code{variable}}{The safety variable, can be "AEDECOD", "MLG_label",
-#' "SMQ_NAME" or "AEBODSYS"}
+#' "SMQ_NAME", "ocmq" or "AEBODSYS"}
 #'   \item{\code{trta_detector}}{Treatment arm, "Verum" or "Comparison"}
 #'   \item{\code{count}}{Number of events}
 #'   \item{\code{no_count}}{Number of no-events (total minus number of events)}
@@ -379,7 +379,7 @@ add_proportions <- function(data) {
 get_count_proportions <- function(
   comb_data,
   big_n,
-  variable = c("AEDECOD", "MLG_label", "SMQ_NAME", "AEBODSYS"),
+  variable = c("AEDECOD", "MLG_label", "SMQ_NAME", "ocmq", "AEBODSYS"),
   frequency_measure = c("proportions", "incidence rates"),
   duration_mode,
   ae_duration_variable = NULL,
@@ -702,7 +702,7 @@ arrange_data <- function(
   adjustment <- match.arg(adjustment)
   effect_measure <- tolower(match.arg(effect_measure)) # "rr" or "rd"
   number_aes <- number_aes * 2 # two rows per AE (verum and comparator)
-  # Remove empty axis_var labels in SMQ view
+  # Remove empty axis_var labels in SMQ/OCMQ view
   data <- data |>
     dplyr::filter(!is.na(.data$axis_var))
 

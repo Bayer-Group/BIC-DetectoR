@@ -2,10 +2,10 @@
 #' Prepare adsl and adae for the volcano display
 #' @param data Results data.
 #' @param safety_variable The hierarchy level to display: "AEDECOD", "AEBODSYS",
-#'  "MLG_label", "SMQ_NAME".
+#'  "MLG_label", "SMQ_NAME", "ocmq".
 prepare_volcano <- function(
   data,
-  safety_variable = c("AEDECOD", "AEBODSYS", "MLG_label", "SMQ_NAME")
+  safety_variable = c("AEDECOD", "AEBODSYS", "MLG_label", "SMQ_NAME", "ocmq")
 ) {
   safety_variable <- match.arg(safety_variable)
   # Get total counts (will be the size of the circle)

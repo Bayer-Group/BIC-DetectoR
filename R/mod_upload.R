@@ -928,6 +928,12 @@ mod_upload_server <- function(id, r) {
         )
     }) |>
       shiny::bindEvent(unfiltered_data())
+    # Join ADAE-ADSL with OCMQ ----
+    unfiltered_data_ocmq <- shiny::reactive({
+      shiny::req(unfiltered_data())
+      unfiltered_data() |> join_ocmq_data()
+    }) |>
+      shiny::bindEvent(unfiltered_data())
     # Move to next page ----
     ## Move to filtering
     shiny::observeEvent(input$next_filter, {
@@ -1044,6 +1050,9 @@ mod_upload_server <- function(id, r) {
     })
     shiny::observe({
       r$filtered_data_smq <- unfiltered_data_smq()
+    })
+    shiny::observe({
+      r$filtered_data_ocmq <- unfiltered_data_ocmq()
     })
     shiny::observe({
       r$go_select <- input$go_select

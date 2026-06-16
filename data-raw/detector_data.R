@@ -22,21 +22,26 @@ adae_data <- readRDS(here::here("data-raw", "adae_data_demo_04_09_2024.rds")) |>
 ocmq <- readxl::read_excel(
   here::here("data-raw", "ocmqs_v4.1.xlsx"),
   sheet = "Consolidated List",
-  col_types = c("text", "text", "skip", "text")
+  col_types = c("text", "text", "skip", "text"),
+  col_names = c("ocmq", "term", "scope"),
+  skip = 1
 )
 # Duplicate Narrow terms to be also counted as Broad Term
 ocmq_narrow <- ocmq |>
-  dplyr::filter(.data$`Final Classification` == "Narrow")
+  dplyr::filter(.data$scope == "Narrow")
 
 ocmq_broad <- ocmq |>
-  dplyr::filter(.data$`Final Classification` == "Broad")
+  dplyr::filter(.data$scope == "Broad")
 
 ocmq_data <- dplyr::bind_rows(
   ocmq_narrow,
-  ocmq_narrow |> dplyr::mutate(`Final Classification` = "Broad"),
+  ocmq_narrow |> dplyr::mutate(scope = "Broad"),
   ocmq_broad
 ) |>
-  dplyr::mutate(version = "4.1")
+  dplyr::mutate(
+    ocmq = paste0(.data$ocmq, " - ", scope),
+    version = "4.1",
+  )
 
 # Add internal data ----
 usethis::use_data(

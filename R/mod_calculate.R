@@ -191,12 +191,14 @@ mod_calculate_server <- function(id, r, calculate_mode) {
             "System Organ Classes (SOCs)" = "AEBODSYS",
             "Preferred Terms (PTs)" = "AEDECOD",
             "Medical Labeling Groupings (MLGs)" = "MLG_label",
-            "Standardised MedDRA Queries (SMQs)" = "SMQ_NAME"
+            "Standardised MedDRA Queries (SMQs)" = "SMQ_NAME",
+            "Office of New Drugs Custom Medical Queries (OCMQs)" = "ocmq"
           )
         } else if (meddra_mode == "without_meddra") {
           list(
             "System Organ Classes (SOCs)" = "AEBODSYS",
-            "Preferred Terms (PTs)" = "AEDECOD"
+            "Preferred Terms (PTs)" = "AEDECOD",
+            "Office of New Drugs Custom Medical Queries (OCMQs)" = "ocmq"
           )
         }
       }) |>
@@ -210,7 +212,7 @@ mod_calculate_server <- function(id, r, calculate_mode) {
             "False Discovery Rate (FDR)" = "FDR",
             "New Double False Discovery Rate (DFDR)" = "DFDR"
           )
-        } else if (variable %in% c("AEBODSYS", "SMQ_NAME")) {
+        } else if (variable %in% c("AEBODSYS", "SMQ_NAME", "ocmq")) {
           # SOCs and SMQs don't work with DFDR
           list(
             "False Discovery Rate (FDR)" = "FDR"
@@ -390,6 +392,9 @@ mod_calculate_server <- function(id, r, calculate_mode) {
       if (variable == "SMQ_NAME") {
         shiny::req(r$filtered_data_smq)
         joint_data <- r$filtered_data_smq
+      } else if (variable == "ocmq") {
+        shiny::req(r$filtered_data_ocmq)
+        joint_data <- r$filtered_data_ocmq
       } else if (r$meddra_mode == "with_meddra") {
         shiny::req(r$filtered_data_mlg)
         joint_data <- r$filtered_data_mlg
@@ -415,6 +420,8 @@ mod_calculate_server <- function(id, r, calculate_mode) {
         label <- "Medical Labeling Groupings (MLGs)"
       } else if (input$safety_variable == "SMQ_NAME") {
         label <- "Standardised MedDRA Queries (SMQs)"
+      } else if (input$safety_variable == "ocmq") {
+        label <- "Office of New Drugs Custom Medical Queries (OCMQs)"
       }
       shinyWidgets::updatePickerInput(
         session,
@@ -508,6 +515,9 @@ mod_calculate_server <- function(id, r, calculate_mode) {
         if (variable == "SMQ_NAME") {
           shiny::req(r$filtered_data_smq)
           joint_data <- r$filtered_data_smq
+        } else if (variable == "ocmq") {
+          shiny::req(r$filtered_data_ocmq)
+          joint_data <- r$filtered_data_ocmq
         } else if (r$meddra_mode == "with_meddra") {
           shiny::req(r$filtered_data_mlg)
           joint_data <- r$filtered_data_mlg
