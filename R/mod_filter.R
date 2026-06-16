@@ -183,103 +183,107 @@ mod_filter_server <- function(id, r) {
       }
     })
     # Update filter buttons ----
-    shiny::observeEvent(selected_filters(), {
-      shiny::req(r$adae_data, r$adsl_data)
-      adae_data <- r$adae_data
-      adsl_data <- r$adsl_data
-      adae_names <- r$adae_variable_names
-      adsl_names <- r$adsl_variable_names
-      selected_filters <- selected_filters()
-      active_filters <- active_filters()
-      new_filters <- selected_filters[
-        !selected_filters %in% active_filters
-      ]
-      deselected_filters <- active_filters[
-        !active_filters %in% selected_filters
-      ]
-      ## Remove buttons for deselected filters ----
-      for (i in seq_along(deselected_filters)) {
-        id <- deselected_filters[i]
-        shiny::removeUI(selector = paste0("#", id))
-      }
-      ## Add buttons for new filter variables ----
-      for (i in seq_along(new_filters)) {
-        id <- new_filters[i]
-        variable_name <- stringr::str_remove(id, "^filter_")
-        if (variable_name %in% colnames(adae_data)) {
-          variable <- adae_data |> dplyr::pull(variable_name)
-          variable_label <- adae_names[adae_names == variable_name] |>
-            names()
-        } else if (variable_name %in% colnames(adsl_data)) {
-          variable <- adsl_data |> dplyr::pull(variable_name)
-          variable_label <- adsl_names[adsl_names == variable_name] |>
-            names()
+    shiny::observeEvent(
+      selected_filters(),
+      ignoreNULL = FALSE,
+      {
+        shiny::req(r$adae_data, r$adsl_data)
+        adae_data <- r$adae_data
+        adsl_data <- r$adsl_data
+        adae_names <- r$adae_variable_names
+        adsl_names <- r$adsl_variable_names
+        selected_filters <- selected_filters()
+        active_filters <- active_filters()
+        new_filters <- selected_filters[
+          !selected_filters %in% active_filters
+        ]
+        deselected_filters <- active_filters[
+          !active_filters %in% selected_filters
+        ]
+        ## Remove buttons for deselected filters ----
+        for (i in seq_along(deselected_filters)) {
+          id <- deselected_filters[i]
+          shiny.destroy::removeInput(id)
         }
-        shiny::insertUI(
-          selector = "#placeholder",
-          ui = shiny::tags$div(
-            # Treatment-emergent flag selected by default
-            if (variable_name == r$treatment_emergent_flag_variable) {
-              choices <- unique(variable)
-              shinyWidgets::pickerInput(
-                inputId = ns(id),
-                label = variable_label,
-                choices = choices,
-                selected = r$treatment_emergent_flag_value,
-                multiple = TRUE,
-                options = picker_input_options()
-              )
-            } else if (!is.numeric(variable)) {
-              # With non-numeric variables, use pickerInput
-              choices <- unique(variable)
-              shinyWidgets::pickerInput(
-                inputId = ns(id),
-                label = variable_label,
-                choices = choices,
-                selected = choices,
-                multiple = TRUE,
-                options = picker_input_options()
-              )
-            } else if (is.numeric(variable)) {
-              # With numeric variables, use sliderInput
-              min_value <- min(variable, na.rm = TRUE)
-              max_value <- max(variable, na.rm = TRUE)
-              if (is.integer(variable)) {
-                # With integer variables, use sliderInput with steps of 1
-                step <- 1
-                sep <- ""
-                ticks <- FALSE
-              } else if (!is.integer(variable)) {
-                # With continuous variables, default values
-                step <- NULL
-                sep <- ","
-                ticks <- TRUE
-              }
-              shiny::sliderInput(
-                inputId = ns(id),
-                label = variable_name,
-                value = c(min_value, max_value),
-                min = min_value,
-                max = max_value,
-                step = step,
-                sep = sep,
-                ticks = ticks
-              )
-            },
-            id = id,
-            class = "detector-filter"
+        ## Add buttons for new filter variables ----
+        for (i in seq_along(new_filters)) {
+          id <- new_filters[i]
+          variable_name <- stringr::str_remove(id, "^filter_")
+          if (variable_name %in% colnames(adae_data)) {
+            variable <- adae_data |> dplyr::pull(variable_name)
+            variable_label <- adae_names[adae_names == variable_name] |>
+              names()
+          } else if (variable_name %in% colnames(adsl_data)) {
+            variable <- adsl_data |> dplyr::pull(variable_name)
+            variable_label <- adsl_names[adsl_names == variable_name] |>
+              names()
+          }
+          shiny::insertUI(
+            selector = "#placeholder",
+            ui = shiny::tags$div(
+              # Treatment-emergent flag selected by default
+              if (variable_name == r$treatment_emergent_flag_variable) {
+                choices <- unique(variable)
+                shinyWidgets::pickerInput(
+                  inputId = ns(id),
+                  label = variable_label,
+                  choices = choices,
+                  selected = r$treatment_emergent_flag_value,
+                  multiple = TRUE,
+                  options = picker_input_options()
+                )
+              } else if (!is.numeric(variable)) {
+                # With non-numeric variables, use pickerInput
+                choices <- unique(variable)
+                shinyWidgets::pickerInput(
+                  inputId = ns(id),
+                  label = variable_label,
+                  choices = choices,
+                  selected = choices,
+                  multiple = TRUE,
+                  options = picker_input_options()
+                )
+              } else if (is.numeric(variable)) {
+                # With numeric variables, use sliderInput
+                min_value <- min(variable, na.rm = TRUE)
+                max_value <- max(variable, na.rm = TRUE)
+                if (is.integer(variable)) {
+                  # With integer variables, use sliderInput with steps of 1
+                  step <- 1
+                  sep <- ""
+                  ticks <- FALSE
+                } else if (!is.integer(variable)) {
+                  # With continuous variables, default values
+                  step <- NULL
+                  sep <- ","
+                  ticks <- TRUE
+                }
+                shiny::sliderInput(
+                  inputId = ns(id),
+                  label = variable_name,
+                  value = c(min_value, max_value),
+                  min = min_value,
+                  max = max_value,
+                  step = step,
+                  sep = sep,
+                  ticks = ticks
+                )
+              },
+              id = id,
+              class = "detector-filter"
+            )
           )
-        )
+        }
+        ## Update active filters ----
+        active_filters(selected_filters())
       }
-      ## Update active filters ----
-      active_filters(selected_filters())
-    })
+    )
     # Remove filter button ----
     shiny::observeEvent(input$remove_filter, {
       # Remove filters from UI
       for (i in seq_along(active_filters())) {
         id <- active_filters()[i]
-        shiny::removeUI(paste0("#", id))
+        shiny.destroy::removeInput(id)
       }
       # Remove filter from reactive value of active filters
       active_filters(NULL)

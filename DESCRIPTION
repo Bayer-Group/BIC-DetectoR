@@ -29,6 +29,7 @@ Imports:
     readr,
     rlang,
     shiny,
+    shiny.destroy,
     shinycssloaders,
     shinydashboard,
     shinyWidgets,
