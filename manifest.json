@@ -4277,6 +4277,40 @@
         "Built": "R 4.5.0; ; 2025-12-02 12:29:03 UTC; unix"
       }
     },
+    "shiny.destroy": {
+      "Source": "CRAN",
+      "Repository": "https://packagemanager.posit.co/cran/latest",
+      "description": {
+        "Package": "shiny.destroy",
+        "Type": "Package",
+        "Title": "Create Destroyable Modules in 'Shiny'",
+        "Version": "0.1.0",
+        "Authors@R": "person(\"Ashley\", \"Baldry\", email = \"arbaldry91@gmail.com\", role = c(\"aut\", \"cre\"))",
+        "Description": "Enables the complete removal of various 'Shiny' components, such\n    as inputs, outputs and modules. It also aids in the removal of observers that have been \n    created in dynamically created modules.",
+        "License": "MIT + file LICENSE",
+        "Encoding": "UTF-8",
+        "Imports": "purrr, rlang, shiny",
+        "Suggests": "bslib, htmltools, knitr, rmarkdown, shinytest2, spelling,\ntestthat (>= 3.0.0)",
+        "Config/testthat/edition": "3",
+        "Language": "en-GB",
+        "RoxygenNote": "7.3.2",
+        "VignetteBuilder": "knitr",
+        "NeedsCompilation": "no",
+        "Packaged": "2024-09-16 19:52:28 UTC; arbal",
+        "Author": "Ashley Baldry [aut, cre]",
+        "Maintainer": "Ashley Baldry <arbaldry91@gmail.com>",
+        "Repository": "RSPM",
+        "Date/Publication": "2024-09-17 12:30:02 UTC",
+        "Built": "R 4.5.0; ; 2025-04-08 07:02:32 UTC; unix",
+        "RemoteType": "standard",
+        "RemoteRef": "shiny.destroy",
+        "RemotePkgRef": "shiny.destroy",
+        "RemoteRepos": "https://packagemanager.posit.co/cran/__linux__/jammy/latest",
+        "RemoteReposName": "CRAN",
+        "RemotePkgPlatform": "source",
+        "RemoteSha": "0.1.0"
+      }
+    },
     "shinyWidgets": {
       "Source": "CRAN",
       "Repository": "https://packagemanager.posit.co/cran/latest",
@@ -5317,7 +5351,7 @@
       "checksum": "f4994f578580807f5a09ff5c0a07b049"
     },
     ".Rprofile": {
-      "checksum": "a2c7260c5f398c44c89ac6a9b96b4292"
+      "checksum": "4e3304f5f9504c0fbae51e76dab4f974"
     },
     ".vscode/extensions.json": {
       "checksum": "90d7891f1569632ae447aaa2d080d5c7"
@@ -5341,7 +5375,7 @@
       "checksum": "313cc1a4bf9b97f780607d450e3d568d"
     },
     "DESCRIPTION": {
-      "checksum": "0a95752907176276f63bad94bda84b61"
+      "checksum": "0090600df9f6a5416fe5ee6466283ed0"
     },
     "Dockerfile": {
       "checksum": "854f110b4a917f5952c7b1b1f9cfa7d1"
@@ -5443,7 +5477,7 @@
       "checksum": "d50200e950a3a4fd684c98a75deaaeac"
     },
     "R/mod_calculate_fct_data.R": {
-      "checksum": "96b1d09169b093011e326b7270a2cfd6"
+      "checksum": "0c544fa940b2721c666a361cd8f35bc8"
     },
     "R/mod_calculate_fct_effect.R": {
       "checksum": "745269f777e61caec215ddeb7655b2c4"
@@ -5455,16 +5489,16 @@
       "checksum": "078f2a4358dd8083e0590d84af257649"
     },
     "R/mod_calculate.R": {
-      "checksum": "4075f54f955a82d1d7d06c8e789ce32f"
+      "checksum": "adae35736e9ef8840d78bc2c444b5679"
     },
     "R/mod_filter.R": {
-      "checksum": "06adeeb89ee5f97eb903c05636828fd2"
+      "checksum": "96e7d2f6e6090d2c59d16d6f84c7b48c"
     },
     "R/mod_graph_fct_plots.R": {
       "checksum": "e4a398dfa002d9226b1d5325b7e26279"
     },
     "R/mod_graph.R": {
-      "checksum": "491d5a3c54aab9b365f494fb0f5f4908"
+      "checksum": "7c1365fe235893839f446ad6c1b84e74"
     },
     "R/mod_heatmap_fct_plots.R": {
       "checksum": "f194ebd532c426a281c8549c8bf929d9"
@@ -5497,7 +5531,7 @@
       "checksum": "24754d50f0f1a7e1a727f6f3087f56c2"
     },
     "R/mod_upload.R": {
-      "checksum": "592cbb1a53e4fbb922a2e7897a77e0e0"
+      "checksum": "b29c89e67c75ffb2aa930b69b3bc6cb7"
     },
     "R/mod_volcano_fct_plots.R": {
       "checksum": "932784f5a1c80a5c65ba6937e45a190f"
@@ -5521,7 +5555,7 @@
       "checksum": "9cc164716ba66d5c1cecdaea5acffde2"
     },
     "renv.lock": {
-      "checksum": "b93b263bc9b74e596efbe4e49d059f55"
+      "checksum": "e6b6ef5d3fa7ea271d9b812b8b90536d"
     }
   },
   "users": null
