@@ -665,17 +665,19 @@ reorder_levels <- function(
   # Get levels of the variable in the desired order
   vector_reordered <- data_reordered |>
     dplyr::distinct(.data[[variable]]) |>
+    # Add back OVERALL level (on last place, it will display on top)
+    dplyr::add_row({{ variable }} := "OVERALL") |>
     dplyr::pull(.data[[variable]]) |>
     rev() # By default, ggplot2 plots factors in reverse order
 
-  # Add back OVERALL level (on last place, it will display on top)
-  vector_reordered <- c(vector_reordered, "OVERALL")
-
   # Add those labels to variable axis_var (the one shown in plots in axis)
-  data |>
+  res <- data |>
     dplyr::mutate(
       axis_var = factor(.data[[variable]], levels = vector_reordered)
     )
+  assertthat::assert_that(sum(!is.na(res[[variable]])) > 0)
+  assertthat::assert_that(sum(!is.na(res$axis_var)) > 0)
+  res
 }
 
 #' A function to prepare data for plotting the double dot plots
@@ -702,6 +704,7 @@ arrange_data <- function(
   adjustment <- match.arg(adjustment)
   effect_measure <- tolower(match.arg(effect_measure)) # "rr" or "rd"
   number_aes <- number_aes * 2 # two rows per AE (verum and comparator)
+  assertthat::assert_that(sum(!is.na(data$axis_var)) > 0)
   # Remove empty axis_var labels in SMQ/OCMQ view
   data <- data |>
     dplyr::filter(!is.na(.data$axis_var))
