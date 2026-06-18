@@ -51,6 +51,13 @@ mod_about_ui <- function(id) {
       queries (SMQs). If not, <em>'Run without MedDRA'</em> can be chosen
       instead.</p>"
     ),
+    shiny::div(
+      shiny::icon("info-circle"),
+      shiny::strong("New: "),
+      "The Office of New Drugs Custom Medical Queries (OCMQs) are now implemented, version 4.1. 
+      This is an experimental feature, and may yield inconsistent results based on the MedDRA version uploaded.",
+      class = "callout-warning"
+    ),
     shiny::hr(),
     shiny::h2("Data selection and filtering"),
     shiny::HTML(

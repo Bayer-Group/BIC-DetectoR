@@ -375,7 +375,8 @@ shiny::testServer(
     calculate_mode = "double_dot"
   ),
   {
-    expect_equal(length(meddra_variable_choices()), 4)
+    # Options (5): SOCs, MLGs, SMQs, PTs, OCMQs
+    expect_equal(length(meddra_variable_choices()), 5)
   }
 )
 shiny::testServer(
@@ -385,7 +386,8 @@ shiny::testServer(
     calculate_mode = "double_dot"
   ),
   {
-    expect_equal(length(meddra_variable_choices()), 2)
+    # Options (3): SOCs, PTs, OCMQs
+    expect_equal(length(meddra_variable_choices()), 3)
   }
 )
 
@@ -631,7 +633,12 @@ testthat::test_that("Overall results are calculated", {
       effect_measure = effect_measure,
       adjustment = adjustment
     )
-  expect_equal(rev(levels(results_reordered$axis_var))[1], "OVERALL")
+  expect_gt(nrow(results_reordered), 0)
+  axis_var <- results_reordered$axis_var
+  expect_gt(sum(!is.na(axis_var)), 0)
+  expect_true("OVERALL" %in% axis_var)
+  axis_levels <- rev(levels(axis_var))
+  expect_equal(axis_levels[1], "OVERALL")
 
   # Reorder and filter number of categories
   results_arranged <- results_reordered |>
@@ -643,4 +650,178 @@ testthat::test_that("Overall results are calculated", {
     )
   # First row should be OVERALL
   expect_equal(results_arranged[[1, variable]], "OVERALL")
+})
+
+
+# Test results with OCMQ data ----
+test_that("OCMQ results work", {
+  data_adsl <- adsl_data |>
+    dplyr::mutate(
+      trta_detector = factor(.data$TREATMGR)
+    ) |>
+    dplyr::filter(
+      .data$trta_detector %in% c("Comparator", "Verum"),
+      .data$SAFFN == 1
+    )
+  data_adae <- adae_data
+  joint_data <- data_adsl |>
+    dplyr::left_join(data_adae, by = c("USUBJID", "STUDYID")) |>
+    join_ocmq_data()
+  variable <- "ocmq"
+  results <- calculate_results(
+    joint_data = joint_data,
+    adsl_filtered_data = data_adsl,
+    variable = variable,
+    effect_measure = "RR",
+    adjustment = "FDR",
+    order_by = "p-value",
+    study_strat = "None",
+    alternative = "two.sided",
+    alpha = 0.05,
+    filter = "no_method",
+    frequency_measure = "proportions"
+  )
+  expect_s3_class(results, "tbl") # Result is a tibble
+  expect_true(nrow(results) > 0) # Result is not an empty tibble
+  expect_equal(sum(is.na(results$ocmq)), 0) # No empty categories
+
+  # Counts of broad OCMQs should be >= of narrow OCMQs
+  ocmqs <- results |>
+    dplyr::count(.data$ocmq, wt = .data$count) |>
+    dplyr::mutate(
+      scope = dplyr::case_when(
+        stringr::str_detect(.data$ocmq, "Broad") ~ "broad",
+        stringr::str_detect(.data$ocmq, "Narrow") ~ "narrow",
+        .default = NA
+      ),
+      ocmq = stringr::str_remove_all(.data$ocmq, " - .*$")
+    ) |>
+    dplyr::filter(
+      !is.na(.data$scope)
+    ) |>
+    tidyr::pivot_wider(
+      names_from = "scope",
+      values_from = "n",
+      values_fill = 0
+    )
+
+  expect_all_true(ocmqs$broad >= ocmqs$narrow)
+})
+
+test_that("OCMQ results work with incidence rates", {
+  data_adsl <- adsl_data |>
+    dplyr::mutate(
+      trta_detector = factor(.data$TREATMGR)
+    ) |>
+    dplyr::filter(
+      .data$trta_detector %in% c("Comparator", "Verum"),
+      .data$SAFFN == 1
+    )
+  data_adae <- adae_data
+  joint_data <- data_adsl |>
+    dplyr::left_join(data_adae) |>
+    join_ocmq_data()
+  variable <- "ocmq"
+  results <- calculate_results(
+    joint_data = joint_data,
+    adsl_filtered_data = data_adsl,
+    variable = variable,
+    effect_measure = "RR",
+    adjustment = "FDR",
+    order_by = "p-value",
+    study_strat = "None",
+    alternative = "two.sided",
+    alpha = 0.05,
+    filter = "no_method",
+    frequency_measure = "incidence rates",
+    duration_mode = "start_end_date",
+    exposure_start_variable = "RANDDT",
+    exposure_end_variable = "EOSDT",
+    ae_start_variable = "ASTDT"
+  )
+  expect_s3_class(results, "tbl") # Result is a tibble
+  expect_true(nrow(results) > 0) # Result is not an empty tibble
+  expect_equal(sum(is.na(results$ocmq)), 0) # No empty categories
+
+  # Counts of broad OCMQs should be >= of narrow OCMQs
+  ocmqs <- results |>
+    dplyr::count(.data$ocmq, wt = .data$count) |>
+    dplyr::mutate(
+      scope = dplyr::case_when(
+        stringr::str_detect(.data$ocmq, "Broad") ~ "broad",
+        stringr::str_detect(.data$ocmq, "Narrow") ~ "narrow",
+        .default = NA
+      ),
+      ocmq = stringr::str_remove_all(.data$ocmq, " - .*$")
+    ) |>
+    dplyr::filter(
+      !is.na(.data$scope)
+    ) |>
+    tidyr::pivot_wider(
+      names_from = "scope",
+      values_from = "n",
+      values_fill = 0
+    )
+
+  expect_all_true(ocmqs$broad >= ocmqs$narrow)
+})
+
+
+# Test arrange data with incidence rates ----
+test_that("Data arrange works with incidence rates", {
+  data_adsl <- adsl_data |>
+    dplyr::mutate(
+      trta_detector = factor(.data$TREATMGR)
+    ) |>
+    dplyr::filter(
+      .data$trta_detector %in% c("Comparator", "Verum"),
+      .data$SAFFN == 1
+    )
+  data_adae <- adae_data
+  joint_data <- data_adsl |>
+    dplyr::left_join(data_adae) |>
+    join_ocmq_data()
+  variable <- "ocmq"
+  results <- calculate_results(
+    joint_data = joint_data,
+    adsl_filtered_data = data_adsl,
+    variable = variable,
+    effect_measure = "RR",
+    adjustment = "FDR",
+    order_by = "p-value",
+    study_strat = "None",
+    alternative = "two.sided",
+    alpha = 0.05,
+    filter = "no_method",
+    frequency_measure = "incidence rates",
+    duration_mode = "start_end_date",
+    exposure_start_variable = "RANDDT",
+    exposure_end_variable = "EOSDT",
+    ae_start_variable = "ASTDT"
+  )
+  expect_gt(nrow(results), 0)
+  expect_gt(sum(!is.na(results[[variable]])), 0)
+
+  results_reordered <- results |>
+    reorder_levels(
+      variable = variable,
+      order_by = "p-value",
+      effect_measure = "RR",
+      adjustment = "FDR"
+    )
+  expect_gt(nrow(results_reordered), 0)
+  axis_var <- results_reordered$axis_var
+  expect_gt(sum(!is.na(axis_var)), 0)
+  expect_true("OVERALL" %in% axis_var)
+  axis_levels <- rev(levels(axis_var))
+  expect_equal(axis_levels[1], "OVERALL")
+
+  results_arranged <- results_reordered |>
+    arrange_data(
+      order_by = "p-value",
+      adjustment = "FDR",
+      effect_measure = "RR",
+      number_aes = 25
+    )
+  expect_gt(nrow(results_arranged), 0)
 })

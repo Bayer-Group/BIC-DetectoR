@@ -420,6 +420,13 @@ mod_filter_server <- function(id, r) {
         )
     }) |>
       shiny::bindEvent(filtered_data())
+    ## OCMQ ----
+    filtered_data_ocmq <- shiny::reactive({
+      shiny::req(filtered_data())
+      filtered_data() |>
+        join_ocmq_data()
+    }) |>
+      shiny::bindEvent(filtered_data())
     # List of active filters to show it on the UI ----
     filter_list <- shiny::eventReactive(
       c(input$go_filter_1, input$go_filter_2),
@@ -520,6 +527,9 @@ mod_filter_server <- function(id, r) {
       r$filtered_data_smq <- filtered_data_smq()
     })
     shiny::observe({
+      r$filtered_data_ocmq <- filtered_data_ocmq()
+    })
+    shiny::observe({
       r$filter_list_adae <- filter_list_adae()
     })
     shiny::observe({
@@ -580,6 +590,10 @@ mod_filter_server <- function(id, r) {
         paste(
           "filtered_data_smq colnames =",
           paste(colnames(r$filtered_data_smq), collapse = ", ")
+        ),
+        paste(
+          "filtered_data_ocmq colnames =",
+          paste(colnames(r$filtered_data_ocmq), collapse = ", ")
         ),
         sep = "\n"
       )
