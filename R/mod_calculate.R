@@ -51,7 +51,8 @@ mod_calculate_ui <- function(
           shiny::radioButtons(
             ns("include_overall"),
             "Include Overall",
-            choices = c("Yes" = TRUE, "No" = FALSE)
+            choices = c("Yes" = TRUE, "No" = FALSE),
+            selected = FALSE
           )
         },
         ## AE type filter ----

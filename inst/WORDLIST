@@ -38,6 +38,7 @@ MLGs
 MedDRA
 MedDRA’
 Mehrotra
+OCMQ
 PRL
 PTs
 README
@@ -81,6 +82,7 @@ linter
 lockfile
 meddra
 mlg
+ocmq
 pattime
 petit
 pickerInput

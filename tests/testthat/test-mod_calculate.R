@@ -633,7 +633,12 @@ testthat::test_that("Overall results are calculated", {
       effect_measure = effect_measure,
       adjustment = adjustment
     )
-  expect_equal(rev(levels(results_reordered$axis_var))[1], "OVERALL")
+  expect_gt(nrow(results_reordered), 0)
+  axis_var <- results_reordered$axis_var
+  expect_gt(sum(!is.na(axis_var)), 0)
+  expect_true("OVERALL" %in% axis_var)
+  axis_levels <- rev(levels(axis_var))
+  expect_equal(axis_levels[1], "OVERALL")
 
   # Reorder and filter number of categories
   results_arranged <- results_reordered |>
@@ -805,8 +810,11 @@ test_that("Data arrange works with incidence rates", {
       adjustment = "FDR"
     )
   expect_gt(nrow(results_reordered), 0)
-  expect_gt(sum(!is.na(results_reordered$axis_var)), 0)
-  expect_equal(rev(levels(results_reordered$axis_var))[1], "OVERALL")
+  axis_var <- results_reordered$axis_var
+  expect_gt(sum(!is.na(axis_var)), 0)
+  expect_true("OVERALL" %in% axis_var)
+  axis_levels <- rev(levels(axis_var))
+  expect_equal(axis_levels[1], "OVERALL")
 
   results_arranged <- results_reordered |>
     arrange_data(
