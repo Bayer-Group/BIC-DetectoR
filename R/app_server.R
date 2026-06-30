@@ -33,46 +33,18 @@ app_server <- function(input, output, session) {
   })
 
   # Conditionally show sidebar menu items ----
-  output$filter <- shinydashboard::renderMenu({
+  shiny::observeEvent(r$unfiltered_data, {
     shiny::req(r$unfiltered_data)
-    shinydashboard::menuItem(
-      "Filter data",
-      tabName = "filter",
-      icon = shiny::icon("filter")
-    )
+    bslib::nav_show("tabs", "filter")
   })
-  output$graph <- shinydashboard::renderMenu({
+  shiny::observeEvent(r$filtered_data, {
     shiny::req(r$filtered_data)
-    shinydashboard::menuItem(
-      "Double Dot Plot",
-      tabName = "graph",
-      icon = shiny::icon("list-alt")
-    )
+    bslib::nav_show("tabs", "graph")
+    bslib::nav_show("tabs", "heatmap")
+    bslib::nav_show("tabs", "volcano")
+    bslib::nav_show("tabs", "table")
   })
-  output$heatmap <- shinydashboard::renderMenu({
-    shiny::req(r$filtered_data)
-    shinydashboard::menuItem(
-      "Heatmap",
-      tabName = "heatmap",
-      icon = shiny::icon("th")
-    )
-  })
-  output$volcano <- shinydashboard::renderMenu({
-    shiny::req(r$filtered_data)
-    shinydashboard::menuItem(
-      "Volcano",
-      tabName = "volcano",
-      icon = shiny::icon("volcano")
-    )
-  })
-  output$table <- shinydashboard::renderMenu({
-    shiny::req(r$filtered_data)
-    shinydashboard::menuItem(
-      "View dataset",
-      tabName = "table",
-      icon = shiny::icon("table")
-    )
-  })
+
   # Call servers ----
   mod_welcome_server("welcome_1", r = r)
   mod_upload_server("upload_1", r = r)

@@ -6,51 +6,48 @@
 #'
 mod_upload_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::fluidPage(
+  bslib::layout_column_wrap(
+    width = 1 / 2,
     shiny::conditionalPanel(
       condition = "!output.upload_ready",
       ns = ns,
-      # Row: ADAE-ADSL files ----
-      shiny::wellPanel(
-        class = "upload",
+      bslib::card(
+        # ADAE-ADSL files ----
         ## Demo or files mode ----
-        flex_row(
-          shiny::radioButtons(
-            ns("mode"),
-            "Input mode:",
-            choices = c(
-              "Upload ADAM Files" = "sas",
-              "Demo Data" = "demo"
-            )
+        shiny::radioButtons(
+          ns("mode"),
+          "Input mode:",
+          choices = c(
+            "Upload ADAM Files" = "sas",
+            "Demo Data" = "demo"
           )
         ),
-        ## Upload ADAE and ADSL files----
         shiny::conditionalPanel(
+          ## Upload ADAE and ADSL files----
           condition = "input.mode == 'sas'",
           ns = ns,
-          class = "flex-row",
-          shiny::div(
-            shiny::fileInput(
-              ns("adae_file"),
-              "Adverse Event data (ADAE)",
-              accept = c(".sas7bdat", ".rds", ".csv")
-            ),
-            shiny::textOutput(ns("adae_missing")),
-            shiny::textOutput(ns("adae_check"))
+          shiny::fileInput(
+            ns("adae_file"),
+            "Adverse Event data (ADAE)",
+            accept = c(".sas7bdat", ".rds", ".csv")
           ),
-          shiny::div(
-            shiny::fileInput(
-              ns("adsl_file"),
-              "Subject-level  data  (ADSL)",
-              accept = c(".sas7bdat", ".rds", ".csv")
-            ),
-            shiny::textOutput(ns("adsl_missing")),
-            shiny::textOutput(ns("adsl_check"))
-          )
+          shiny::textOutput(ns("adae_missing")),
+          shiny::textOutput(ns("adae_check")),
+          shiny::fileInput(
+            ns("adsl_file"),
+            "Subject-level data (ADSL)",
+            accept = c(".sas7bdat", ".rds", ".csv")
+          ),
+          shiny::textOutput(ns("adsl_missing")),
+          shiny::textOutput(ns("adsl_check"))
         )
-      ),
+      )
+    ),
+    shiny::conditionalPanel(
+      condition = "!output.upload_ready",
+      ns = ns,
       # Row: MedDRA data ----
-      shiny::wellPanel(
+      bslib::card(
         class = "upload",
         ## Run with or without MedDRA ----
         flex_row(
@@ -94,8 +91,12 @@ mod_upload_ui <- function(id) {
             )
           )
         )
-      ),
-      # Confirm data upload button ----
+      )
+    ),
+    # Confirm data upload button ----
+    shiny::conditionalPanel(
+      condition = "!output.upload_ready",
+      ns = ns,
       shiny::actionButton(
         ns("confirm_upload"),
         "Confirm upload",
@@ -110,7 +111,7 @@ mod_upload_ui <- function(id) {
       ns = ns,
       # First column: safety population and treatment arms ----
       col_6(
-        shiny::wellPanel(
+        bslib::card(
           class = "upload",
           ## Select safety flag variable ----
           flex_row(
@@ -186,7 +187,7 @@ mod_upload_ui <- function(id) {
       ),
       # Second column: variable mapping ----
       col_6(
-        shiny::wellPanel(
+        bslib::card(
           # AE-related variables ----
           ## Select treatment-emergent flag variable ----
           flex_row(
