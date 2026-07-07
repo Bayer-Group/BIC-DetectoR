@@ -12,7 +12,6 @@ app_ui <- function(request) {
         shiny::div(class = "detector-logo-sidebar"),
         "DetectoR"
       ),
-      fillable = FALSE,
       bslib::nav_item(
         paste0("Version: ", utils::packageVersion("DetectoR"))
       ),
