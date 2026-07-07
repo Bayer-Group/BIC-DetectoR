@@ -8,88 +8,59 @@
 
 mod_filter_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::tagList(
-    # shiny::verbatimTextOutput(ns("debug")), # uncomment to show debug prints
-    shiny::fluidRow(
-      # Add/remove filter buttons ----
-      shiny::fluidRow(
-        col_5(),
-        col_2(
-          shiny::actionButton(
-            ns("remove_filter"),
-            "Remove all filters",
-            icon = shiny::icon("remove"),
-            width = "100%",
-            class = "button-error"
-          )
+  bslib::page_fillable(
+    bslib::layout_sidebar(
+      # shiny::verbatimTextOutput(ns("debug")), # uncomment to show debug prints
+      sidebar = bslib::sidebar(
+        # Add/remove filter buttons ----
+        shiny::actionButton(
+          ns("remove_filter"),
+          "Remove all filters",
+          icon = shiny::icon("remove"),
+          width = "100%",
+          class = "button-error"
         ),
-        col_5()
-      ),
-      shiny::br(),
-      # Select ADAE filters ----
-      col_6(
-        shiny::wellPanel(
-          shinyWidgets::pickerInput(
-            ns("picker_filter_adae"),
-            "Select filter variable(s) for ADAE data set",
-            choices = NULL,
-            multiple = TRUE,
-            options = picker_input_options()
-          )
-        )
-      ),
-      # Select ADSL filters ----
-      col_6(
-        shiny::wellPanel(
-          shinyWidgets::pickerInput(
-            ns("picker_filter_adsl"),
-            "Select filter variable(s) for ADSL data set",
-            choices = NULL,
-            multiple = TRUE,
-            options = picker_input_options()
-          )
-        )
-      )
-    ),
-    # Filter data buttons ----
-    shiny::br(),
-    shiny::fluidRow(
-      col_5(),
-      col_2(
+        shiny::br(),
+        # Select ADAE filters ----
+        shinyWidgets::pickerInput(
+          ns("picker_filter_adae"),
+          "Select filter variable(s) for ADAE data set",
+          choices = NULL,
+          multiple = TRUE,
+          options = picker_input_options()
+        ),
+        # Select ADSL filters ----
+        shinyWidgets::pickerInput(
+          ns("picker_filter_adsl"),
+          "Select filter variable(s) for ADSL data set",
+          choices = NULL,
+          multiple = TRUE,
+          options = picker_input_options()
+        ),
+        # Filter data buttons ----
         shiny::actionButton(
           ns("go_filter_1"),
           "Filter data!",
           icon = shiny::icon("filter"),
           width = "100%"
-        )
-      ),
-      col_5()
-    ),
-    shiny::br(),
-    col_12(
-      shiny::div(shiny::textOutput(ns("no_filters")), class = "align-center"),
-    ),
-    shiny::br(),
-    # Show filters ----
-    shiny::conditionalPanel(
-      condition = "!output.no_filters",
-      ns = ns,
-      # fillPage and fillRow needed to add buttons horizontally
-      shiny::fillPage(
-        shiny::fillRow(
-          # Placeholder where filter buttons will be added
-          id = "placeholder"
-        )
-      ),
-      shiny::br()
-    ),
-    # Filter data buttons ----
-    shiny::conditionalPanel(
-      condition = "!output.no_filters",
-      ns = ns,
-      shiny::fluidRow(
-        col_5(),
-        col_2(
+        ),
+        shiny::div(shiny::textOutput(ns("no_filters")), class = "align-center"),
+        # Show filters ----
+        shiny::conditionalPanel(
+          condition = "!output.no_filters",
+          ns = ns,
+          # fillPage and fillRow needed to add buttons horizontally
+          shiny::fillPage(
+            shiny::fillRow(
+              # Placeholder where filter buttons will be added
+              id = "placeholder"
+            )
+          )
+        ),
+        # Filter data buttons ----
+        shiny::conditionalPanel(
+          condition = "!output.no_filters",
+          ns = ns,
           shiny::actionButton(
             ns("go_filter_2"),
             "Filter data!",
@@ -97,24 +68,30 @@ mod_filter_ui <- function(id) {
             width = "100%"
           )
         ),
-        col_5()
+        # Show filter list ----
+        bslib::accordion(
+          bslib::accordion_panel(
+            "Active filters",
+            icon = shiny::icon("filter"),
+            shiny::textOutput(ns("filter_list_adae")),
+            shiny::textOutput(ns("filter_list_adsl"))
+          )
+        ),
+        # Button to go to next page ("graph") ----
+        shiny::actionButton(
+          ns("next_graph"),
+          "Next page",
+          icon = shiny::icon("arrow-right"),
+          class = "btn-lg align-right"
+        ),
+        # Show dataset info ----
+        bslib::accordion(
+          bslib::accordion_panel(
+            "Dataset information",
+            mod_info_ui("info_filter")
+          )
+        )
       )
-    ),
-    shiny::br(),
-    # Show dataset info ----
-    shiny::fluidRow(mod_info_ui("info_filter")),
-    # Show filter list ----
-    shiny::wellPanel(
-      shiny::span(shiny::icon("filter"), "Filters applied:"),
-      shiny::textOutput(ns("filter_list_adae")),
-      shiny::textOutput(ns("filter_list_adsl"))
-    ),
-    # Button to go to next page ("graph") ----
-    shiny::actionButton(
-      ns("next_graph"),
-      "Next page",
-      icon = shiny::icon("arrow-right"),
-      class = "btn-lg align-right"
     )
   )
 }
