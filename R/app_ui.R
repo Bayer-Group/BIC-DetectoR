@@ -12,6 +12,16 @@ app_ui <- function(request) {
         shiny::div(class = "detector-logo-sidebar"),
         "DetectoR"
       ),
+      sidebar = bslib::sidebar(
+        shiny::conditionalPanel(
+          condition = "input.tabs === 'filter'",
+          mod_filter_ui("filter_1")
+        ),
+        shiny::conditionalPanel(
+          condition = "input.tabs === 'welcome'",
+          "Welcome Sidebar"
+        )
+      ),
       bslib::nav_item(
         paste0("Version: ", utils::packageVersion("DetectoR"))
       ),
@@ -32,13 +42,18 @@ app_ui <- function(request) {
         "Filter",
         value = "filter",
         icon = shiny::icon("filter"),
-        mod_filter_ui("filter_1")
+        bslib::layout_sidebar(
+          sidebar = mod_filter_ui("filter_1")
+        )
       ),
       bslib::nav_panel_hidden(
         "Double Dot Plot",
         value = "graph",
         icon = shiny::icon("list-alt"),
-        mod_graph_ui("graph_1")
+        bslib::layout_sidebar(
+          sidebar = mod_filter_ui("filter_2"),
+          mod_graph_ui("graph_1")
+        )
       ),
       bslib::nav_panel_hidden(
         "Heatmap",

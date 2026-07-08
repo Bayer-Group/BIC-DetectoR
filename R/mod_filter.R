@@ -9,18 +9,11 @@
 mod_filter_ui <- function(id) {
   ns <- shiny::NS(id)
   bslib::page_fillable(
-    bslib::layout_sidebar(
-      # shiny::verbatimTextOutput(ns("debug")), # uncomment to show debug prints
-      sidebar = bslib::sidebar(
-        # Add/remove filter buttons ----
-        shiny::actionButton(
-          ns("remove_filter"),
-          "Remove all filters",
-          icon = shiny::icon("remove"),
-          width = "100%",
-          class = "button-error"
-        ),
-        shiny::br(),
+    shiny::verbatimTextOutput(ns("debug")), # uncomment to show debug prints
+    bslib::accordion(
+      bslib::accordion_panel(
+        "Add or remove filters",
+        icon = shiny::icon("filter"),
         # Select ADAE filters ----
         shinyWidgets::pickerInput(
           ns("picker_filter_adae"),
@@ -37,60 +30,38 @@ mod_filter_ui <- function(id) {
           multiple = TRUE,
           options = picker_input_options()
         ),
+        # Remove filter button ----
+        shiny::actionButton(
+          ns("remove_filter"),
+          "Remove all filters",
+          icon = shiny::icon("remove"),
+          width = "100%",
+          class = "button-error"
+        ),
+        shiny::br(),
+        # Show filters ----
+        shiny::textOutput(ns("no_filters")),
+        shiny::conditionalPanel(
+          condition = "!output.no_filters",
+          ns = ns,
+          # Placeholder where filter buttons will be added
+          id = "placeholder"
+        ),
         # Filter data buttons ----
         shiny::actionButton(
           ns("go_filter_1"),
           "Filter data!",
           icon = shiny::icon("filter"),
           width = "100%"
-        ),
-        shiny::div(shiny::textOutput(ns("no_filters")), class = "align-center"),
-        # Show filters ----
-        shiny::conditionalPanel(
-          condition = "!output.no_filters",
-          ns = ns,
-          # fillPage and fillRow needed to add buttons horizontally
-          shiny::fillPage(
-            shiny::fillRow(
-              # Placeholder where filter buttons will be added
-              id = "placeholder"
-            )
-          )
-        ),
-        # Filter data buttons ----
-        shiny::conditionalPanel(
-          condition = "!output.no_filters",
-          ns = ns,
-          shiny::actionButton(
-            ns("go_filter_2"),
-            "Filter data!",
-            icon = shiny::icon("filter"),
-            width = "100%"
-          )
-        ),
-        # Show filter list ----
-        bslib::accordion(
-          bslib::accordion_panel(
-            "Active filters",
-            icon = shiny::icon("filter"),
-            shiny::textOutput(ns("filter_list_adae")),
-            shiny::textOutput(ns("filter_list_adsl"))
-          )
-        ),
-        # Button to go to next page ("graph") ----
-        shiny::actionButton(
-          ns("next_graph"),
-          "Next page",
-          icon = shiny::icon("arrow-right"),
-          class = "btn-lg align-right"
-        ),
-        # Show dataset info ----
-        bslib::accordion(
-          bslib::accordion_panel(
-            "Dataset information",
-            mod_info_ui("info_filter")
-          )
         )
+      )
+    ),
+    # Show dataset info ----
+    bslib::accordion(
+      bslib::accordion_panel(
+        "Dataset information",
+        icon = shiny::icon("info"),
+        mod_info_ui(paste0(id, "_info"))
       )
     )
   )
