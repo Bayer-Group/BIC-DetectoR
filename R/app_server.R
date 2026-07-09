@@ -33,6 +33,12 @@ app_server <- function(input, output, session) {
   })
 
   # Conditionally show sidebar menu items ----
+  bslib::nav_hide("tabs", "filter")
+  bslib::nav_hide("tabs", "graph")
+  bslib::nav_hide("tabs", "heatmap")
+  bslib::nav_hide("tabs", "volcano")
+  bslib::nav_hide("tabs", "table")
+
   shiny::observeEvent(r$unfiltered_data, {
     shiny::req(r$unfiltered_data)
     bslib::nav_show("tabs", "filter")

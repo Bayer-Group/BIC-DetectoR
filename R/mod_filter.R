@@ -8,61 +8,52 @@
 
 mod_filter_ui <- function(id) {
   ns <- shiny::NS(id)
-  bslib::page_fillable(
-    shiny::verbatimTextOutput(ns("debug")), # uncomment to show debug prints
-    bslib::accordion(
-      bslib::accordion_panel(
-        "Add or remove filters",
-        icon = shiny::icon("filter"),
-        # Select ADAE filters ----
-        shinyWidgets::pickerInput(
-          ns("picker_filter_adae"),
-          "Select filter variable(s) for ADAE data set",
-          choices = NULL,
-          multiple = TRUE,
-          options = picker_input_options()
-        ),
-        # Select ADSL filters ----
-        shinyWidgets::pickerInput(
-          ns("picker_filter_adsl"),
-          "Select filter variable(s) for ADSL data set",
-          choices = NULL,
-          multiple = TRUE,
-          options = picker_input_options()
-        ),
-        # Remove filter button ----
-        shiny::actionButton(
-          ns("remove_filter"),
-          "Remove all filters",
-          icon = shiny::icon("remove"),
-          width = "100%",
-          class = "button-error"
-        ),
-        shiny::br(),
-        # Show filters ----
-        shiny::textOutput(ns("no_filters")),
-        shiny::conditionalPanel(
-          condition = "!output.no_filters",
-          ns = ns,
-          # Placeholder where filter buttons will be added
-          id = "placeholder"
-        ),
-        # Filter data buttons ----
-        shiny::actionButton(
-          ns("go_filter_1"),
-          "Filter data!",
-          icon = shiny::icon("filter"),
-          width = "100%"
-        )
-      )
+  # shiny::verbatimTextOutput(ns("debug")), # uncomment to show debug prints
+  bslib::accordion_panel(
+    "Filter Data",
+    icon = shiny::icon("filter"),
+    shiny::strong("Add or remove filters"),
+    # Select ADAE filters ----
+    shinyWidgets::pickerInput(
+      ns("picker_filter_adae"),
+      "Select filter variable(s) for ADAE data set",
+      choices = NULL,
+      multiple = TRUE,
+      options = picker_input_options()
     ),
-    # Show dataset info ----
-    bslib::accordion(
-      bslib::accordion_panel(
-        "Dataset information",
-        icon = shiny::icon("info"),
-        mod_info_ui(paste0(id, "_info"))
-      )
+    # Select ADSL filters ----
+    shinyWidgets::pickerInput(
+      ns("picker_filter_adsl"),
+      "Select filter variable(s) for ADSL data set",
+      choices = NULL,
+      multiple = TRUE,
+      options = picker_input_options()
+    ),
+    # Remove filter button ----
+    shiny::actionButton(
+      ns("remove_filter"),
+      "Remove all filters",
+      icon = shiny::icon("remove"),
+      width = "100%",
+      class = "button-error"
+    ),
+    shiny::hr(),
+    # Show filters ----
+    shiny::strong("Selected filters"),
+    shiny::textOutput(ns("no_filters")),
+    shiny::conditionalPanel(
+      condition = "!output.no_filters",
+      ns = ns,
+      # Placeholder where filter buttons will be added
+      id = "placeholder"
+    ),
+    shiny::hr(),
+    # Filter data buttons ----
+    shiny::actionButton(
+      ns("go_filter_1"),
+      "Filter data!",
+      icon = shiny::icon("filter"),
+      width = "100%"
     )
   )
 }

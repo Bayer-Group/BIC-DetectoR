@@ -12,95 +12,92 @@ mod_upload_ui <- function(id) {
       condition = "!output.upload_ready",
       ns = ns,
       ## File selection ----
-      bslib::layout_columns(
-        col_widths = c(6, 6),
-        # ADAE-ADSL files ----
-        bslib::card(
-          fill = FALSE,
-          ## Demo or files mode ----
-          shiny::radioButtons(
-            ns("mode"),
-            "Input mode:",
-            choices = c(
-              "Upload ADAM Files" = "sas",
-              "Demo Data" = "demo"
-            )
-          ),
-          shiny::conditionalPanel(
-            ## Upload ADAE and ADSL files----
-            condition = "input.mode == 'sas'",
-            ns = ns,
-            bslib::layout_columns(
-              col_widths = c(6, 6),
-              ### ADAE ----
-              shiny::div(
-                shiny::fileInput(
-                  ns("adae_file"),
-                  "Adverse Event data (ADAE)",
-                  accept = c(".sas7bdat", ".rds", ".csv")
-                ),
-                shiny::textOutput(ns("adae_missing")),
-                shiny::textOutput(ns("adae_check"))
+      # ADAE-ADSL files ----
+      bslib::card(
+        fill = FALSE,
+        ## Demo or files mode ----
+        shiny::radioButtons(
+          ns("mode"),
+          "Input mode:",
+          choices = c(
+            "Upload ADAM Files" = "sas",
+            "Demo Data" = "demo"
+          )
+        ),
+        shiny::conditionalPanel(
+          ## Upload ADAE and ADSL files----
+          condition = "input.mode == 'sas'",
+          ns = ns,
+          bslib::layout_columns(
+            col_widths = c(6, 6),
+            ### ADAE ----
+            shiny::div(
+              shiny::fileInput(
+                ns("adae_file"),
+                "Adverse Event data (ADAE)",
+                accept = c(".sas7bdat", ".rds", ".csv")
               ),
-              ### ADSL ---
-              shiny::div(
-                shiny::fileInput(
-                  ns("adsl_file"),
-                  "Subject-level data (ADSL)",
-                  accept = c(".sas7bdat", ".rds", ".csv")
-                ),
-                shiny::textOutput(ns("adsl_missing")),
-                shiny::textOutput(ns("adsl_check"))
-              )
+              shiny::textOutput(ns("adae_missing")),
+              shiny::textOutput(ns("adae_check"))
+            ),
+            ### ADSL ---
+            shiny::div(
+              shiny::fileInput(
+                ns("adsl_file"),
+                "Subject-level data (ADSL)",
+                accept = c(".sas7bdat", ".rds", ".csv")
+              ),
+              shiny::textOutput(ns("adsl_missing")),
+              shiny::textOutput(ns("adsl_check"))
+            )
+          )
+        )
+      ),
+      ## Run with or without MedDRA ----
+      bslib::card(
+        fill = FALSE,
+        flex_row(
+          shiny::radioButtons(
+            ns("meddra_mode"),
+            "Choose MedDRA mode:",
+            choices = c(
+              "Upload MedDRA data" = "with_meddra",
+              "Run without MedDRA" = "without_meddra"
             )
           )
         ),
-        ## Run with or without MedDRA ----
-        bslib::card(
-          fill = FALSE,
-          flex_row(
-            shiny::radioButtons(
-              ns("meddra_mode"),
-              "Choose MedDRA mode:",
-              choices = c(
-                "Upload MedDRA data" = "with_meddra",
-                "Run without MedDRA" = "without_meddra"
-              )
-            )
-          ),
-          ## Upload MedDRA files and select MedDRA version ----
-          shiny::conditionalPanel(
-            condition = "input.meddra_mode == 'with_meddra'",
-            ns = ns,
-            bslib::layout_columns(
-              col_widths = c(4, 4, 4),
-              ### MedDRA file ----
-              shiny::div(
-                shiny::fileInput(
-                  ns("meddra_file"),
-                  label = "Upload MedDRA file",
-                  accept = c(".sas7bdat", ".rds", ".rdta", ".csv")
-                ),
-                shiny::textOutput(ns("meddra_missing")),
-                shiny::textOutput(ns("meddra_check"))
+        ## Upload MedDRA files and select MedDRA version ----
+        shiny::conditionalPanel(
+          condition = "input.meddra_mode == 'with_meddra'",
+          ns = ns,
+          bslib::layout_columns(
+            col_widths = c(4, 4, 4),
+            ### MedDRA file ----
+            shiny::div(
+              shiny::fileInput(
+                ns("meddra_file"),
+                label = "Upload MedDRA file",
+                accept = c(".sas7bdat", ".rds", ".rdta", ".csv")
               ),
-              ### MedDRA SMQ file ----
-              shiny::div(
-                shiny::fileInput(
-                  ns("smq_file"),
-                  label = "Upload MedDRA SMQ view file",
-                  accept = c(".sas7bdat", ".rds", ".rdta", ".csv")
-                ),
-                shiny::textOutput(ns("smq_missing")),
-                shiny::textOutput(ns("smq_check"))
+              shiny::textOutput(ns("meddra_missing")),
+              shiny::textOutput(ns("meddra_check"))
+            ),
+            ### MedDRA SMQ file ----
+            shiny::div(
+              shiny::fileInput(
+                ns("smq_file"),
+                label = "Upload MedDRA SMQ view file",
+                accept = c(".sas7bdat", ".rds", ".rdta", ".csv")
               ),
-              ### MedDRA version ----
-              shiny::div(
-                shiny::selectInput(
-                  ns("meddra_version"),
-                  label = "Select MedDRA version",
-                  choices = c("Please upload MedDRA file" = "")
-                )
+              shiny::textOutput(ns("smq_missing")),
+              shiny::textOutput(ns("smq_check"))
+            ),
+            ### MedDRA version ----
+            shiny::div(
+              shiny::selectInput(
+                ns("meddra_version"),
+                label = "Select MedDRA version",
+                choices = c("Please upload MedDRA file" = "")
               )
             )
           )
@@ -133,7 +130,7 @@ mod_upload_ui <- function(id) {
           fill = FALSE,
           ## Select safety flag variable ----
           bslib::layout_columns(
-            col_widths = c(6, 6),
+            col_widths = c(8, 4),
             # Left: safety variable
             shiny::selectInput(
               ns("safety_flag_variable"),
@@ -191,7 +188,7 @@ mod_upload_ui <- function(id) {
         # Second column: variable mapping ----
         bslib::card(
           bslib::layout_columns(
-            col_widths = c(6, 6),
+            col_widths = c(8, 4),
             # AE-related variables ----
             ## Select treatment-emergent flag variable ----
             shiny::selectInput(
@@ -309,14 +306,9 @@ mod_upload_ui <- function(id) {
         condition = "output.select_ready",
         ns = ns,
         # Buttons to go to next pages ----
+        # Show dataset info ----
         bslib::layout_columns(
-          col_widths = c(4, 4, 4),
-          shiny::actionButton(
-            ns("next_filter"),
-            "Go to Filter",
-            icon = shiny::icon("filter"),
-            class = "btn-lg"
-          ),
+          col_widths = c(-3, 3, 3, -3),
           shiny::actionButton(
             ns("next_double_dot"),
             "Go to Double Dot Plot",
@@ -329,10 +321,6 @@ mod_upload_ui <- function(id) {
             icon = shiny::icon("th"),
             class = "btn-lg"
           )
-        ),
-        bslib::card(
-          # Show dataset info ----
-          mod_info_ui("info_upload")
         )
       )
     )

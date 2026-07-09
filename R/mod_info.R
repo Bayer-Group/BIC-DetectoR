@@ -8,38 +8,16 @@
 #'
 mod_info_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::tagList(
-    # Dataset Information ----
-    shiny::div(
-      class = "upload-middle",
-      shiny::wellPanel(
-        detector_pretty_toggle(
-          id = ns("show_dataset_info"),
-          label = "Dataset Information",
-          icon = "info-circle"
-        ),
-        shiny::conditionalPanel(
-          condition = "input.show_dataset_info",
-          ns = ns,
-          shiny::uiOutput(ns("dataset_info"))
-        )
-      )
+  bslib::accordion_panel(
+    "Dataset Information",
+    icon = shiny::icon("info-circle"),
+    bslib::card(
+      bslib::card_header(shiny::icon("user"), "Subject Info"),
+      shiny::uiOutput(ns("dataset_info"))
     ),
-    # Study Sites information ----
-    shiny::div(
-      class = "upload-middle",
-      shiny::wellPanel(
-        detector_pretty_toggle(
-          id = ns("show_sites_info"),
-          label = "Study Sites Information",
-          icon = "university"
-        ),
-        shiny::conditionalPanel(
-          condition = "input.show_sites_info",
-          ns = ns,
-          shiny::textOutput(ns("sites_info"))
-        )
-      )
+    bslib::card(
+      bslib::card_header(shiny::icon("university"), "Study Info"),
+      shiny::textOutput(ns("sites_info"))
     )
   )
 }
@@ -66,7 +44,10 @@ mod_info_server <- function(id, r) {
         )
       }
     )
-    output$dataset_info <- shiny::renderUI(dataset_info()) |>
+    output$dataset_info <- shiny::renderUI({
+      validate_need(r$filtered_data, "No data to show!")
+      dataset_info()
+    }) |>
       shiny::bindEvent(r$unfiltered_data, r$filtered_data)
     ## Study site information ----
     sites_info <- shiny::eventReactive(c(r$unfiltered_data, r$filtered_data), {
@@ -97,7 +78,10 @@ mod_info_server <- function(id, r) {
         )
       )
     })
-    output$sites_info <- shiny::renderText(sites_info()) |>
+    output$sites_info <- shiny::renderText({
+      validate_need(r$filtered_data, "No data to show!")
+      sites_info()
+    }) |>
       shiny::bindEvent(r$unfiltered_data, r$filtered_data)
   })
 }
