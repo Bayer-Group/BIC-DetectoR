@@ -50,7 +50,7 @@ mod_filter_ui <- function(id) {
     shiny::hr(),
     # Filter data buttons ----
     shiny::actionButton(
-      ns("go_filter_1"),
+      ns("go_filter"),
       "Filter data!",
       icon = shiny::icon("filter"),
       width = "100%"
@@ -240,7 +240,7 @@ mod_filter_server <- function(id, r) {
     })
     # Filter ADAE data ----
     adae_filtered <- shiny::eventReactive(
-      c(input$go_filter_1, input$go_filter_2, r$adae_data),
+      c(input$go_filter, r$adae_data),
       ignoreNULL = FALSE,
       {
         shiny::req(r$adae_data)
@@ -280,7 +280,7 @@ mod_filter_server <- function(id, r) {
     )
     # Filter ADSL data ----
     adsl_filtered <- shiny::eventReactive(
-      c(input$go_filter_1, input$go_filter_2, r$adsl_data),
+      c(input$go_filter, r$adsl_data),
       ignoreNULL = FALSE,
       {
         shiny::req(r$adsl_data)
@@ -368,13 +368,13 @@ mod_filter_server <- function(id, r) {
       shiny::bindEvent(filtered_data())
     # List of active filters to show it on the UI ----
     filter_list <- shiny::eventReactive(
-      c(input$go_filter_1, input$go_filter_2),
+      input$go_filter,
       ignoreNULL = FALSE,
       {
         # One separate list for ADAE and ADSl filters
         filter_list <- list(adae = c(), adsl = c())
         # Starting value is NULL, to show "None" on the UI
-        if (all(c(input$go_filter_1, input$go_filter_2) == 0)) {
+        if (input$go_filter == 0) {
           filter_list$adsl <- NULL
           filter_list$adae <- NULL
         } else {
@@ -479,6 +479,9 @@ mod_filter_server <- function(id, r) {
     })
     shiny::observe({
       r$adsl_filtered <- adsl_filtered()
+    })
+    shiny::observe({
+      r$go_filter <- input$go_filter
     })
     # Debug ----
     output$debug <- shiny::renderPrint({

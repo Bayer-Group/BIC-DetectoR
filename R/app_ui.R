@@ -14,14 +14,21 @@ app_ui <- function(request) {
       ),
       # Sidebar ----
       sidebar = bslib::sidebar(
+        id = "sidebar_page",
+        open = FALSE,
         width = "30%",
         bslib::accordion(
           open = TRUE,
           # Plot display options
           shiny::conditionalPanel(
+            "input.tabs == 'welcome'",
+            "Upload data to get started!"
+          ),
+          # Plot display options
+          shiny::conditionalPanel(
             "input.tabs == 'graph'",
             mod_calculate_ui(
-              "calculate_double_dot",
+              "calculate_dot",
               calculate_mode = "double_dot"
             )
           ),
@@ -52,9 +59,10 @@ app_ui <- function(request) {
               input.tabs == 'heatmap' ||
               input.tabs == 'volcano' ||
               input.tabs =='table'",
-            mod_filter_ui("filter_sidebar")
+            mod_filter_ui("filter_sidebar"),
+            mod_active_filters_ui("filters_sidebar")
           ),
-          # Dataset info 
+          # Dataset info
           shiny::conditionalPanel(
             "input.tabs != 'welcome'",
             mod_info_ui("info_sidebar")
@@ -83,26 +91,28 @@ app_ui <- function(request) {
         value = "graph",
         icon = shiny::icon("list-alt"),
         mod_graph_ui("graph_1"),
-        mod_active_filters_ui("active_filters_double_dot")
+        mod_active_filters_ui("filters_dot")
       ),
       bslib::nav_panel(
         "Heatmap",
         value = "heatmap",
         icon = shiny::icon("th"),
         mod_heatmap_ui("heatmap_1"),
-        mod_active_filters_ui("active_filters_heatmap")
+        mod_active_filters_ui("filters_heatmap")
       ),
       bslib::nav_panel(
         "Volcano Plot",
         value = "volcano",
         icon = shiny::icon("volcano"),
-        mod_volcano_ui("volcano_1")
+        mod_volcano_ui("volcano_1"),
+        mod_active_filters_ui("filters_volcano")
       ),
       bslib::nav_panel(
         "Table",
         value = "table",
         icon = shiny::icon("table"),
-        mod_table_ui("table_1")
+        mod_table_ui("table_1"),
+        mod_active_filters_ui("filters_table")
       ),
       bslib::nav_spacer(),
       bslib::nav_panel(

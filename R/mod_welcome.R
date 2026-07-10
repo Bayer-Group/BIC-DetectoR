@@ -22,10 +22,6 @@ mod_welcome_ui <- function(id) {
     ),
     shiny::h2("Help and documentation"),
     shiny::p(
-      "To open the sidebar, please click on this button on top: ",
-      shiny::HTML('<i class="fa fa-bars" aria-hidden="true"></i>')
-    ),
-    shiny::p(
       "You can find information about the data requirements in the 'Data
              Manual' tab on the sidebar."
     ),
