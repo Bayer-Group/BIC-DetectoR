@@ -17,6 +17,7 @@ app_ui <- function(request) {
         width = "30%",
         bslib::accordion(
           open = TRUE,
+          # Plot display options
           shiny::conditionalPanel(
             "input.tabs == 'graph'",
             mod_calculate_ui(
@@ -45,6 +46,7 @@ app_ui <- function(request) {
               calculate_mode = "table"
             )
           ),
+          # Data filters
           shiny::conditionalPanel(
             "input.tabs == 'graph' ||
               input.tabs == 'heatmap' ||
@@ -52,6 +54,7 @@ app_ui <- function(request) {
               input.tabs =='table'",
             mod_filter_ui("filter_sidebar")
           ),
+          # Dataset info 
           shiny::conditionalPanel(
             "input.tabs != 'welcome'",
             mod_info_ui("info_sidebar")
@@ -86,7 +89,8 @@ app_ui <- function(request) {
         "Heatmap",
         value = "heatmap",
         icon = shiny::icon("th"),
-        mod_heatmap_ui("heatmap_1")
+        mod_heatmap_ui("heatmap_1"),
+        mod_active_filters_ui("active_filters_heatmap")
       ),
       bslib::nav_panel(
         "Volcano Plot",

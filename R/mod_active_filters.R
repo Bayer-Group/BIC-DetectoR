@@ -20,13 +20,13 @@ mod_active_filters_ui <- function(id) {
 
 #' info Server Functions
 #' @inheritParams mod_upload_server
-#' @param trigger Button to trigger the update of info (e.g., r$go_double_dot)
+#' @param trigger Button to trigger the update of info (e.g., "go_double_dot")
 #' @noRd
 mod_active_filters_server <- function(id, r, trigger) {
   shiny::moduleServer(id, function(input, output, session) {
     # Button trigger
     go <- shiny::reactive({
-      trigger
+      r[[trigger]]
     })
     # Filters applied
     output$filter_list_adae <- shiny::renderText({

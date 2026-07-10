@@ -76,7 +76,12 @@ app_server <- function(input, output, session) {
   mod_active_filters_server(
     "active_filters_double_dot",
     r = r,
-    trigger = r$go_double_dot
+    trigger = "go_double_dot"
+  )
+  mod_active_filters_server(
+    "active_filters_double_dot",
+    r = r,
+    trigger = "go_heatmap"
   )
   # Help modules
   mod_about_server("help_1")
