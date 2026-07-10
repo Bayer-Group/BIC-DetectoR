@@ -12,6 +12,53 @@ app_ui <- function(request) {
         shiny::div(class = "detector-logo-sidebar"),
         "DetectoR"
       ),
+      # Sidebar ----
+      sidebar = bslib::sidebar(
+        width = "30%",
+        bslib::accordion(
+          open = TRUE,
+          shiny::conditionalPanel(
+            "input.tabs == 'graph'",
+            mod_calculate_ui(
+              "calculate_double_dot",
+              calculate_mode = "double_dot"
+            )
+          ),
+          shiny::conditionalPanel(
+            "input.tabs == 'heatmap'",
+            mod_calculate_ui(
+              "calculate_heatmap",
+              calculate_mode = "heatmap"
+            )
+          ),
+          shiny::conditionalPanel(
+            "input.tabs == 'volcano'",
+            mod_calculate_ui(
+              "calculate_volcano",
+              calculate_mode = "volcano"
+            )
+          ),
+          shiny::conditionalPanel(
+            "input.tabs == 'table'",
+            mod_calculate_ui(
+              "calculate_table",
+              calculate_mode = "table"
+            )
+          ),
+          shiny::conditionalPanel(
+            "input.tabs == 'graph' ||
+              input.tabs == 'heatmap' ||
+              input.tabs == 'volcano' ||
+              input.tabs =='table'",
+            mod_filter_ui("filter_sidebar")
+          ),
+          shiny::conditionalPanel(
+            "input.tabs != 'welcome'",
+            mod_info_ui("info_sidebar")
+          )
+        )
+      ),
+      # Navigation bar ----
       bslib::nav_item(
         paste0("Version: ", utils::packageVersion("DetectoR"))
       ),
@@ -26,30 +73,14 @@ app_ui <- function(request) {
         "Upload",
         value = "upload",
         icon = shiny::icon("upload"),
-        bslib::layout_sidebar(
-          sidebar = bslib::sidebar(
-            width = "30%",
-            bslib::accordion(
-              mod_info_ui("info_upload")
-            )
-          ),
-          mod_upload_ui("upload_1")
-        )
+        mod_upload_ui("upload_1")
       ),
       bslib::nav_panel(
         "Double Dot Plot",
         value = "graph",
         icon = shiny::icon("list-alt"),
-        bslib::layout_sidebar(
-          sidebar = bslib::sidebar(
-            width = "30%",
-            bslib::accordion(
-              mod_filter_ui("filter_1"),
-              mod_info_ui("info_filter")
-            )
-          ),
-          mod_graph_ui("graph_1")
-        )
+        mod_graph_ui("graph_1"),
+        mod_active_filters_ui("active_filters_double_dot")
       ),
       bslib::nav_panel(
         "Heatmap",

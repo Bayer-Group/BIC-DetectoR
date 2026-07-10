@@ -54,9 +54,11 @@ app_server <- function(input, output, session) {
   # Call servers ----
   mod_welcome_server("welcome_1", r = r)
   mod_upload_server("upload_1", r = r)
-  mod_info_server("info_upload", r = r)
-  mod_info_server("info_filter", r = r)
-  mod_filter_server("filter_1", r = r)
+  # Info modules
+  mod_info_server("info_sidebar", r = r)
+  # Filter modules
+  mod_filter_server("filter_sidebar", r = r)
+  # Calculate modules
   mod_calculate_server(
     "calculate_double_dot",
     r = r,
@@ -65,10 +67,18 @@ app_server <- function(input, output, session) {
   mod_calculate_server("calculate_heatmap", r = r, calculate_mode = "heatmap")
   mod_calculate_server("calculate_volcano", r = r, calculate_mode = "volcano")
   mod_calculate_server("calculate_table", r = r, calculate_mode = "table")
+  # Plot modules
   mod_graph_server("graph_1", r = r)
   mod_heatmap_server("heatmap_1", r = r)
   mod_volcano_server("volcano_1", r = r)
   mod_table_server("table_1", r = r)
+  # Active filters modules
+  mod_active_filters_server(
+    "active_filters_double_dot",
+    r = r,
+    trigger = r$go_double_dot
+  )
+  # Help modules
   mod_about_server("help_1")
   mod_manual_server("manual_1")
 }

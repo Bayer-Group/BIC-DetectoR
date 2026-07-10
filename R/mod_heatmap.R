@@ -5,7 +5,6 @@
 mod_heatmap_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    mod_calculate_ui("calculate_heatmap", calculate_mode = "heatmap"),
     ## Display heatmap ----
     shinycssloaders::withSpinner(
       plotly::plotlyOutput(ns("heatmap_plot"), height = 600),
