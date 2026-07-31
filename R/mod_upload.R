@@ -115,7 +115,7 @@ mod_upload_ui <- function(id) {
           "Confirm upload",
           icon = shiny::icon("check"),
           type = "secondary",
-          class = "btn-lg align-center"
+          class = "btn-lg d-block mx-auto"
         )
       )
     ),
@@ -298,7 +298,7 @@ mod_upload_ui <- function(id) {
           "Apply selection!",
           icon = shiny::icon("redo"),
           type = "secondary",
-          class = "btn-lg align-center"
+          class = "btn-lg d-block mx-auto"
         )
       ),
       shiny::textOutput(ns("select_missing")),
@@ -900,26 +900,26 @@ mod_upload_server <- function(id, r) {
     # Move to next page ----
     ## Move to filtering
     shiny::observeEvent(input$next_filter, {
-      shinydashboard::updateTabItems(
-        session = r$parent_session,
-        inputId = "tabs",
-        selected = "filter"
+      bslib::nav_select(
+        "tabs",
+        selected = "filter",
+        session = r$parent_session
       )
     })
     ## Move directly to double-dot-plot
     shiny::observeEvent(input$next_double_dot, {
-      shinydashboard::updateTabItems(
-        session = r$parent_session,
-        inputId = "tabs",
-        selected = "graph"
+      bslib::nav_select(
+        "tabs",
+        selected = "graph",
+        session = r$parent_session
       )
     })
     ## Move directly to heatmap
     shiny::observeEvent(input$next_heatmap, {
-      shinydashboard::updateTabItems(
-        session = r$parent_session,
-        inputId = "tabs",
-        selected = "heatmap"
+      bslib::nav_select(
+        "tabs",
+        selected = "heatmap",
+        session = r$parent_session
       )
     })
     # Pass objects to reactiveValues "r" ----

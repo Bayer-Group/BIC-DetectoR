@@ -1,0 +1,445 @@
+
+:root {
+  --plot-blue: #1E90FF;
+  --plot-red: #E72F32;
+  --plot-grid: #DDDDDD;
+}
+
+[data-bs-theme=dark] {
+  --plot-blue: #62bbff;
+  --plot-red: #F09899;
+  --plot-grid: #333333;
+}
+
+/* Logos */
+.detector-logo-sidebar {
+  min-width: 50px;
+  width: 60%;
+  max-width: 220px;
+  margin: auto auto 10px auto;
+  display: block;
+}
+
+.detector-logo-about {
+  min-width: 50px;
+  width: 30%;
+  margin: 10px auto;
+  max-width: 210px;
+  display: block;
+}
+
+/* Layout */
+.container-fluid {
+  padding-bottom: 100px;
+}
+
+.shiny-notification {
+  position: fixed;
+  top: calc(50%);
+  left: calc(40%);
+  width: 350px;
+}
+
+/* Style for tables */
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid var(--bs-border-color);
+  text-align: left;
+  padding: 8px;
+}
+
+/* Buttons */
+.btn-file,
+.action-button,
+.actions-btn,
+.option.selected,
+.action-button:focus,
+.actions-btn:focus,
+.dt-button,
+.dt-button:focus {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+/* ------ input elements -------- */
+
+label {
+  text-transform: capitalize;
+}
+
+.form-group {
+  margin: 10px 0;
+}
+
+.card .shiny-input-container {
+  max-width: 500px;
+}
+
+input[type="radio"] {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.selectize-input {
+  margin-right: 25px;
+}
+
+button.close {
+  text-shadow: 0 0 0;
+  opacity: 1; 
+  &:hover {
+    text-shadow: 0 0 0;
+    opacity: 1;
+  }
+}
+
+/* Shiny errors */
+.shiny-output-error-validation {
+  text-align: center;
+  height: 1.5em !important;
+  padding: 0 5px;
+  color: var(--bs-light);
+  background-color: var(--bs-danger);
+  &::before {
+    content: "⚠ Error! ";
+    font-weight: inherit;
+  }
+}
+
+/* ------ Plots -------- */
+div.plotly.html-widget-output {
+  height: auto !important;
+  margin-top: 10px;
+}
+
+/* Background color */
+.plot-container.plotly {
+  border-radius: 5px;
+}
+
+svg.main-svg {
+  background-color: transparent !important;
+}
+
+.js-plotly-plot .plotly .cursor-pointer {
+  cursor: default !important;
+}
+
+
+/* Improve appearance of Data Manual and About pages */
+.about {
+  line-height: 1.6;
+  margin-left: 15%;
+  margin-right: 15%;
+  & :is(h1, h2, h3, h4) {
+  text-align: center;
+  margin-bottom: 1em;
+  text-transform: capitalize;
+  font-weight: bold;
+  }
+  & :is(h2, h3, h4) {
+    margin-top: 1em;
+  }
+  & p, li {
+    margin-bottom: 30px;
+  }
+  & img {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    &.logo-about {
+      height: 210px;
+      width: 210px;
+    }
+  }
+  & table {
+    padding: 15px;
+  }
+  & th {
+    text-align: center;
+  }
+}
+
+.about .alert {
+  margin: 20px 0;
+}
+
+
+/* ---- Colors ---- */
+p, ul {
+  color: var(--bs-tertiary-color);
+}
+
+hr {
+  border-top-color: var(--bs-emphasis-color);
+}
+
+input[type="radio"] {
+  background-color: var(--bs-secondary-bg);
+  &:checked {
+    background-color: var(--bs-primary);
+  }
+}
+
+.btn-file,
+.action-button,
+.actions-btn,
+.option.selected,
+.action-button:focus,
+.actions-btn:focus,
+.dt-button,
+.dt-button:focus {
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+  color: var(--bs-light) !important;
+}
+
+.action-button:hover,
+.actions-btn:hover,
+.dt-button:hover {
+  color: var(--bs-light) !important;
+  background-color: var(--bs-secondary) !important;
+  border-color: var(--bs-secondary) !important;
+}
+
+nav.navbar {
+  background-color: var(--bs-info);
+  color: var(--bs-body-color) !important;
+}
+
+nav.navbar :is(.navbar-brand, .nav-link, .navbar-text) {
+  color: inherit !important;
+}
+
+.bslib-sidebar-layout > .sidebar {
+  background-color: var(--bs-sidebar-bg);
+  color: var(--bs-sidebar-fg) !important;
+}
+
+.bslib-sidebar-layout > .sidebar :is(a, p, label, .accordion-button) {
+  color: inherit !important;
+}
+
+.bslib-sidebar-layout > .main {
+  background-color: var(--bs-body-bg);
+}
+
+.bslib-sidebar-toggle {
+  color: var(--bs-primary) !important;
+}
+
+/* Notifications */
+.shiny-notification {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+/* Tables */
+tr:nth-child(odd) {
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg) !important;
+}
+
+tr:nth-child(even) {
+  color: var(--bs-body-color);
+  background-color: var(--bs-secondary-bg) !important;
+}
+
+/* ------ input elements -------- */
+/* Style for shinyWidgets::materialSwitch() */
+.material-switch,
+div.state > i {
+  color: var(--bs-emphasis-color) !important;
+}
+
+/* Style for shinyWidgets::pickerInput */
+.form-control,
+.shiny-input-select,
+.selectize-input input,
+.selectize-input,
+.selectize-dropdown-content,
+.btn.dropdown-toggle,
+.dropdown-menu,
+li.no-results,
+.dropdown-menu > li > a {
+  background-color: var(--bs-body-bg) !important;
+  border-color: var(--bs-border-color) !important;
+  color: var(--bs-body-color) !important;
+}
+
+/* Selectize Inputs arrows to expand list of options */
+.selectize-control.single .selectize-input:not(.no-arrow)::after{
+  border-color: transparent;
+  border-top-color: var(--bs-emphasis-color);
+}
+
+.selectize-control.single .selectize-input:not(.no-arrow).dropdown-active::after {
+  border-color: transparent;
+  border-bottom-color: var(--bs-emphasis-color);
+}
+
+/* Close the button */
+button.close {
+  color: var(--bs-primary);
+  &:hover {
+    color: var(--bs-secondary);
+  }
+}
+
+.popover-header {
+  background-color: var(--bs-popover-header-bg);
+  border-bottom-color: var(--bs-popover-header-border-color);
+}
+
+/* Errors */
+button.btn.dropdown-toggle.bs-placeholder {
+  background-color: var(--bs-danger) !important;
+  border-color: var(--bs-danger) !important;
+  color: var(--bs-light) !important;
+}
+
+/* Search boxes */
+div.bs-searchbox > input.form-control,
+div.has-feedback > input.form-control {
+  background-color: var(--bs-body-bg) !important;
+}
+
+/* Colors for verum and comparator symbols (plot header) */
+.verum-col {
+  color: var(--plot-blue);
+}
+
+.comparator-col {
+  color: var(--plot-red);
+}
+
+/* Data table */
+div.dt-button-collection,
+div.dt-button-info {
+  background-color: var(--bs-secondary-bg) !important;
+}
+
+/* Table header and footer */
+caption,
+.sorting,
+.dataTables_paginate,
+.dataTables_info {
+  color: var(--bs-body-color) !important;
+}
+
+/* ------ Plots -------- */
+
+/* Background color */
+.plot-container.plotly {
+  background-color: var(--bs-body-bg);
+}
+
+/* Grid lines */
+path.xgrid,
+path.ygrid,
+path.zl {
+  stroke: var(--plot-grid) !important;
+}
+
+g.layer-above > g.shapelayer > path {
+  stroke: var(--bs-emphasis-color) !important;
+}
+
+/* Axis ticks and titles */
+g.ytick > text,
+g.xtick > text,
+g.x2tick > text,
+g > text.xtitle,
+g > text.x2title,
+text.gtitle,
+text.ytitle {
+  fill: var(--bs-body-color) !important;
+}
+
+/* Changes significant color (set to red and blue) to a custom color */
+
+/* Non-significant = white */
+path.js-line[style*="rgb(255, 255, 255)"]:not(div#heatmap_1-heatmap_plot path.js-line) {
+  stroke: var(--bs-emphasis-color) !important;
+}
+path[style*="rgb(255, 255, 255)"]:not(div#heatmap_1-heatmap_plot path) {
+  color: var(--bs-emphasis-color) !important;
+}
+
+/* Favours comparator = red */
+path[style*="rgb(255, 0, 0)"],
+path[style*="fill: rgb(255, 0, 0); stroke: rgb(255, 255, 255)"]  {
+  stroke: var(--plot-red) !important;
+}
+
+g.ytick > text[data-unformatted*="favours-comparator"],
+g.textpoint > text[style*="rgb(255, 0, 0)"],
+path[style*="rgb(255, 0, 0)"] {
+  fill: var(--plot-red) !important;
+}
+
+/* Favours verum = blue */
+path[style*="rgb(0, 0, 255)"],
+path[style*="fill: rgb(0, 0, 255); stroke: rgb(255, 255, 255)"] {
+  stroke: var(--plot-blue) !important;
+}
+
+g.ytick > text[data-unformatted*="favours-verum"],
+g.textpoint > text[style*="rgb(0, 0, 255)"],
+path[style*="rgb(0, 0, 255)"] {
+  fill: var(--plot-blue) !important;
+}
+
+/* Text on hover boxes */
+text.nums:not(div#heatmap_1-heatmap_plot text.nums) {
+  fill: var(--bs-light) !important;
+}
+
+/* Text on hover boxes for non-significant values (white background) */
+text.nums[style*="rgb(68, 68, 68)"]:not(div#heatmap_1-heatmap_plot text.nums) {
+  fill: var(--bs-body-color) !important;
+}
+
+/* Changes non-significant color (set to white) for a custom color */
+path.point[style*="rgb(255, 255, 255)"]:not(div#heatmap_1-heatmap_plot path.point),
+g.textpoint > text[style*="rgb(255, 255, 255)"]:not(div#heatmap_1-heatmap_plot text) {
+  fill: var(--bs-body-color) !important;
+}
+
+/* Heatmap (keep same color palette in dark and light themes at the moment)*/
+
+/* Show outline for boxes */
+div#heatmap_1-heatmap_plot path.surface {
+  stroke-width: 0 !important;
+  outline: var(--bs-body-bg) solid 1px;
+}
+
+/* Remove outline for largest box */
+#heatmap_1-heatmap_plot g.treemaplayer > g > g:nth-child(1) > path {
+  outline: 0;
+}
+
+/* Add some padding on top of treemap */
+#heatmap_1-heatmap_plot > div > div > svg:nth-child(1) {
+  padding-top: 10px;
+}
+
+/* Heatmap legend */
+/* Change legend text color*/
+#heatmap_1-heatmap_plot g.infolayer text {
+  fill: var(--bs-body-color) !important;
+}
+
+/* Change legend ticks color */
+#heatmap_1-heatmap_plot g.infolayer g.cbaxis.crisp > path {
+  stroke: var(--bs-body-color) !important;
+}

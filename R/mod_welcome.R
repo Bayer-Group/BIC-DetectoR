@@ -8,9 +8,10 @@
 mod_welcome_ui <- function(id) {
   ns <- shiny::NS(id)
   bslib::card(
-    class = "about",
+    class = "about border-0 shadow-sm mx-auto",
     shiny::h1("Welcome to DetectoR"),
-    shiny::div(
+    shiny::img(
+      src = "www/logos/AppIcon_BAG_DetectoR_210x210mm_RGB.png",
       class = "detector-logo-about",
       alt = "DetectoR logo"
     ),
@@ -34,7 +35,7 @@ mod_welcome_ui <- function(id) {
       ns("next_upload"),
       "Upload Data",
       icon = shiny::icon("upload"),
-      class = "btn-lg align-center"
+      class = "btn-lg d-block mx-auto"
     )
   )
 }
@@ -46,10 +47,10 @@ mod_welcome_server <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
     # Move to "upload" tab
     shiny::observeEvent(input$next_upload, {
-      shinydashboard::updateTabItems(
-        session = r$parent_session,
-        inputId = "tabs",
-        selected = "upload"
+      bslib::nav_select(
+        "tabs",
+        selected = "upload",
+        session = r$parent_session
       )
     })
   })

@@ -18,10 +18,10 @@ app_server <- function(input, output, session) {
 
   # Light/dark theme
   theme <- shiny::reactive({
-    if (input$toggle_theme) {
-      "light"
-    } else {
+    if (identical(input$dark_mode, "dark")) {
       "dark"
+    } else {
+      "light"
     }
   })
 

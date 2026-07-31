@@ -7,12 +7,14 @@
 #' @noRd
 
 mod_about_ui <- function(id) {
-  shiny::wellPanel(
-    class = "about",
+  bslib::card(
+    class = "about border-0 shadow-sm mx-auto",
+    fill = FALSE,
     shiny::h1(
       "DetectoR R Shiny app for Clinical Trial Safety Data"
     ),
-    shiny::div(
+    shiny::img(
+      src = "www/logos/AppIcon_BAG_DetectoR_210x210mm_RGB.png",
       class = "detector-logo-about",
       alt = "DetectoR logo"
     ),
@@ -52,11 +54,11 @@ mod_about_ui <- function(id) {
       instead.</p>"
     ),
     shiny::div(
+      class = "alert alert-warning",
       shiny::icon("info-circle"),
       shiny::strong("New: "),
       "The Office of New Drugs Custom Medical Queries (OCMQs) are now implemented, version 4.1. 
-      This is an experimental feature, and may yield inconsistent results based on the MedDRA version uploaded.",
-      class = "callout-warning"
+      This is an experimental feature, and may yield inconsistent results based on the MedDRA version uploaded."
     ),
     shiny::hr(),
     shiny::h2("Data selection and filtering"),
@@ -113,11 +115,11 @@ mod_about_ui <- function(id) {
       Double FDR (DFDR)</strong> [Add here reference paper].</p>"
     ),
     shiny::div(
+      class = "alert alert-info",
       shiny::icon("info-circle"),
       shiny::strong("Note: "),
       "The new Double FDR (DFDR) method is only availabe for Preferred Terms
-      (PTs) and custom groupings that are mutually exclusive.",
-      class = "callout-info"
+      (PTs) and custom groupings that are mutually exclusive."
     ),
     shiny::HTML(
       "<p>With the option to <strong>order the adverse events based on either
@@ -133,11 +135,11 @@ mod_about_ui <- function(id) {
       (SMQs)</strong>, including all parent and sub-SMQs is possible.</p>"
     ),
     shiny::div(
+      class = "alert alert-info",
       shiny::icon("info-circle"),
       shiny::strong("Note: "),
       "Standardized MedDRA Queries (SMQs)
-      are available only if MedDRA files are uploaded.",
-      class = "callout-info"
+      are available only if MedDRA files are uploaded."
     ),
     shiny::h4("Advanced settings"),
     shiny::HTML(

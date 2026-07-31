@@ -35,7 +35,7 @@ mod_filter_ui <- function(id) {
       "Remove all filters",
       icon = shiny::icon("remove"),
       width = "100%",
-      class = "button-error"
+      class = "btn-danger"
     ),
     shiny::hr(),
     # Show filters ----
@@ -458,10 +458,10 @@ mod_filter_server <- function(id, r) {
     output$filter_list_adsl <- shiny::renderText(filter_list_adsl())
     # Move to next page ----
     shiny::observeEvent(input$next_graph, {
-      shinydashboard::updateTabItems(
-        session = r$parent_session,
-        inputId = "tabs",
-        selected = "graph"
+      bslib::nav_select(
+        "tabs",
+        selected = "graph",
+        session = r$parent_session
       )
     })
     # Return values to reactiveValues "r" to communicate with other modules ----

@@ -160,12 +160,11 @@ mod_calculate_ui <- function(
       ),
       ## Collapse axis labels ----
       if (calculate_mode == "double_dot") {
-        detector_pretty_toggle(
-          id = ns("show_full_labels"),
-          label = "Short Labels",
-          label_off = "Long Labels",
-          icon = "text-width",
-          icon_off = "align-right"
+        shinyWidgets::materialSwitch(
+          ns("show_full_labels"),
+          "Long Labels",
+          status = "success",
+          value = FALSE
         )
       }
     )

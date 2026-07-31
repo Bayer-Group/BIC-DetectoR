@@ -8,8 +8,13 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     bslib::page_navbar(
       id = "tabs",
+      theme = detector_theme(),
       title = shiny::span(
-        shiny::div(class = "detector-logo-sidebar"),
+        shiny::img(
+          src = "www/logos/AppSign_white_BAG_DetectoR_220x76mm_RGB.png",
+          alt = "DetectoR logo",
+          class = "detector-logo-sidebar"
+        ),
         "DetectoR"
       ),
       # Sidebar ----
@@ -128,15 +133,10 @@ app_ui <- function(request) {
         mod_manual_ui("manual_1")
       ),
       bslib::nav_item(
-        shiny::div(
-          id = "toggle-theme-container",
-          detector_pretty_toggle(
-            id = "toggle_theme",
-            label = "Dark Theme",
-            label_off = "Light Theme",
-            icon = "moon",
-            icon_off = "sun"
-          )
+        bslib::input_dark_mode(
+          id = "dark_mode",
+          mode = "light",
+          class = "ms-2"
         )
       )
     )
@@ -157,12 +157,6 @@ golem_add_external_resources <- function() {
 
   shiny::tags$head(
     golem::favicon(),
-    # Google Noto Sans font (fallback font by Bayer)
-    shiny::HTML(
-      '<link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">'
-    ),
     golem::bundle_resources(
       path = app_sys("app/www"),
       app_title = "DetectoR"
