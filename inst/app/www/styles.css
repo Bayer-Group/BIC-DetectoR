@@ -13,11 +13,8 @@
 
 /* Logos */
 .detector-logo-sidebar {
-  min-width: 50px;
-  width: 60%;
-  max-width: 220px;
-  margin: auto auto 10px auto;
-  display: block;
+  height: 2rem;
+  width: auto;
 }
 
 .detector-logo-about {
@@ -26,11 +23,6 @@
   margin: 10px auto;
   max-width: 210px;
   display: block;
-}
-
-/* Layout */
-.container-fluid {
-  padding-bottom: 100px;
 }
 
 .shiny-notification {
