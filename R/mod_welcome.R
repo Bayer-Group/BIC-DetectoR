@@ -35,7 +35,7 @@ mod_welcome_ui <- function(id) {
       ns("next_upload"),
       "Upload Data",
       icon = shiny::icon("upload"),
-      class = "btn-lg d-block mx-auto"
+      class = "btn-lg d-block mx-auto btn-primary"
     )
   )
 }

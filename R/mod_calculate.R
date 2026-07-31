@@ -22,7 +22,6 @@ mod_calculate_ui <- function(
       ns("go_calculate"),
       "Calculate!",
       icon = shiny::icon("redo"),
-      type = "secondary",
       class = "btn-lg"
     ),
     ## Variable parameters ----
@@ -49,7 +48,7 @@ mod_calculate_ui <- function(
       options = picker_input_options()
     ),
     if (calculate_mode == "double_dot") {
-      shiny::radioButtons(
+      shinyWidgets::radioGroupButtons(
         ns("include_overall"),
         "Include Overall",
         choices = c("Yes" = TRUE, "No" = FALSE),
@@ -114,7 +113,7 @@ mod_calculate_ui <- function(
     shinyWidgets::materialSwitch(
       ns("switch_advanced_settings"),
       "Show More Settings",
-      status = "success",
+      status = "primary",
       value = FALSE
     ),
     # Advanced Settings panel ----
@@ -163,7 +162,7 @@ mod_calculate_ui <- function(
         shinyWidgets::materialSwitch(
           ns("show_full_labels"),
           "Long Labels",
-          status = "success",
+          status = "primary",
           value = FALSE
         )
       }

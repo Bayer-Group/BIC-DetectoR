@@ -11,7 +11,7 @@ app_ui <- function(request) {
       theme = detector_theme(),
       title = shiny::span(
         shiny::img(
-          src = "www/logos/AppSign_white_BAG_DetectoR_220x76mm_RGB.png",
+          src = "www/logos/AppIcon_BAG_DetectoR_210x210mm_RGB.png",
           alt = "DetectoR logo",
           class = "detector-logo-sidebar"
         ),

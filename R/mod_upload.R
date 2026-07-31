@@ -16,13 +16,14 @@ mod_upload_ui <- function(id) {
       bslib::card(
         fill = FALSE,
         ## Demo or files mode ----
-        shiny::radioButtons(
+        shinyWidgets::radioGroupButtons(
           ns("mode"),
           "Input mode:",
           choices = c(
             "Upload ADAM Files" = "sas",
             "Demo Data" = "demo"
-          )
+          ),
+          direction = "vertical"
         ),
         shiny::conditionalPanel(
           ## Upload ADAE and ADSL files----
@@ -57,13 +58,14 @@ mod_upload_ui <- function(id) {
       bslib::card(
         fill = FALSE,
         flex_row(
-          shiny::radioButtons(
+          shinyWidgets::radioGroupButtons(
             ns("meddra_mode"),
             "Choose MedDRA mode:",
             choices = c(
               "Upload MedDRA data" = "with_meddra",
               "Run without MedDRA" = "without_meddra"
-            )
+            ),
+            direction = "vertical"
           )
         ),
         ## Upload MedDRA files and select MedDRA version ----
@@ -87,7 +89,7 @@ mod_upload_ui <- function(id) {
               shiny::fileInput(
                 ns("smq_file"),
                 label = "Upload MedDRA SMQ view file",
-                accept = c(".sas7bdat", ".rds", ".rdta", ".csv")
+                accept = c(".sas7bdat", ".rds", ".rdta", ".csv"),
               ),
               shiny::textOutput(ns("smq_missing")),
               shiny::textOutput(ns("smq_check"))
@@ -114,7 +116,6 @@ mod_upload_ui <- function(id) {
           ns("confirm_upload"),
           "Confirm upload",
           icon = shiny::icon("check"),
-          type = "secondary",
           class = "btn-lg d-block mx-auto"
         )
       )
@@ -235,7 +236,7 @@ mod_upload_ui <- function(id) {
             )
           ),
           # Duration-related variables (for incidence rates) ----
-          shiny::radioButtons(
+          shinyWidgets::radioGroupButtons(
             ns("duration_mode"),
             "Time at risk variables",
             choices = c(
@@ -243,7 +244,8 @@ mod_upload_ui <- function(id) {
               "Start and End Dates" = "start_end_date",
               "None" = "none"
             ),
-            selected = "none"
+            selected = "none",
+            direction = "vertical"
           ),
           ## Choose duration or time start and end ----
           shiny::conditionalPanel(
@@ -297,7 +299,6 @@ mod_upload_ui <- function(id) {
           ns("go_select"),
           "Apply selection!",
           icon = shiny::icon("redo"),
-          type = "secondary",
           class = "btn-lg d-block mx-auto"
         )
       ),
@@ -315,13 +316,13 @@ mod_upload_ui <- function(id) {
             ns("next_double_dot"),
             "Go to Double Dot Plot",
             icon = shiny::icon("list-alt"),
-            class = "btn-lg"
+            class = "btn-lg btn-primary"
           ),
           shiny::actionButton(
             ns("next_heatmap"),
             "Go to Heatmap",
             icon = shiny::icon("th"),
-            class = "btn-lg"
+            class = "btn-lg btn-primary"
           )
         )
       )

@@ -53,7 +53,6 @@ mod_filter_ui <- function(id) {
       ns("go_filter"),
       "Filter data!",
       icon = shiny::icon("filter"),
-      type = "secondary",
       width = "100%"
     )
   )
