@@ -18,10 +18,11 @@ mod_calculate_ui <- function(
     # shiny::verbatimTextOutput(ns("debug")), # Uncomment to see debug prints
     # Standard Panel ----
     ## Action button ----
-    shiny::actionButton(
+    bslib::input_task_button(
       ns("go_calculate"),
       "Calculate!",
       icon = shiny::icon("redo"),
+      type = "secondary",
       class = "btn-lg"
     ),
     ## Variable parameters ----
@@ -578,6 +579,14 @@ mod_calculate_server <- function(id, r, calculate_mode) {
       data_results
     }) |>
       shiny::bindEvent(input$go_calculate)
+    shiny::observeEvent(results_all(), {
+      shiny::req(input$go_calculate)
+      bslib::update_task_button(
+        id = "go_calculate",
+        state = "ready",
+        session = session
+      )
+    })
 
     if (calculate_mode == "double_dot") {
       ## Arrange and filter double dot plot data ----

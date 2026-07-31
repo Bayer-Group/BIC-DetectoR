@@ -110,10 +110,11 @@ mod_upload_ui <- function(id) {
       ns = ns,
       bslib::layout_columns(
         col_widths = c(-4, 4, -4),
-        shiny::actionButton(
+        bslib::input_task_button(
           ns("confirm_upload"),
           "Confirm upload",
           icon = shiny::icon("check"),
+          type = "secondary",
           class = "btn-lg align-center"
         )
       )
@@ -292,10 +293,11 @@ mod_upload_ui <- function(id) {
       # Go select button ----
       bslib::layout_columns(
         col_widths = c(-4, 4, -4),
-        shiny::actionButton(
+        bslib::input_task_button(
           ns("go_select"),
           "Apply selection!",
           icon = shiny::icon("redo"),
+          type = "secondary",
           class = "btn-lg align-center"
         )
       ),
@@ -567,6 +569,14 @@ mod_upload_server <- function(id, r) {
       shiny::req(input$confirm_upload)
       "Upload OK! Please select the required variables"
     })
+    shiny::observeEvent(upload_is_ready(), {
+      shiny::req(input$confirm_upload)
+      bslib::update_task_button(
+        id = "confirm_upload",
+        state = "ready",
+        session = session
+      )
+    })
     output$upload_ready <- shiny::renderText(upload_is_ready())
     # Flag to info panel when data selection is ready ----
     selection_is_ready <- shiny::eventReactive(input$go_select, {
@@ -579,6 +589,14 @@ mod_upload_server <- function(id, r) {
       )
       "Selection OK! You can confirm the dataset information and move to any
       graphics page."
+    })
+    shiny::observeEvent(selection_is_ready(), {
+      shiny::req(input$go_select)
+      bslib::update_task_button(
+        id = "go_select",
+        state = "ready",
+        session = session
+      )
     })
     output$select_ready <- shiny::renderText(selection_is_ready())
     # Data selection ----

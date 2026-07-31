@@ -49,10 +49,11 @@ mod_filter_ui <- function(id) {
     ),
     shiny::hr(),
     # Filter data buttons ----
-    shiny::actionButton(
+    bslib::input_task_button(
       ns("go_filter"),
       "Filter data!",
       icon = shiny::icon("filter"),
+      type = "secondary",
       width = "100%"
     )
   )
@@ -278,6 +279,14 @@ mod_filter_server <- function(id, r) {
         }
       }
     )
+    shiny::observeEvent(list(filtered_data(), filter_list()), {
+      shiny::req(input$go_filter > 0)
+      bslib::update_task_button(
+        id = "go_filter",
+        state = "ready",
+        session = session
+      )
+    })
     # Filter ADSL data ----
     adsl_filtered <- shiny::eventReactive(
       c(input$go_filter, r$adsl_data),
