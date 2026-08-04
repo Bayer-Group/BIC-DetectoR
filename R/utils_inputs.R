@@ -21,24 +21,23 @@ flex_row <- function(...) {
   )
 }
 
-#' Shorthand for custom UI row - left side
-#' @param ... Contents of the row.
-row_left_side <- function(...) {
-  shiny::div(class = "upload-left", ...)
-}
+# #' Shorthand for custom UI row - left side
+# #' @param ... Contents of the row.
+# row_left_side <- function(...) {
+#   shiny::div(class = "upload-left", ...)
+# }
 
-#' Shorthand for custom UI row - right side
-#' @param ... Contents of the row.
-row_right_side <- function(...) {
-  shiny::div(class = "upload-right", ...)
-}
+# #' Shorthand for custom UI row - right side
+# #' @param ... Contents of the row.
+# row_right_side <- function(...) {
+#   shiny::div(class = "upload-right", ...)
+# }
 
-#' Shorthand for custom UI row - symmetrical halves
-#' @param ... Contents of the row.
-row_half <- function(...) {
-  shiny::div(class = "upload-half", ...)
-}
-
+# #' Shorthand for custom UI row - symmetrical halves
+# #' @param ... Contents of the row.
+# row_half <- function(...) {
+#   shiny::div(class = "upload-half", ...)
+# }
 
 #' Shorthand for invisible text (triggers conditional panels, but it's not
 #' visible)

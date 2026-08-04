@@ -6,16 +6,16 @@ mod_table_ui <- function(id) {
   bslib::card(
     full_screen = TRUE,
     bslib::card_header("Data Table"),
-    # Placeholder  
+    # Placeholder
     shiny::conditionalPanel(
-        condition = "!output.table",
-        ns = ns,
-        shiny::span(
-          shiny::icon("circle-info"),
-          "Click the Calculate! button to display the table."
-        )
-      ),
-      DT::DTOutput(ns("table"))
+      condition = "!output.table",
+      ns = ns,
+      shiny::span(
+        shiny::icon("circle-info"),
+        "Click the Calculate! button to display the table."
+      )
+    ),
+    DT::DTOutput(ns("table"))
   )
 }
 
