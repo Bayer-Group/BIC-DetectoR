@@ -4,38 +4,35 @@
 #' @noRd
 mod_heatmap_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::tagList(
-    mod_calculate_ui("calculate_heatmap", calculate_mode = "heatmap"),
-    ## Display heatmap ----
-    shinycssloaders::withSpinner(
-      plotly::plotlyOutput(ns("heatmap_plot"), height = 600),
-      type = 4
-    ),
-    shinycssloaders::withSpinner(
-      plotly::plotlyOutput(ns("heatmap_legend")),
-      type = 4
-    ),
-    invisible_text(ns("heatmap_ready")),
-    shiny::conditionalPanel(
-      condition = "!output.heatmap_ready",
-      ns = ns,
-      shiny::span(
-        shiny::icon("circle-info"),
-        "Click the Calculate! button to display the plot."
+  bslib::card(
+    full_screen = TRUE,
+    bslib::card_header("Heatmap"),
+    bslib::card_body(
+      # Placeholder
+      invisible_text(ns("heatmap_ready")),
+      shiny::conditionalPanel(
+        condition = "!output.heatmap_ready",
+        ns = ns,
+        shiny::span(
+          shiny::icon("circle-info"),
+          "Click the Calculate! button to display the plot."
+        )
+      ),
+      ## Display heatmap ----
+      shinycssloaders::withSpinner(
+        plotly::plotlyOutput(ns("heatmap_plot")),
+        type = 4
       )
     ),
-    shiny::conditionalPanel(
-      condition = "output.heatmap_plot",
-      ns = ns,
-      shiny::span(
-        shiny::icon("circle-info"),
-        "Click on any cell to zoom in, and on the treemap header to zoom out."
-      ),
-      shiny::br(),
-      shiny::wellPanel(
-        shiny::span(shiny::icon("filter"), "Filters applied:"),
-        shiny::textOutput(ns("filter_list_adae")),
-        shiny::textOutput(ns("filter_list_adsl"))
+    bslib::card_footer(
+      shiny::conditionalPanel(
+        condition = "output.heatmap_plot",
+        ns = ns,
+        plotly::plotlyOutput(ns("heatmap_legend"), height = 150),
+        shiny::span(
+          shiny::icon("circle-info"),
+          "Click on any cell to zoom in, and on the treemap header to zoom out."
+        )
       )
     )
   )

@@ -8,113 +8,52 @@
 
 mod_filter_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::tagList(
-    # shiny::verbatimTextOutput(ns("debug")), # uncomment to show debug prints
-    shiny::fluidRow(
-      # Add/remove filter buttons ----
-      shiny::fluidRow(
-        col_5(),
-        col_2(
-          shiny::actionButton(
-            ns("remove_filter"),
-            "Remove all filters",
-            icon = shiny::icon("remove"),
-            width = "100%",
-            class = "button-error"
-          )
-        ),
-        col_5()
-      ),
-      shiny::br(),
-      # Select ADAE filters ----
-      col_6(
-        shiny::wellPanel(
-          shinyWidgets::pickerInput(
-            ns("picker_filter_adae"),
-            "Select filter variable(s) for ADAE data set",
-            choices = NULL,
-            multiple = TRUE,
-            options = picker_input_options()
-          )
-        )
-      ),
-      # Select ADSL filters ----
-      col_6(
-        shiny::wellPanel(
-          shinyWidgets::pickerInput(
-            ns("picker_filter_adsl"),
-            "Select filter variable(s) for ADSL data set",
-            choices = NULL,
-            multiple = TRUE,
-            options = picker_input_options()
-          )
-        )
-      )
+  # shiny::verbatimTextOutput(ns("debug")), # uncomment to show debug prints
+  bslib::accordion_panel(
+    "Filter Data",
+    icon = shiny::icon("filter"),
+    shiny::strong("Add or remove filters"),
+    # Select ADAE filters ----
+    shinyWidgets::pickerInput(
+      ns("picker_filter_adae"),
+      "Select filter variable(s) for ADAE data set",
+      choices = NULL,
+      multiple = TRUE,
+      options = picker_input_options()
     ),
-    # Filter data buttons ----
-    shiny::br(),
-    shiny::fluidRow(
-      col_5(),
-      col_2(
-        shiny::actionButton(
-          ns("go_filter_1"),
-          "Filter data!",
-          icon = shiny::icon("filter"),
-          width = "100%"
-        )
-      ),
-      col_5()
+    # Select ADSL filters ----
+    shinyWidgets::pickerInput(
+      ns("picker_filter_adsl"),
+      "Select filter variable(s) for ADSL data set",
+      choices = NULL,
+      multiple = TRUE,
+      options = picker_input_options()
     ),
-    shiny::br(),
-    col_12(
-      shiny::div(shiny::textOutput(ns("no_filters")), class = "align-center"),
-    ),
-    shiny::br(),
-    # Show filters ----
-    shiny::conditionalPanel(
-      condition = "!output.no_filters",
-      ns = ns,
-      # fillPage and fillRow needed to add buttons horizontally
-      shiny::fillPage(
-        shiny::fillRow(
-          # Placeholder where filter buttons will be added
-          id = "placeholder"
-        )
-      ),
-      shiny::br()
-    ),
-    # Filter data buttons ----
-    shiny::conditionalPanel(
-      condition = "!output.no_filters",
-      ns = ns,
-      shiny::fluidRow(
-        col_5(),
-        col_2(
-          shiny::actionButton(
-            ns("go_filter_2"),
-            "Filter data!",
-            icon = shiny::icon("filter"),
-            width = "100%"
-          )
-        ),
-        col_5()
-      )
-    ),
-    shiny::br(),
-    # Show dataset info ----
-    shiny::fluidRow(mod_info_ui("info_filter")),
-    # Show filter list ----
-    shiny::wellPanel(
-      shiny::span(shiny::icon("filter"), "Filters applied:"),
-      shiny::textOutput(ns("filter_list_adae")),
-      shiny::textOutput(ns("filter_list_adsl"))
-    ),
-    # Button to go to next page ("graph") ----
+    # Remove filter button ----
     shiny::actionButton(
-      ns("next_graph"),
-      "Next page",
-      icon = shiny::icon("arrow-right"),
-      class = "btn-lg align-right"
+      ns("remove_filter"),
+      "Remove all filters",
+      icon = shiny::icon("remove"),
+      width = "100%",
+      class = "btn-danger"
+    ),
+    shiny::hr(),
+    # Show filters ----
+    shiny::strong("Selected filters"),
+    shiny::textOutput(ns("no_filters")),
+    shiny::conditionalPanel(
+      condition = "!output.no_filters",
+      ns = ns,
+      # Placeholder where filter buttons will be added
+      id = "placeholder"
+    ),
+    shiny::hr(),
+    # Filter data buttons ----
+    bslib::input_task_button(
+      ns("go_filter"),
+      "Filter data!",
+      icon = shiny::icon("filter"),
+      width = "100%"
     )
   )
 }
@@ -301,7 +240,7 @@ mod_filter_server <- function(id, r) {
     })
     # Filter ADAE data ----
     adae_filtered <- shiny::eventReactive(
-      c(input$go_filter_1, input$go_filter_2, r$adae_data),
+      c(input$go_filter, r$adae_data),
       ignoreNULL = FALSE,
       {
         shiny::req(r$adae_data)
@@ -339,9 +278,17 @@ mod_filter_server <- function(id, r) {
         }
       }
     )
+    shiny::observeEvent(list(filtered_data(), filter_list()), {
+      shiny::req(input$go_filter > 0)
+      bslib::update_task_button(
+        id = "go_filter",
+        state = "ready",
+        session = session
+      )
+    })
     # Filter ADSL data ----
     adsl_filtered <- shiny::eventReactive(
-      c(input$go_filter_1, input$go_filter_2, r$adsl_data),
+      c(input$go_filter, r$adsl_data),
       ignoreNULL = FALSE,
       {
         shiny::req(r$adsl_data)
@@ -429,13 +376,13 @@ mod_filter_server <- function(id, r) {
       shiny::bindEvent(filtered_data())
     # List of active filters to show it on the UI ----
     filter_list <- shiny::eventReactive(
-      c(input$go_filter_1, input$go_filter_2),
+      input$go_filter,
       ignoreNULL = FALSE,
       {
         # One separate list for ADAE and ADSl filters
         filter_list <- list(adae = c(), adsl = c())
         # Starting value is NULL, to show "None" on the UI
-        if (all(c(input$go_filter_1, input$go_filter_2) == 0)) {
+        if (input$go_filter == 0) {
           filter_list$adsl <- NULL
           filter_list$adae <- NULL
         } else {
@@ -510,10 +457,10 @@ mod_filter_server <- function(id, r) {
     output$filter_list_adsl <- shiny::renderText(filter_list_adsl())
     # Move to next page ----
     shiny::observeEvent(input$next_graph, {
-      shinydashboard::updateTabItems(
-        session = r$parent_session,
-        inputId = "tabs",
-        selected = "graph"
+      bslib::nav_select(
+        "tabs",
+        selected = "graph",
+        session = r$parent_session
       )
     })
     # Return values to reactiveValues "r" to communicate with other modules ----
@@ -540,6 +487,9 @@ mod_filter_server <- function(id, r) {
     })
     shiny::observe({
       r$adsl_filtered <- adsl_filtered()
+    })
+    shiny::observe({
+      r$go_filter <- input$go_filter
     })
     # Debug ----
     output$debug <- shiny::renderPrint({

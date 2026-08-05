@@ -3,31 +3,19 @@
 #' @inheritParams mod_upload_ui
 mod_table_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::tagList(
-    # Select main options panel
-    mod_calculate_ui("calculate_table", calculate_mode = "table"),
-    # Table panel ----
-    shiny::wellPanel(
-      shiny::conditionalPanel(
-        condition = "!output.table",
-        ns = ns,
-        shiny::span(
-          shiny::icon("circle-info"),
-          "Click the Calculate! button to display the table."
-        )
-      ),
-      DT::DTOutput(ns("table"))
-    ),
-    shiny::br(),
+  bslib::card(
+    full_screen = TRUE,
+    bslib::card_header("Data Table"),
+    # Placeholder
     shiny::conditionalPanel(
-      condition = "output.table",
+      condition = "!output.table",
       ns = ns,
-      shiny::wellPanel(
-        shiny::span(shiny::icon("filter"), "Filters applied:"),
-        shiny::textOutput(ns("filter_list_adae")),
-        shiny::textOutput(ns("filter_list_adsl"))
+      shiny::span(
+        shiny::icon("circle-info"),
+        "Click the Calculate! button to display the table."
       )
-    )
+    ),
+    DT::DTOutput(ns("table"))
   )
 }
 
