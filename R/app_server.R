@@ -18,10 +18,10 @@ app_server <- function(input, output, session) {
 
   # Light/dark theme
   theme <- shiny::reactive({
-    if (input$toggle_theme) {
-      "light"
-    } else {
+    if (identical(input$dark_mode, "dark")) {
       "dark"
+    } else {
+      "light"
     }
   })
 
@@ -33,64 +33,58 @@ app_server <- function(input, output, session) {
   })
 
   # Conditionally show sidebar menu items ----
-  output$filter <- shinydashboard::renderMenu({
+  shiny::observe({
+    if (input$tabs == "upload") {
+      bslib::toggle_sidebar("sidebar_page", open = TRUE)
+    }
+    if (input$tabs == "welcome") {
+      bslib::toggle_sidebar("sidebar_page", open = FALSE)
+    }
+  })
+
+  bslib::nav_hide("tabs", "filter")
+  bslib::nav_hide("tabs", "graph")
+  bslib::nav_hide("tabs", "heatmap")
+  bslib::nav_hide("tabs", "volcano")
+  bslib::nav_hide("tabs", "table")
+
+  shiny::observeEvent(r$unfiltered_data, {
     shiny::req(r$unfiltered_data)
-    shinydashboard::menuItem(
-      "Filter data",
-      tabName = "filter",
-      icon = shiny::icon("filter")
-    )
+    bslib::nav_show("tabs", "filter")
   })
-  output$graph <- shinydashboard::renderMenu({
+
+  shiny::observeEvent(r$filtered_data, {
     shiny::req(r$filtered_data)
-    shinydashboard::menuItem(
-      "Double Dot Plot",
-      tabName = "graph",
-      icon = shiny::icon("list-alt")
-    )
+    bslib::nav_show("tabs", "graph")
+    bslib::nav_show("tabs", "heatmap")
+    bslib::nav_show("tabs", "volcano")
+    bslib::nav_show("tabs", "table")
   })
-  output$heatmap <- shinydashboard::renderMenu({
-    shiny::req(r$filtered_data)
-    shinydashboard::menuItem(
-      "Heatmap",
-      tabName = "heatmap",
-      icon = shiny::icon("th")
-    )
-  })
-  output$volcano <- shinydashboard::renderMenu({
-    shiny::req(r$filtered_data)
-    shinydashboard::menuItem(
-      "Volcano",
-      tabName = "volcano",
-      icon = shiny::icon("volcano")
-    )
-  })
-  output$table <- shinydashboard::renderMenu({
-    shiny::req(r$filtered_data)
-    shinydashboard::menuItem(
-      "View dataset",
-      tabName = "table",
-      icon = shiny::icon("table")
-    )
-  })
+
   # Call servers ----
   mod_welcome_server("welcome_1", r = r)
   mod_upload_server("upload_1", r = r)
-  mod_info_server("info_upload", r = r)
-  mod_info_server("info_filter", r = r)
-  mod_filter_server("filter_1", r = r)
-  mod_calculate_server(
-    "calculate_double_dot",
-    r = r,
-    calculate_mode = "double_dot"
-  )
+  # Info modules
+  mod_info_server("info_sidebar", r = r)
+  # Filter modules
+  mod_filter_server("filter_sidebar", r = r)
+  # Calculate modules
+  mod_calculate_server("calculate_dot", r = r, calculate_mode = "double_dot")
   mod_calculate_server("calculate_heatmap", r = r, calculate_mode = "heatmap")
   mod_calculate_server("calculate_volcano", r = r, calculate_mode = "volcano")
   mod_calculate_server("calculate_table", r = r, calculate_mode = "table")
+  # Plot modules
   mod_graph_server("graph_1", r = r)
   mod_heatmap_server("heatmap_1", r = r)
   mod_volcano_server("volcano_1", r = r)
   mod_table_server("table_1", r = r)
+  # Active filters modules
+  mod_active_filters_server("filters_sidebar", r = r, trigger = "go_filter")
+  mod_active_filters_server("filters_dot", r = r, trigger = "go_double_dot")
+  mod_active_filters_server("filters_heatmap", r = r, trigger = "go_heatmap")
+  mod_active_filters_server("filters_volcano", r = r, trigger = "go_volcano")
+  mod_active_filters_server("filters_table", r = r, trigger = "go_table")
+  # Help modules
   mod_about_server("help_1")
   mod_manual_server("manual_1")
 }

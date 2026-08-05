@@ -163,7 +163,7 @@ test_that("get_count_proportions incidence rates with zero pattime gives NA prop
   )
   expect_false(any(is.infinite(out$prop)))
   expect_true(anyNA(out$prop))
-  expect_equal(sum(is.na(out$prop)), 1L)
+  expect_equal(sum(is.na(out$prop)), 2L) # One for AE1, one for OVERALL
 })
 
 # format_p_values with NA ----

@@ -4,71 +4,71 @@
 #' @noRd
 mod_graph_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::tagList(
-    mod_calculate_ui("calculate_double_dot", calculate_mode = "double_dot"),
-    shiny::conditionalPanel(
-      condition = "!output.double_dot_plot",
-      ns = ns,
-      shiny::span(
-        shiny::icon("circle-info"),
-        "Click the Calculate! button to display the plot."
+  bslib::card(
+    full_screen = TRUE,
+    # Plot headers
+    bslib::card_header(
+      bslib::layout_columns(
+        # TODO: move to external css
+        style = "width: 100%",
+        col_widths = c(7, 5),
+        shiny::div(
+          shiny::uiOutput(ns("double_dot_plot_header"))
+        ),
+        shiny::div(
+          shiny::textOutput(ns("effect_plot_header"))
+        )
       )
     ),
-    col_12(
-      # Plot headers ----
-      shiny::fluidRow(
-        col_7(
-          shiny::uiOutput(ns("double_dot_plot_header")),
-          class = "plot_header double_dot_plot_header"
-        ),
-        col_5(
-          shiny::textOutput(ns("effect_plot_header")),
-          class = "plot_header effect_plot_header"
+    bslib::card_body(
+      # Placeholder
+      shiny::conditionalPanel(
+        condition = "!output.double_dot_plot",
+        ns = ns,
+        shiny::span(
+          shiny::icon("circle-info"),
+          "Click the Calculate! button to display the plot."
         )
       ),
-      # Plot outputs ----
-      shiny::fluidRow(
-        col_7(
-          shinycssloaders::withSpinner(
-            plotly::plotlyOutput(ns("double_dot_plot")),
-            type = 4
-          )
+      bslib::layout_columns(
+        col_widths = c(7, 5),
+        shinycssloaders::withSpinner(
+          plotly::plotlyOutput(ns("double_dot_plot")),
+          type = 4
         ),
-        col_5(
-          shinycssloaders::withSpinner(
-            plotly::plotlyOutput(ns("effect_plot")),
-            type = 4
-          )
+        shinycssloaders::withSpinner(
+          plotly::plotlyOutput(ns("effect_plot")),
+          type = 4
         )
-      ),
+      )
+    ),
+    # Footer
+    bslib::card_footer(
       shiny::conditionalPanel(
         condition = "output.double_dot_plot",
         ns = ns,
-        shiny::fluidRow(
-          col_7(
-            shiny::span(
-              shiny::icon("circle-info"),
-              "**: significant by adjusted p-value; *: significant only by
-              unadjusted p-value.",
-              "Colors: "
-            ),
+        bslib::layout_columns(
+          # TODO: move to css
+          style = "width: 100%",
+          col_widths = c(7, 5),
+          # Double dot plot footer
+          shiny::div(
+            shiny::icon("circle-info"),
+            shiny::span("**: significant by adjusted p-value; "),
+            shiny::span("*: significant only by unadjusted p-value. Colors: "),
             shiny::span("Favours comparator", class = "comparator-col"),
             shiny::span(", "),
             shiny::span("Favours verum", class = "verum-col"),
-            shiny::span(", Non-significant.")
+            shiny::span(", Non-significant. "),
+            shiny::span("Subjects are counted once per category.")
           ),
-          col_5(
+          # Effect plot footer
+          shiny::div(
             shiny::span(
               shiny::icon("circle-info"),
               "CI: Confidence Interval; RD: Risk Difference; RR: Risk Ratio."
             )
           )
-        ),
-        shiny::br(),
-        shiny::wellPanel(
-          shiny::span(shiny::icon("filter"), "Filters applied:"),
-          shiny::textOutput(ns("filter_list_adae")),
-          shiny::textOutput(ns("filter_list_adsl"))
         )
       )
     )
@@ -158,11 +158,6 @@ mod_graph_server <- function(id, r) {
         height = height_plot()
       )
     }) |>
-      shiny::bindEvent(r$go_double_dot)
-    # Filters applied
-    output$filter_list_adae <- shiny::renderText(r$filter_list_adae) |>
-      shiny::bindEvent(r$go_double_dot)
-    output$filter_list_adsl <- shiny::renderText(r$filter_list_adsl) |>
       shiny::bindEvent(r$go_double_dot)
   })
 }

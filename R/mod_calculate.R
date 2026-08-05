@@ -12,157 +12,160 @@ mod_calculate_ui <- function(
 ) {
   ns <- shiny::NS(id)
   calculate_mode <- match.arg(calculate_mode)
-  shiny::tagList(
-    shiny::wellPanel(
-      # shiny::verbatimTextOutput(ns("debug")), # Uncomment to see debug prints
-      # Standard Panel ----
-      flex_row(
-        ## Action button ----
-        shiny::actionButton(
-          ns("go_calculate"),
-          "Calculate!",
-          icon = shiny::icon("redo"),
-          class = "btn-lg"
-        ),
-        ## Variable parameters ----
-        if (calculate_mode %in% c("double_dot", "volcano", "table")) {
-          shiny::selectInput(
-            ns("safety_variable"),
-            "Safety Variable",
-            choices = NULL
-          )
-        } else if (calculate_mode == "heatmap") {
-          shiny::selectInput(
-            ns("heatmap_variable"),
-            "Hierarchy",
-            choices = NULL
-          )
-        },
-        ## AE grouping filter ----
-        shinyWidgets::pickerInput(
-          ns("ae_grouping_filter"),
-          "AE Grouping",
-          choices = NULL,
-          selected = NULL,
-          multiple = TRUE,
-          options = picker_input_options()
-        ),
-        ## AE type filter ----
-        shiny::selectInput(
-          ns("ae_type_filter"),
-          "AE Type",
-          choices = c(
-            "All Treatment-Emergent (TEAEs)" = "treatment_emergent",
-            "Treatment-Emergent Serious (TESAEs)" = "serious_treatment_emergent",
-            "Drug-Related Treatment-Emergent (TEAEs)" = "drug_related_treatment_emergent",
-            "Drug-Related Treatment-Emergent Serious (TESAEs)" = "serious_drug_related_treatment_emergent",
-            "All AEs" = "all",
-            "All Serious (SAEs)" = "serious",
-            "All Drug-Related" = "drug_related",
-            "All Drug-Related Serious (SAEs)" = "serious_drug_related"
-          )
-        ),
-        ## Effect measure (RR/RD) ----
-        if (calculate_mode %in% c("double_dot", "volcano")) {
-          shiny::selectInput(
-            ns("effect_measure"),
-            "Effect Measure",
-            choices = list(
-              "Relative Risk" = "RR",
-              "Risk Difference" = "RD"
-            )
-          )
-        },
-        if (calculate_mode == "double_dot") {
-          shiny::selectInput(
-            ns("order_by"),
-            "Order by",
-            choices = list(
-              "p-value" = "p-value",
-              "Effect" = "effect"
-            )
-          )
-        },
-        if (calculate_mode == "heatmap") {
-          shiny::selectInput(
-            ns("heatmap_color"),
-            "Colored by",
-            choices = list(
-              "Relative Risk" = "RR",
-              "Risk Difference" = "RD",
-              "p-value: False Discovery Rate" = "FDR",
-              "p-value: New Double False Discovery Rate" = "DFDR"
-            )
-          )
-        },
-        ## Show Advanced Settings ----
-        shinyWidgets::materialSwitch(
-          ns("switch_advanced_settings"),
-          "More Settings",
-          status = "success",
-          value = FALSE
-        )
-      ),
-      # Advanced Settings panel ----
-      shiny::conditionalPanel(
-        condition = "input.switch_advanced_settings",
-        ns = ns,
-        flex_row(
-          ## Frequency (proportions/incidence rates) ----
-          shiny::selectInput(
-            ns("frequency_measure"),
-            "Frequency Measure",
-            choices = NULL
-          ),
-          if (calculate_mode %in% c("double_dot", "table")) {
-            shiny::selectInput(
-              ns("adjustment_method"),
-              "p-value Adjustment Method",
-              choices = NULL
-            )
-          },
-          ## Advanced settings ----
-          shiny::selectInput(
-            ns("stratified_by"),
-            "Stratify by",
-            choices = NULL
-          ),
-          if (calculate_mode == "double_dot") {
-            shiny::selectInput(
-              ns("number_aes_shown"),
-              "Number of AEs Shown (Max)",
-              choices = c("25", "50", "100", "1000"),
-              selected = "25"
-            )
-          },
-          shiny::selectInput(
-            ns("test_alternative"),
-            "Alternative for Fisher's Test",
-            choices = NULL
-          ),
-          shiny::selectInput(
-            ns("alpha"),
-            "Alpha",
-            choices = c("0.01", "0.05", "0.1"),
-            selected = "0.05"
-          ),
-          shiny::selectInput(
-            ns("aes_filter"),
-            "Filter Method",
-            choices = NULL
-          ),
-          ## Collapse axis labels ----
-          if (calculate_mode == "double_dot") {
-            detector_pretty_toggle(
-              id = ns("show_full_labels"),
-              label = "Short Labels",
-              label_off = "Long Labels",
-              icon = "text-width",
-              icon_off = "align-right"
-            )
-          }
+  bslib::accordion_panel(
+    "Display Options",
+    icon = shiny::icon("cog"),
+    # shiny::verbatimTextOutput(ns("debug")), # Uncomment to see debug prints
+    # Standard Panel ----
+    ## Action button ----
+    bslib::input_task_button(
+      ns("go_calculate"),
+      "Calculate!",
+      icon = shiny::icon("redo"),
+      class = "btn-lg"
+    ),
+    ## Variable parameters ----
+    if (calculate_mode %in% c("double_dot", "volcano", "table")) {
+      shiny::selectInput(
+        ns("safety_variable"),
+        "Safety Variable",
+        choices = NULL
+      )
+    } else if (calculate_mode == "heatmap") {
+      shiny::selectInput(
+        ns("heatmap_variable"),
+        "Hierarchy",
+        choices = NULL
+      )
+    },
+    ## AE grouping filter ----
+    shinyWidgets::pickerInput(
+      ns("ae_grouping_filter"),
+      "AE Grouping",
+      choices = NULL,
+      selected = NULL,
+      multiple = TRUE,
+      options = picker_input_options()
+    ),
+    if (calculate_mode == "double_dot") {
+      shinyWidgets::radioGroupButtons(
+        ns("include_overall"),
+        "Include Overall",
+        choices = c("Yes" = TRUE, "No" = FALSE),
+        selected = FALSE
+      )
+    },
+    ## AE type filter ----
+    shiny::selectInput(
+      ns("ae_type_filter"),
+      "AE Type",
+      choices = c(
+        "All Treatment-Emergent (TEAEs)" = "treatment_emergent",
+        "Treatment-Emergent Serious (TESAEs)" = "serious_treatment_emergent",
+        "Drug-Related Treatment-Emergent (TEAEs)" = "drug_related_treatment_emergent",
+        "Drug-Related Treatment-Emergent Serious (TESAEs)" = "serious_drug_related_treatment_emergent",
+        "All AEs" = "all",
+        "All Serious (SAEs)" = "serious",
+        "All Drug-Related" = "drug_related",
+        "All Drug-Related Serious (SAEs)" = "serious_drug_related"
+      )
+    ),
+    ## Frequency (proportions/incidence rates) ----
+    shiny::selectInput(
+      ns("frequency_measure"),
+      "Frequency Measure",
+      choices = NULL
+    ),
+    ## Effect measure (RR/RD) ----
+    if (calculate_mode %in% c("double_dot", "volcano")) {
+      shiny::selectInput(
+        ns("effect_measure"),
+        "Effect Measure",
+        choices = list(
+          "Relative Risk" = "RR",
+          "Risk Difference" = "RD"
         )
       )
+    },
+    if (calculate_mode == "double_dot") {
+      shiny::selectInput(
+        ns("order_by"),
+        "Order by",
+        choices = list(
+          "p-value" = "p-value",
+          "Effect" = "effect"
+        )
+      )
+    },
+    if (calculate_mode == "heatmap") {
+      shiny::selectInput(
+        ns("heatmap_color"),
+        "Colored by",
+        choices = list(
+          "Relative Risk" = "RR",
+          "Risk Difference" = "RD",
+          "p-value: False Discovery Rate" = "FDR",
+          "p-value: New Double False Discovery Rate" = "DFDR"
+        )
+      )
+    },
+    ## Show Advanced Settings ----
+    shinyWidgets::materialSwitch(
+      ns("switch_advanced_settings"),
+      "Show More Settings",
+      status = "primary",
+      value = FALSE
+    ),
+    # Advanced Settings panel ----
+    shiny::conditionalPanel(
+      condition = "input.switch_advanced_settings",
+      ns = ns,
+      if (calculate_mode %in% c("double_dot", "table")) {
+        shiny::selectInput(
+          ns("adjustment_method"),
+          "p-value Adjustment Method",
+          choices = NULL
+        )
+      },
+      ## Advanced settings ----
+      shiny::selectInput(
+        ns("stratified_by"),
+        "Stratify by",
+        choices = NULL
+      ),
+      if (calculate_mode == "double_dot") {
+        shiny::selectInput(
+          ns("number_aes_shown"),
+          "Number of AEs Shown (Max)",
+          choices = c("25", "50", "100", "1000"),
+          selected = "25"
+        )
+      },
+      shiny::selectInput(
+        ns("test_alternative"),
+        "Alternative for Fisher's Test",
+        choices = NULL
+      ),
+      shiny::selectInput(
+        ns("alpha"),
+        "Alpha",
+        choices = c("0.01", "0.05", "0.1"),
+        selected = "0.05"
+      ),
+      shiny::selectInput(
+        ns("aes_filter"),
+        "Filter Method",
+        choices = NULL
+      ),
+      ## Collapse axis labels ----
+      if (calculate_mode == "double_dot") {
+        shinyWidgets::materialSwitch(
+          ns("show_full_labels"),
+          "Long Labels",
+          status = "primary",
+          value = FALSE
+        )
+      }
     )
   )
 }
@@ -184,12 +187,14 @@ mod_calculate_server <- function(id, r, calculate_mode) {
             "System Organ Classes (SOCs)" = "AEBODSYS",
             "Preferred Terms (PTs)" = "AEDECOD",
             "Medical Labeling Groupings (MLGs)" = "MLG_label",
-            "Standardised MedDRA Queries (SMQs)" = "SMQ_NAME"
+            "Standardised MedDRA Queries (SMQs)" = "SMQ_NAME",
+            "Office of New Drugs Custom Medical Queries (OCMQs)" = "ocmq"
           )
         } else if (meddra_mode == "without_meddra") {
           list(
             "System Organ Classes (SOCs)" = "AEBODSYS",
-            "Preferred Terms (PTs)" = "AEDECOD"
+            "Preferred Terms (PTs)" = "AEDECOD",
+            "Office of New Drugs Custom Medical Queries (OCMQs)" = "ocmq"
           )
         }
       }) |>
@@ -203,7 +208,7 @@ mod_calculate_server <- function(id, r, calculate_mode) {
             "False Discovery Rate (FDR)" = "FDR",
             "New Double False Discovery Rate (DFDR)" = "DFDR"
           )
-        } else if (variable %in% c("AEBODSYS", "SMQ_NAME")) {
+        } else if (variable %in% c("AEBODSYS", "SMQ_NAME", "ocmq")) {
           # SOCs and SMQs don't work with DFDR
           list(
             "False Discovery Rate (FDR)" = "FDR"
@@ -383,6 +388,9 @@ mod_calculate_server <- function(id, r, calculate_mode) {
       if (variable == "SMQ_NAME") {
         shiny::req(r$filtered_data_smq)
         joint_data <- r$filtered_data_smq
+      } else if (variable == "ocmq") {
+        shiny::req(r$filtered_data_ocmq)
+        joint_data <- r$filtered_data_ocmq
       } else if (r$meddra_mode == "with_meddra") {
         shiny::req(r$filtered_data_mlg)
         joint_data <- r$filtered_data_mlg
@@ -408,6 +416,8 @@ mod_calculate_server <- function(id, r, calculate_mode) {
         label <- "Medical Labeling Groupings (MLGs)"
       } else if (input$safety_variable == "SMQ_NAME") {
         label <- "Standardised MedDRA Queries (SMQs)"
+      } else if (input$safety_variable == "ocmq") {
+        label <- "Office of New Drugs Custom Medical Queries (OCMQs)"
       }
       shinyWidgets::updatePickerInput(
         session,
@@ -501,12 +511,19 @@ mod_calculate_server <- function(id, r, calculate_mode) {
         if (variable == "SMQ_NAME") {
           shiny::req(r$filtered_data_smq)
           joint_data <- r$filtered_data_smq
+        } else if (variable == "ocmq") {
+          shiny::req(r$filtered_data_ocmq)
+          joint_data <- r$filtered_data_ocmq
         } else if (r$meddra_mode == "with_meddra") {
           shiny::req(r$filtered_data_mlg)
           joint_data <- r$filtered_data_mlg
         } else {
           joint_data <- filtered_data
         }
+        logger::log_info(
+          "joint_data: dim: {paste(dim(joint_data), collapse = ', ')}"
+        )
+
         # Filter by AE type ----
         joint_data_ae_type <- joint_data |>
           filter_ae_type(
@@ -518,6 +535,9 @@ mod_calculate_server <- function(id, r, calculate_mode) {
             drug_related_variable = drug_related_variable,
             drug_related_value = drug_related_value
           )
+        logger::log_info(
+          "joint_data_ae_type: dim: {paste(dim(joint_data_ae_type), collapse = ', ')}"
+        )
 
         # Avoid errors due to 0 rows dataset
         validate_need(
@@ -551,9 +571,20 @@ mod_calculate_server <- function(id, r, calculate_mode) {
           ae_start_variable = r$ae_start_variable
         )
       })
+      logger::log_info(
+        "data_results: dim: {paste(dim(data_results), collapse = ', ')}"
+      )
       data_results
     }) |>
       shiny::bindEvent(input$go_calculate)
+    shiny::observeEvent(results_all(), {
+      shiny::req(input$go_calculate)
+      bslib::update_task_button(
+        id = "go_calculate",
+        state = "ready",
+        session = session
+      )
+    })
 
     if (calculate_mode == "double_dot") {
       ## Arrange and filter double dot plot data ----
@@ -581,9 +612,23 @@ mod_calculate_server <- function(id, r, calculate_mode) {
           number_aes <- as.numeric(input$number_aes_shown)
           ae_grouping_filter <- input$ae_grouping_filter
           # Get results ----
+          logger::log_info(
+            "results_all: dim: {paste(dim(results_all()), collapse = ', ')}"
+          )
+          # Also including OVERALL category
+          if (input$include_overall) {
+            ae_grouping <- c(ae_grouping_filter, "OVERALL")
+          } else {
+            ae_grouping <- ae_grouping_filter
+          }
           data_results <- results_all() |>
             # Filter AE categories (quick filter)
-            dplyr::filter(.data[[variable]] %in% ae_grouping_filter)
+            dplyr::filter(
+              .data[[variable]] %in% ae_grouping
+            )
+          logger::log_info(
+            "data_results: dim: {paste(dim(data_results), collapse = ', ')}"
+          )
 
           if (nrow(data_results) == 0) {
             tibble::tibble()
@@ -597,6 +642,9 @@ mod_calculate_server <- function(id, r, calculate_mode) {
               effect_measure = effect_measure,
               adjustment = adjustment
             )
+            logger::log_info(
+              "data_reordered_levels: dim: {paste(dim(data_reordered_levels), collapse = ', ')}"
+            )
             # Reorder data rows to show all plots in the appropiate order
             data_arranged <- arrange_data(
               data = data_reordered_levels,
@@ -604,6 +652,9 @@ mod_calculate_server <- function(id, r, calculate_mode) {
               adjustment = adjustment,
               effect_measure = effect_measure,
               number_aes = number_aes
+            )
+            logger::log_info(
+              "data_arranged: dim: {paste(dim(data_arranged), collapse = ', ')}"
             )
             data_arranged
           }

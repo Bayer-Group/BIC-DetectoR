@@ -1,6 +1,6 @@
 Package: DetectoR
 Title: Stay Safe; Don't Miss Any Adverse-Event Signal
-Version: 3.0.1
+Version: 3.0.1.9004
 Authors@R: c(
     person("Carlos", "Fernandez-Escobar", , "carlos.fernandez4.ext@bayer.com", role = c("aut", "cre")),
     person("Steffen", "Jeske", role = "aut"),
@@ -13,6 +13,7 @@ URL: https://github.com/bayer-group/DetectoR
 BugReports: https://github.com/bayer-group/DetectoR/issues
 Imports:
     assertthat,
+    bslib,
     c212,
     checkmate,
     config,
@@ -21,15 +22,15 @@ Imports:
     DT,
     golem,
     haven,
+    logger,
     metafor,
-    pkgload,
     plotly,
     purrr,
     readr,
     rlang,
     shiny,
+    shiny.destroy,
     shinycssloaders,
-    shinydashboard,
     shinyWidgets,
     stats,
     stringr,
@@ -44,6 +45,7 @@ Suggests:
     devtools,
     here,
     knitr,
+    readxl,
     rsconnect,
     spelling,
     testthat,

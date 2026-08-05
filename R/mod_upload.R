@@ -6,101 +6,118 @@
 #'
 mod_upload_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::fluidPage(
+  bslib::card(
+    # Show before uploading data ----
     shiny::conditionalPanel(
       condition = "!output.upload_ready",
       ns = ns,
-      # Row: ADAE-ADSL files ----
-      shiny::wellPanel(
-        class = "upload",
+      ## File selection ----
+      # ADAE-ADSL files ----
+      bslib::card(
+        fill = FALSE,
         ## Demo or files mode ----
-        flex_row(
-          shiny::radioButtons(
-            ns("mode"),
-            "Input mode:",
-            choices = c(
-              "Upload ADAM Files" = "sas",
-              "Demo Data" = "demo"
-            )
-          )
+        shinyWidgets::radioGroupButtons(
+          ns("mode"),
+          "Input mode:",
+          choices = c(
+            "Upload ADAM Files" = "sas",
+            "Demo Data" = "demo"
+          ),
+          direction = "vertical"
         ),
-        ## Upload ADAE and ADSL files----
         shiny::conditionalPanel(
+          ## Upload ADAE and ADSL files----
           condition = "input.mode == 'sas'",
           ns = ns,
-          class = "flex-row",
-          shiny::div(
-            shiny::fileInput(
-              ns("adae_file"),
-              "Adverse Event data (ADAE)",
-              accept = c(".sas7bdat", ".rds", ".csv")
+          bslib::layout_columns(
+            col_widths = c(6, 6),
+            ### ADAE ----
+            shiny::div(
+              shiny::fileInput(
+                ns("adae_file"),
+                "Adverse Event data (ADAE)",
+                accept = c(".sas7bdat", ".rds", ".csv")
+              ),
+              shiny::textOutput(ns("adae_missing")),
+              shiny::textOutput(ns("adae_check"))
             ),
-            shiny::textOutput(ns("adae_missing")),
-            shiny::textOutput(ns("adae_check"))
-          ),
-          shiny::div(
-            shiny::fileInput(
-              ns("adsl_file"),
-              "Subject-level  data  (ADSL)",
-              accept = c(".sas7bdat", ".rds", ".csv")
-            ),
-            shiny::textOutput(ns("adsl_missing")),
-            shiny::textOutput(ns("adsl_check"))
+            ### ADSL ---
+            shiny::div(
+              shiny::fileInput(
+                ns("adsl_file"),
+                "Subject-level data (ADSL)",
+                accept = c(".sas7bdat", ".rds", ".csv")
+              ),
+              shiny::textOutput(ns("adsl_missing")),
+              shiny::textOutput(ns("adsl_check"))
+            )
           )
         )
       ),
-      # Row: MedDRA data ----
-      shiny::wellPanel(
-        class = "upload",
-        ## Run with or without MedDRA ----
+      ## Run with or without MedDRA ----
+      bslib::card(
+        fill = FALSE,
         flex_row(
-          shiny::radioButtons(
+          shinyWidgets::radioGroupButtons(
             ns("meddra_mode"),
             "Choose MedDRA mode:",
             choices = c(
               "Upload MedDRA data" = "with_meddra",
               "Run without MedDRA" = "without_meddra"
-            )
+            ),
+            direction = "vertical"
           )
         ),
         ## Upload MedDRA files and select MedDRA version ----
         shiny::conditionalPanel(
           condition = "input.meddra_mode == 'with_meddra'",
           ns = ns,
-          class = "flex-row",
-          shiny::div(
-            shiny::fileInput(
-              ns("meddra_file"),
-              label = "Upload MedDRA file",
-              accept = c(".sas7bdat", ".rds", ".rdta", ".csv")
+          bslib::layout_columns(
+            col_widths = c(4, 4, 4),
+            ### MedDRA file ----
+            shiny::div(
+              shiny::fileInput(
+                ns("meddra_file"),
+                label = "Upload MedDRA file",
+                accept = c(".sas7bdat", ".rds", ".rdta", ".csv")
+              ),
+              shiny::textOutput(ns("meddra_missing")),
+              shiny::textOutput(ns("meddra_check"))
             ),
-            shiny::textOutput(ns("meddra_missing")),
-            shiny::textOutput(ns("meddra_check"))
-          ),
-          shiny::div(
-            shiny::fileInput(
-              ns("smq_file"),
-              label = "Upload MedDRA SMQ view file",
-              accept = c(".sas7bdat", ".rds", ".rdta", ".csv")
+            ### MedDRA SMQ file ----
+            shiny::div(
+              shiny::fileInput(
+                ns("smq_file"),
+                label = "Upload MedDRA SMQ view file",
+                accept = c(".sas7bdat", ".rds", ".rdta", ".csv"),
+              ),
+              shiny::textOutput(ns("smq_missing")),
+              shiny::textOutput(ns("smq_check"))
             ),
-            shiny::textOutput(ns("smq_missing")),
-            shiny::textOutput(ns("smq_check"))
-          ),
-          shiny::div(
-            shiny::selectInput(
-              ns("meddra_version"),
-              label = "Select MedDRA version",
-              choices = c("Please upload MedDRA file" = "")
+            ### MedDRA version ----
+            shiny::div(
+              shiny::selectInput(
+                ns("meddra_version"),
+                label = "Select MedDRA version",
+                choices = c("Please upload MedDRA file" = "")
+              )
             )
           )
         )
-      ),
-      # Confirm data upload button ----
-      shiny::actionButton(
-        ns("confirm_upload"),
-        "Confirm upload",
-        icon = shiny::icon("check"),
-        class = "btn-lg align-center"
+      )
+    ),
+    # Confirm data upload button ----
+    shiny::conditionalPanel(
+      condition = "!output.upload_ready",
+      ns = ns,
+      bslib::layout_columns(
+        col_widths = c(-4, 4, -4),
+        bslib::input_task_button(
+          ns("confirm_upload"),
+          "Confirm upload",
+          icon = shiny::icon("check"),
+          class = "btn-lg d-block mx-auto"
+        )
       )
     ),
     invisible_text(ns("upload_ready")),
@@ -108,275 +125,206 @@ mod_upload_ui <- function(id) {
     shiny::conditionalPanel(
       condition = "output.upload_ready",
       ns = ns,
-      # First column: safety population and treatment arms ----
-      col_6(
-        shiny::wellPanel(
-          class = "upload",
+      bslib::layout_columns(
+        col_widths = c(6, 6),
+        # First column: safety population and treatment arms ----
+        bslib::card(
+          fill = FALSE,
           ## Select safety flag variable ----
-          flex_row(
-            row_left_side(
-              shiny::selectInput(
-                ns("safety_flag_variable"),
-                "Safety population",
-                choices = NULL
-              ),
-              class = "required"
+          bslib::layout_columns(
+            col_widths = c(8, 4),
+            # Left: safety variable
+            shiny::selectInput(
+              ns("safety_flag_variable"),
+              "Safety population",
+              choices = NULL
             ),
-            row_right_side(
-              shinyWidgets::pickerInput(
-                ns("safety_flag_value"),
-                "Value",
-                choices = "Y",
-                selected = "Y",
-                multiple = TRUE,
-                options = picker_input_options()
-              )
-            )
-          ),
-          shiny::hr(),
-          # Select treatment arms ----
-          flex_row(
-            row_left_side(
-              shiny::selectInput(
-                ns("treatment_variable"),
-                "Treatment arm",
-                choices = NULL
-              ),
-              class = "required"
+            # Right: safety value
+            shinyWidgets::pickerInput(
+              ns("safety_flag_value"),
+              "Value(s)",
+              choices = "Y",
+              selected = "Y",
+              multiple = TRUE,
+              options = picker_input_options()
             ),
-            row_right_side()
-          ),
-          flex_row(
+            # Select treatment arms ----
+            # Left: treatment variable
+            shiny::selectInput(
+              ns("treatment_variable"),
+              "Treatment arm variable",
+              choices = NULL
+            ),
+            # Right: empty
+            shiny::div(),
             ## Select Verum ----
-            row_half(
-              class = "required",
-              shinyWidgets::pickerInput(
-                ns("select_verum"),
-                "Verum arm",
-                choices = "Verum",
-                selected = "Verum",
-                multiple = TRUE,
-                options = picker_input_options()
-              ),
-              shinyWidgets::pickerInput(
-                ns("select_comparator"),
-                "Comparator arm",
-                choices = "Comparator",
-                selected = "Comparator",
-                multiple = TRUE,
-                options = picker_input_options()
-              )
+            shinyWidgets::pickerInput(
+              ns("select_verum"),
+              "Verum arm(s)",
+              choices = "Verum",
+              selected = "Verum",
+              multiple = TRUE,
+              options = picker_input_options()
+            ),
+            shiny::textInput(
+              ns("verum_name"),
+              "Verum name",
+              value = "Verum"
             ),
             ## Select Comparator ----
-            row_half(
-              class = "required",
-              shiny::textInput(
-                ns("verum_name"),
-                "Verum name",
-                value = "Verum"
-              ),
-              shiny::textInput(
-                ns("comparator_name"),
-                "Comparator name",
-                value = "Comparator"
-              )
+            shinyWidgets::pickerInput(
+              ns("select_comparator"),
+              "Comparator arm(s)",
+              choices = "Comparator",
+              selected = "Comparator",
+              multiple = TRUE,
+              options = picker_input_options()
+            ),
+            shiny::textInput(
+              ns("comparator_name"),
+              "Comparator name",
+              value = "Comparator"
             )
           )
-        )
-      ),
-      # Second column: variable mapping ----
-      col_6(
-        shiny::wellPanel(
-          # AE-related variables ----
-          ## Select treatment-emergent flag variable ----
-          flex_row(
-            row_left_side(
-              class = "required",
-              shiny::selectInput(
-                ns("treatment_emergent_flag"),
-                "Treatment-emergent AE (TEAE)",
-                choices = NULL
-              )
+        ),
+        # Second column: variable mapping ----
+        bslib::card(
+          bslib::layout_columns(
+            col_widths = c(8, 4),
+            # AE-related variables ----
+            ## Select treatment-emergent flag variable ----
+            shiny::selectInput(
+              ns("treatment_emergent_flag"),
+              "Treatment-emergent AE (TEAE)",
+              choices = NULL
             ),
-            row_right_side(
-              shinyWidgets::pickerInput(
-                ns("treatment_emergent_flag_value"),
-                "Value",
-                choices = "Y",
-                selected = "Y",
-                multiple = TRUE,
-                options = picker_input_options()
-              )
+            shinyWidgets::pickerInput(
+              ns("treatment_emergent_flag_value"),
+              "Value(s)",
+              choices = "Y",
+              selected = "Y",
+              multiple = TRUE,
+              options = picker_input_options()
+            ),
+            ## Select serious flag variable ----
+            shiny::selectInput(
+              ns("serious_flag_variable"),
+              "Serious AE (SAE)",
+              choices = NULL
+            ),
+            shinyWidgets::pickerInput(
+              ns("serious_flag_value"),
+              "Value(s)",
+              choices = "Y",
+              selected = "Y",
+              multiple = TRUE,
+              options = picker_input_options()
+            ),
+            ## Select drug-related flag variable ----
+            shiny::selectInput(
+              ns("drug_related_flag_variable"),
+              "Drug-related",
+              choices = NULL
+            ),
+            shinyWidgets::pickerInput(
+              ns("drug_related_flag_value"),
+              "Value(s)",
+              choices = "Y",
+              selected = "Y",
+              multiple = TRUE,
+              options = picker_input_options()
             )
           ),
-          ## Select serious flag variable ----
-          flex_row(
-            row_left_side(
-              class = "required",
-              shiny::selectInput(
-                ns("serious_flag_variable"),
-                "Serious AE (SAE)",
-                choices = NULL
-              )
-            ),
-            row_right_side(
-              shinyWidgets::pickerInput(
-                ns("serious_flag_value"),
-                "Value",
-                choices = "Y",
-                selected = "Y",
-                multiple = TRUE,
-                options = picker_input_options()
-              )
-            )
-          ),
-          ## Select drug-related flag variable ----
-          flex_row(
-            row_left_side(
-              class = "required",
-              shiny::selectInput(
-                ns("drug_related_flag_variable"),
-                "Drug-related",
-                choices = NULL
-              )
-            ),
-            row_right_side(
-              shinyWidgets::pickerInput(
-                ns("drug_related_flag_value"),
-                "Value",
-                choices = "Y",
-                selected = "Y",
-                multiple = TRUE,
-                options = picker_input_options()
-              )
-            )
-          ),
-          ## Select AE outcome variable ----
-          flex_row(
-            row_left_side(
-              shiny::selectInput(
-                ns("ae_outcome_variable"),
-                "AE outcome",
-                choices = NULL
-              )
-            ),
-            row_right_side()
-          ),
-          shiny::hr(),
           # Duration-related variables (for incidence rates) ----
-          ## Choose duration or time start and end ----
-          flex_row(
-            row_left_side(
-              class = "duration-mode",
-              shiny::radioButtons(
-                ns("duration_mode"),
-                "Time at risk variables",
-                choices = c(
-                  "Duration" = "duration",
-                  "Start and End Dates" = "start_end_date",
-                  "None" = "none"
-                ),
-                selected = "none"
-              )
+          shinyWidgets::radioGroupButtons(
+            ns("duration_mode"),
+            "Time at risk variables",
+            choices = c(
+              "Duration" = "duration",
+              "Start and End Dates" = "start_end_date",
+              "None" = "none"
             ),
-            row_right_side()
+            selected = "none",
+            direction = "vertical"
           ),
+          ## Choose duration or time start and end ----
           shiny::conditionalPanel(
             condition = "input.duration_mode == 'duration'",
             ns = ns,
-            ## Select AE duration variable ----
-            flex_row(
-              row_left_side(
-                shiny::selectInput(
-                  ns("ae_duration_variable"),
-                  "Time until AE",
-                  choices = NULL
-                )
+            bslib::layout_columns(
+              col_widths = c(6, 6),
+              ## Select AE duration variable ----
+              shiny::selectInput(
+                ns("ae_duration_variable"),
+                "Time until AE",
+                choices = NULL
               ),
-              row_right_side()
-            ),
-            ## Select exposure duration variable ----
-            flex_row(
-              row_left_side(
-                shiny::selectInput(
-                  ns("exposure_duration_variable"),
-                  "Duration of exposure",
-                  choices = NULL
-                )
+              ## Select exposure duration variable ----
+              shiny::selectInput(
+                ns("exposure_duration_variable"),
+                "Duration of exposure",
+                choices = NULL
               ),
-              row_right_side()
             )
           ),
           shiny::conditionalPanel(
             condition = "input.duration_mode == 'start_end_date'",
             ns = ns,
-            flex_row(
-              row_left_side(
-                shiny::selectInput(
-                  ns("ae_start_variable"),
-                  "AE start date",
-                  choices = NULL
-                )
+            bslib::layout_columns(
+              col_widths = c(6, 6),
+              shiny::selectInput(
+                ns("ae_start_variable"),
+                "AE start date",
+                choices = NULL
               ),
-              row_right_side()
-            ),
-            flex_row(
-              row_half(
-                shiny::selectInput(
-                  ns("exposure_start_variable"),
-                  "Start Analysis Date",
-                  choices = NULL
-                )
+              shiny::div(),
+              shiny::selectInput(
+                ns("exposure_start_variable"),
+                "Start Analysis Date",
+                choices = NULL
               ),
-              row_half(
-                shiny::selectInput(
-                  ns("exposure_end_variable"),
-                  "End Analysis Date",
-                  choices = NULL
-                )
+              shiny::selectInput(
+                ns("exposure_end_variable"),
+                "End Analysis Date",
+                choices = NULL
               )
             )
           )
         )
       ),
       # Go select button ----
-      shiny::actionButton(
-        ns("go_select"),
-        "Apply selection!",
-        icon = shiny::icon("redo"),
-        class = "btn-lg align-center"
+      bslib::layout_columns(
+        col_widths = c(-4, 4, -4),
+        bslib::input_task_button(
+          ns("go_select"),
+          "Apply selection!",
+          icon = shiny::icon("redo"),
+          class = "btn-lg d-block mx-auto"
+        )
       ),
       shiny::textOutput(ns("select_missing")),
       invisible_text(ns("select_ready")),
-    ),
-    # Feedback after selecting variables ----
-    shiny::conditionalPanel(
-      condition = "output.select_ready",
-      ns = ns,
-      class = "flex-row",
-      # Buttons to go to next pages ----
-      shiny::actionButton(
-        ns("next_filter"),
-        "Go to Filter",
-        icon = shiny::icon("filter"),
-        class = "btn-lg"
-      ),
-      shiny::actionButton(
-        ns("next_double_dot"),
-        "Go to Double Dot Plot",
-        icon = shiny::icon("list-alt"),
-        class = "btn-lg"
-      ),
-      shiny::actionButton(
-        ns("next_heatmap"),
-        "Go to Heatmap",
-        icon = shiny::icon("th"),
-        class = "btn-lg"
-      ),
-      # Show dataset info ----
-      shiny::div(
-        class = "flex-row",
-        mod_info_ui("info_upload")
+      # Feedback after selecting variables ----
+      shiny::conditionalPanel(
+        condition = "output.select_ready",
+        ns = ns,
+        # Buttons to go to next pages ----
+        # Show dataset info ----
+        bslib::layout_columns(
+          col_widths = c(-3, 3, 3, -3),
+          shiny::actionButton(
+            ns("next_double_dot"),
+            "Go to Double Dot Plot",
+            icon = shiny::icon("list-alt"),
+            class = "btn-lg btn-primary"
+          ),
+          shiny::actionButton(
+            ns("next_heatmap"),
+            "Go to Heatmap",
+            icon = shiny::icon("th"),
+            class = "btn-lg btn-primary"
+          )
+        )
       )
     )
   )
@@ -620,7 +568,15 @@ mod_upload_server <- function(id, r) {
         shiny::req(meddra_data(), smq_data(), mlg_data())
       }
       shiny::req(input$confirm_upload)
-      "Upload OK! Please select required variables"
+      "Upload OK! Please select the required variables"
+    })
+    shiny::observeEvent(upload_is_ready(), {
+      shiny::req(input$confirm_upload)
+      bslib::update_task_button(
+        id = "confirm_upload",
+        state = "ready",
+        session = session
+      )
     })
     output$upload_ready <- shiny::renderText(upload_is_ready())
     # Flag to info panel when data selection is ready ----
@@ -634,6 +590,14 @@ mod_upload_server <- function(id, r) {
       )
       "Selection OK! You can confirm the dataset information and move to any
       graphics page."
+    })
+    shiny::observeEvent(selection_is_ready(), {
+      shiny::req(input$go_select)
+      bslib::update_task_button(
+        id = "go_select",
+        state = "ready",
+        session = session
+      )
     })
     output$select_ready <- shiny::renderText(selection_is_ready())
     # Data selection ----
@@ -650,7 +614,7 @@ mod_upload_server <- function(id, r) {
       update_variables_input(
         data_req = adsl_data_prepared(),
         var_names = adsl_variable_names(),
-        name_pattern = "ACTARM|TRT01AN|TREATMGR",
+        name_pattern = "ACTARM|TRT01[AP]|TREATMGR",
         input_id = "treatment_variable",
         session = session
       )
@@ -717,7 +681,7 @@ mod_upload_server <- function(id, r) {
       update_variables_input(
         data_req = adae_data_prepared(),
         var_names = adae_variable_names(),
-        name_pattern = "AEREL",
+        name_pattern = "AREL|AEREL",
         input_id = "drug_related_flag_variable",
         session = session
       )
@@ -776,7 +740,7 @@ mod_upload_server <- function(id, r) {
       update_variables_input(
         data_req = adsl_data_prepared(),
         var_names = adsl_variable_names(),
-        name_pattern = "RANDDT",
+        name_pattern = "TRTSDT|RFSTDT|RANDDT",
         input_id = "exposure_start_variable",
         session = session
       )
@@ -786,7 +750,7 @@ mod_upload_server <- function(id, r) {
       update_variables_input(
         data_req = adsl_data_prepared(),
         var_names = adsl_variable_names(),
-        name_pattern = "RFENDT|EOSDT",
+        name_pattern = "TRTEDT|RFENDT|EOSDT",
         input_id = "exposure_end_variable",
         session = session
       )
@@ -928,29 +892,35 @@ mod_upload_server <- function(id, r) {
         )
     }) |>
       shiny::bindEvent(unfiltered_data())
+    # Join ADAE-ADSL with OCMQ ----
+    unfiltered_data_ocmq <- shiny::reactive({
+      shiny::req(unfiltered_data())
+      unfiltered_data() |> join_ocmq_data()
+    }) |>
+      shiny::bindEvent(unfiltered_data())
     # Move to next page ----
     ## Move to filtering
     shiny::observeEvent(input$next_filter, {
-      shinydashboard::updateTabItems(
-        session = r$parent_session,
-        inputId = "tabs",
-        selected = "filter"
+      bslib::nav_select(
+        "tabs",
+        selected = "filter",
+        session = r$parent_session
       )
     })
     ## Move directly to double-dot-plot
     shiny::observeEvent(input$next_double_dot, {
-      shinydashboard::updateTabItems(
-        session = r$parent_session,
-        inputId = "tabs",
-        selected = "graph"
+      bslib::nav_select(
+        "tabs",
+        selected = "graph",
+        session = r$parent_session
       )
     })
     ## Move directly to heatmap
     shiny::observeEvent(input$next_heatmap, {
-      shinydashboard::updateTabItems(
-        session = r$parent_session,
-        inputId = "tabs",
-        selected = "heatmap"
+      bslib::nav_select(
+        "tabs",
+        selected = "heatmap",
+        session = r$parent_session
       )
     })
     # Pass objects to reactiveValues "r" ----
@@ -1044,6 +1014,9 @@ mod_upload_server <- function(id, r) {
     })
     shiny::observe({
       r$filtered_data_smq <- unfiltered_data_smq()
+    })
+    shiny::observe({
+      r$filtered_data_ocmq <- unfiltered_data_ocmq()
     })
     shiny::observe({
       r$go_select <- input$go_select

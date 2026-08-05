@@ -3,7 +3,7 @@
 #'@param joint_data Joined and filtered ADSL-ADAE data set with MedDRA data.
 #'@param adsl_filtered_data A dataframe with ADSL after filtering.
 #'@param variable A character, the variable name that will be shown in the plot
-#'  ("AEDECOD", "MLG_label", "SMQ_NAME" or "AEBODSYS").
+#'  ("AEDECOD", "MLG_label", "SMQ_NAME", "ocmq" or "AEBODSYS").
 #'@param effect_measure Display option RR (relative risks) or RD (risk
 #' differences).
 #'@param adjustment Adjustment variable FDR or DFDR.
@@ -34,7 +34,7 @@
 calculate_results <- function(
   joint_data,
   adsl_filtered_data,
-  variable = c("AEDECOD", "MLG_label", "SMQ_NAME", "AEBODSYS"),
+  variable = c("AEDECOD", "MLG_label", "SMQ_NAME", "ocmq", "AEBODSYS"),
   effect_measure = c("RR", "RD"),
   adjustment = c("FDR", "DFDR"),
   order_by = c("p-value", "effect"),
@@ -50,6 +50,7 @@ calculate_results <- function(
   exposure_end_variable = NULL,
   ae_start_variable = NULL
 ) {
+  logger::log_info("++++ calculate_results started ++++")
   variable <- match.arg(variable)
   effect_measure <- match.arg(effect_measure)
   adjustment <- match.arg(adjustment)
@@ -145,6 +146,9 @@ calculate_results <- function(
       equivalence_pt_soc <- comb_data |>
         dplyr::distinct(.data$MLG_label, .data$SOC_MLG)
     }
+    # Remove OVERALL group, if present
+    results_fdr_data <- results_fdr_data |>
+      dplyr::filter(.data[[variable]] != "OVERALL")
     # Count the total cases by variable, and their total proportion
     aes_tier2 <- count_total_proportions(results_fdr_data, variable) |>
       dplyr::left_join(equivalence_pt_soc, by = variable)
@@ -193,6 +197,7 @@ calculate_results <- function(
   } else {
     results <- results_data
   }
+  logger::log_info("---- calculate_results finished ----")
   results
 }
 
@@ -212,248 +217,6 @@ filter_empty_variable <- function(data, variable) {
         factor
       )
     )
-}
-
-#' Get the denominator counts (N for arms) for proportions or incidence rates
-#' @param adsl_filtered_data ADSL with filters applied
-#' @param frequency_measure Either "proportions" or "incidence rates"
-#' @param duration_mode Way of calculating incidence risks time at risk,
-#' can be "duration", "start_end_date" or "none".
-#' @param exposure_duration_variable Variables for calculation of time at risk
-#' for incidence rates.
-#' @param exposure_start_variable Variables for calculation of time at risk for
-#' incidence rates.
-#' @param exposure_end_variable Variables for calculation of time at risk for
-#' incidence rates.
-#' @returns A tibble with columns trta_detector, big_n (number of subjects),
-#' big_exp (total duration of exposure, only if incidence rates)
-
-get_big_n <- function(
-  adsl_filtered_data,
-  frequency_measure = c("proportions", "incidence rates"),
-  duration_mode,
-  exposure_duration_variable = NULL,
-  exposure_start_variable = NULL,
-  exposure_end_variable = NULL
-) {
-  frequency_measure <- match.arg(frequency_measure)
-  if (frequency_measure == "proportions") {
-    assert_columns(adsl_filtered_data, "trta_detector")
-    big_n <- adsl_filtered_data |>
-      dplyr::count(.data$trta_detector, name = "big_n", .drop = FALSE)
-  } else if (frequency_measure == "incidence rates") {
-    # Logic for incidence rates -----
-    assertthat::assert_that(duration_mode %in% c("duration", "start_end_date"))
-    if (duration_mode == "start_end_date") {
-      assert_columns(
-        adsl_filtered_data,
-        c(
-          "USUBJID",
-          "trta_detector",
-          exposure_start_variable,
-          exposure_end_variable
-        )
-      )
-      # Add duration variable
-      adsl_filtered_data <- adsl_filtered_data |>
-        dplyr::mutate(
-          exposure_duration = as.numeric(
-            as.Date(.data[[exposure_end_variable]]) -
-              as.Date(.data[[exposure_start_variable]])
-          ) +
-            1
-        )
-      exposure_duration_variable <- "exposure_duration"
-    }
-    assert_columns(
-      adsl_filtered_data,
-      c(
-        "USUBJID",
-        "trta_detector",
-        exposure_duration_variable
-      )
-    )
-    # Count total number of participants and duration exposure
-    big_n <- adsl_filtered_data |>
-      dplyr::select("USUBJID", "trta_detector", exposure_duration_variable) |>
-      dplyr::group_by(.data$trta_detector, .drop = FALSE) |>
-      dplyr::summarise(
-        big_n = dplyr::n(), # number of participants
-        # total duration of exposure
-        big_exp = sum(.data[[exposure_duration_variable]], na.rm = TRUE),
-        .groups = "drop"
-      )
-  }
-  big_n
-}
-
-#' Calculate counts and proportions of events
-#' @inheritParams calculate_results
-#' @param comb_data Filtered dataset combining ADSL and ADAE
-#' @param big_n Tibble with denominators for treatment arms (number of subjects)
-#' @param variable A character, the variable name that will be shown in the plot
-#'  ("AEDECOD", "MLG_label", "SMQ_NAME" or "AEBODSYS").
-#' @param frequency_measure Either "proportions" or "incidence rates"
-#' @returns A tibble with columns:
-#' \describe{
-#'   \item{\code{variable}}{The safety variable, can be "AEDECOD", "MLG_label",
-#' "SMQ_NAME" or "AEBODSYS"}
-#'   \item{\code{trta_detector}}{Treatment arm, "Verum" or "Comparison"}
-#'   \item{\code{count}}{Number of events}
-#'   \item{\code{no_count}}{Number of no-events (total minus number of events)}
-#'   \item{\code{big_n}}{Number of subjects in each arm}
-#'   \item{\code{prop}}{Proportion or incidence rate}
-#'   \item{\code{pattime}}{Text exposure time per arm, only if incidence rates}
-#' }
-get_count_proportions <- function(
-  comb_data,
-  big_n,
-  variable = c("AEDECOD", "MLG_label", "SMQ_NAME", "AEBODSYS"),
-  frequency_measure = c("proportions", "incidence rates"),
-  duration_mode,
-  ae_duration_variable = NULL,
-  exposure_duration_variable = NULL,
-  exposure_start_variable = NULL,
-  exposure_end_variable = NULL,
-  ae_start_variable = NULL
-) {
-  variable <- match.arg(variable)
-  frequency_measure <- match.arg(frequency_measure)
-  if (frequency_measure == "proportions") {
-    # Logic for incidence proportions -----
-    assert_columns(comb_data, c(variable, "USUBJID", "trta_detector"))
-    assert_columns(big_n, c("trta_detector", "big_n"))
-    proportions_data <- comb_data |>
-      # Remove ADSL rows without adverse event
-      dplyr::filter(!is.na(.data[[variable]])) |>
-      # Keep unique AEs per subject (we only count each category once)
-      dplyr::distinct(.data[[variable]], .data$USUBJID, .data$trta_detector) |>
-      # Count the number of participants with AEs per treatment group
-      dplyr::count(
-        .data[[variable]],
-        .data$trta_detector,
-        name = "count",
-        .drop = FALSE # for counting 0 events
-      ) |>
-      # Add denominators
-      dplyr::left_join(big_n, by = "trta_detector") |>
-      # Calculate proportions and add labels
-      dplyr::mutate(
-        no_count = .data$big_n - .data$count,
-        prop = .data$count / .data$big_n
-      ) |>
-      dplyr::select(
-        tidyselect::all_of(variable),
-        "trta_detector",
-        "count",
-        "no_count",
-        "big_n",
-        "prop"
-      )
-  } else if (frequency_measure == "incidence rates") {
-    # Logic for incidence rates -----
-    assertthat::assert_that(duration_mode %in% c("duration", "start_end_date"))
-    if (duration_mode == "start_end_date") {
-      assert_columns(
-        comb_data,
-        c(
-          variable,
-          "USUBJID",
-          "trta_detector",
-          ae_start_variable,
-          exposure_start_variable,
-          exposure_end_variable
-        )
-      )
-      # Add duration variables
-      comb_data <- comb_data |>
-        dplyr::mutate(
-          exposure_duration = as.numeric(
-            as.Date(.data[[exposure_end_variable]]) -
-              as.Date(.data[[exposure_start_variable]])
-          ) +
-            1,
-          ae_duration = as.numeric(
-            as.Date(.data[[ae_start_variable]]) -
-              as.Date(.data[[exposure_start_variable]])
-          ) +
-            1
-        )
-      exposure_duration_variable <- "exposure_duration"
-      ae_duration_variable <- "ae_duration"
-    }
-    assert_columns(
-      comb_data,
-      c(
-        variable,
-        "USUBJID",
-        "trta_detector",
-        ae_duration_variable,
-        exposure_duration_variable
-      )
-    )
-    assert_columns(big_n, c("trta_detector", "big_n", "big_exp"))
-    # Calculate times at risk and event count
-    proportions_data <- comb_data |>
-      # Remove ADSL rows without adverse event
-      dplyr::filter(!is.na(.data[[variable]])) |>
-      dplyr::select(
-        dplyr::all_of(c(
-          variable,
-          ae_duration_variable,
-          exposure_duration_variable
-        )),
-        "USUBJID",
-        "trta_detector"
-      ) |>
-      # Keep only the first occurrence of each AE for each participant
-      dplyr::group_by(.data$USUBJID, .data[[variable]]) |>
-      # Sort by time until AE occurrence
-      dplyr::arrange(.data[[ae_duration_variable]]) |>
-      dplyr::slice_head(n = 1) |> # Extract the first occurrence
-      dplyr::ungroup() |>
-      # Count the number of events and sum of exposure by treatment group
-      dplyr::group_by(
-        .data[[variable]],
-        .data$trta_detector,
-        .drop = FALSE
-      ) |>
-      dplyr::summarise(
-        count = dplyr::n(),
-        # total exposure time
-        sum_durexp = sum(.data[[exposure_duration_variable]], na.rm = TRUE),
-        # time prior to event
-        sum_aedur = sum(.data[[ae_duration_variable]], na.rm = TRUE),
-        # time censored (after AE)
-        sum_censored = .data$sum_durexp - .data$sum_aedur,
-        .groups = "drop"
-      ) |>
-      # Add denominators
-      dplyr::left_join(big_n, by = "trta_detector") |>
-      # Calculate incidences
-      dplyr::mutate(
-        # time-at-risk is obtained subtracting the time of exposure censured
-        # after the AE from the total exposure time
-        pattime = .data$big_exp - .data$sum_censored,
-        # Avoid division by zero when pattime is 0 or negative (e.g. all exposure censored)
-        prop = dplyr::if_else(
-          .data$pattime > 0,
-          365.25 * 100 * .data$count / .data$pattime,
-          NA_real_
-        ),
-        no_count = .data$big_n - .data$count
-      ) |>
-      dplyr::select(
-        tidyselect::all_of(variable),
-        "trta_detector",
-        "count",
-        "no_count",
-        "big_n",
-        "pattime",
-        "prop"
-      )
-  }
-  proportions_data
 }
 
 #' Filter the minimum count of AEs
@@ -557,35 +320,42 @@ reorder_levels <- function(
   effect_measure <- tolower(effect_measure)
   # Make sure that dataframe is ungrouped. Otherwise, factors only
   # have two levels
-  data <- data |>
-    dplyr::ungroup()
+  data_ae <- data |>
+    dplyr::ungroup() |>
+    # Deselect OVERALL (will be added at the end)
+    dplyr::filter(.data[[variable]] != "OVERALL")
 
   if (order_by == "effect") {
-    data_reordered <- data |>
+    data_reordered <- data_ae |>
       dplyr::arrange(
         dplyr::desc(.data[[effect_measure]]),
         .data$p,
         .data[[variable]]
       )
   } else if (adjustment == "FDR") {
-    data_reordered <- data |>
+    data_reordered <- data_ae |>
       dplyr::arrange(.data$p_adj, .data$p, .data[[variable]])
   } else if (adjustment == "DFDR") {
-    data_reordered <- data |>
+    data_reordered <- data_ae |>
       dplyr::arrange(.data$DFDR, .data$p, .data[[variable]])
   }
 
   # Get levels of the variable in the desired order
   vector_reordered <- data_reordered |>
     dplyr::distinct(.data[[variable]]) |>
+    # Add back OVERALL level
+    dplyr::add_row({{ variable }} := "OVERALL", .before = 1) |>
     dplyr::pull(.data[[variable]]) |>
     rev() # By default, ggplot2 plots factors in reverse order
 
   # Add those labels to variable axis_var (the one shown in plots in axis)
-  data |>
+  res <- data |>
     dplyr::mutate(
       axis_var = factor(.data[[variable]], levels = vector_reordered)
     )
+  assertthat::assert_that(sum(!is.na(res[[variable]])) > 0)
+  assertthat::assert_that(sum(!is.na(res$axis_var)) > 0)
+  res
 }
 
 #' A function to prepare data for plotting the double dot plots
@@ -612,28 +382,40 @@ arrange_data <- function(
   adjustment <- match.arg(adjustment)
   effect_measure <- tolower(match.arg(effect_measure)) # "rr" or "rd"
   number_aes <- number_aes * 2 # two rows per AE (verum and comparator)
-  # Remove empty axis_var labels in SMQ view
+  assertthat::assert_that(sum(!is.na(data$axis_var)) > 0)
+  # Remove empty axis_var labels in SMQ/OCMQ view
   data <- data |>
     dplyr::filter(!is.na(.data$axis_var))
+
+  # Extract OVERALL rows (to add them back later)
+  data_overall <- data |>
+    dplyr::filter(.data$axis_var == "OVERALL")
+  data_aes <- data |>
+    dplyr::filter(.data$axis_var != "OVERALL")
+
   if (order_by == "p-value") {
     var <- dplyr::case_when(
       adjustment == "FDR" ~ "p_adj",
       adjustment == "DFDR" ~ "DFDR"
     )
-    data <- data |>
+    data_aes <- data_aes |>
       # ordered by adjusted p_value, then unadjusted p-value
       dplyr::arrange(.data[[var]], .data$p)
   } else if (order_by == "effect") {
-    data <- data |>
+    data_aes <- data_aes |>
       # order by RD or RR, descending
       dplyr::arrange(dplyr::desc(.data[[effect_measure]]))
   }
   # select only the rows to show on plots
-  data <- data |>
-    dplyr::slice_head(n = number_aes) |>
+  data_arranged <- dplyr::bind_rows(
+    # Add OVERALL back
+    data_overall,
+    data_aes |>
+      dplyr::slice_head(n = number_aes)
+  ) |>
     # Remove unused levels to restrict plotly output
     droplevels()
-  data
+  data_arranged
 }
 
 #' Filter by AE type (Serious, Treatment-Emergent, etc.)
