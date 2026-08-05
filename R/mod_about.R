@@ -41,7 +41,7 @@ mod_about_ui <- function(id) {
       "<p><strong>CDISC datasets (ADSL & ADAE)</strong> from studies or pools
       can be uploaded easily without any further pre-processing into the
       DetectoR app. For further information on data set requirements, please
-      see the <em>Data manual tab</em>.</p>"
+      see the <em>Data manual</em> tab.</p>"
     ),
     shiny::HTML(
       "<p><strong>Demo data</strong> is available to become easily acquainted
@@ -71,7 +71,7 @@ mod_about_ui <- function(id) {
     shiny::HTML(
       "<p>Based on subject level characteristics and adverse event categories,
       generic <strong>data filtering</strong> can be applied any time by using
-      the <em>Filter tab</em>. For example, the analyses can be restricted to
+      the <em>Filter Data</em> options in the sidebar. For example, the analyses can be restricted to
       Serious Adverse Events (SAEs) or adverse events leading to
       discontinuation, to focus on events of higher severity or impact.</p>"
     ),
@@ -86,7 +86,7 @@ mod_about_ui <- function(id) {
     shiny::HTML(
       "<p>After the data is uploaded, treatment is defined and filters are
       applied, the tabs <em>Double Dot Plot</em>, <em>Heatmap</em>, <em>Volcano
-      Plot</em>, and <em>View dataset</em> are available to explore the data.
+      Plot</em>, and <em>Table</em> are available to explore the data.
       </p>"
     ),
     shiny::h3("The Double Dot Plot"),
@@ -165,10 +165,10 @@ mod_about_ui <- function(id) {
         </ul>
       </p>"
     ),
-    shiny::h3("The Data View"),
+    shiny::h3("The Table View"),
     shiny::HTML(
       "<p>All data provided in the Double Dot Plot can also be found in the
-      <em>View dataset tab</em> and easily be filtered and sorted as required.
+      <em>Table</em> tab and easily be filtered and sorted as required.
       </p>"
     ),
     shiny::h3("The Heatmap"),
