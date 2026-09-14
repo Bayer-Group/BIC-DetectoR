@@ -90,7 +90,7 @@ mod_upload_ui <- function(id) {
               shiny::fileInput(
                 ns("smq_file"),
                 label = "Upload MedDRA SMQ view file",
-                accept = c(".sas7bdat", ".rds", ".rdta", ".csv"),
+                accept = c(".sas7bdat", ".rds", ".rdta", ".csv")
               ),
               shiny::textOutput(ns("smq_missing")),
               shiny::textOutput(ns("smq_check"))
@@ -265,7 +265,7 @@ mod_upload_ui <- function(id) {
                 ns("exposure_duration_variable"),
                 "Duration of exposure",
                 choices = NULL
-              ),
+              )
             )
           ),
           shiny::conditionalPanel(

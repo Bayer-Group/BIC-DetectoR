@@ -469,15 +469,15 @@ mod_calculate_server <- function(id, r, calculate_mode) {
         variable <- "AEDECOD"
         effect_measure <- dplyr::case_when(
           heatmap_color %in% c("RR", "FDR", "DFDR") ~ "RR",
-          heatmap_color %in% c("RD") ~ "RD",
+          heatmap_color %in% c("RD") ~ "RD"
         )
         order_by <- dplyr::case_when(
           heatmap_color %in% c("RR", "RD") ~ "effect",
-          heatmap_color %in% c("FDR", "DFDR") ~ "p-value",
+          heatmap_color %in% c("FDR", "DFDR") ~ "p-value"
         )
         adjustment <- dplyr::case_when(
           heatmap_color %in% c("RR", "RD", "FDR") ~ "FDR",
-          heatmap_color %in% c("DFDR") ~ "DFDR",
+          heatmap_color %in% c("DFDR") ~ "DFDR"
         )
       } else if (calculate_mode == "volcano") {
         ## Volcano ----
