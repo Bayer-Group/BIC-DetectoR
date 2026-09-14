@@ -35,6 +35,7 @@ app_server <- function(input, output, session) {
   # Conditionally show sidebar menu items ----
   shiny::observe({
     if (input$tabs == "upload") {
+      shiny::req(r$unfiltered_data)
       bslib::toggle_sidebar("sidebar_page", open = TRUE)
     }
     if (input$tabs == "welcome") {

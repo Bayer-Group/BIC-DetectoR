@@ -11,14 +11,7 @@ mod_info_ui <- function(id) {
   bslib::accordion_panel(
     "Dataset Information",
     icon = shiny::icon("info-circle"),
-    bslib::card(
-      bslib::card_header(shiny::icon("user"), "Subject Info"),
-      shiny::uiOutput(ns("dataset_info"))
-    ),
-    bslib::card(
-      bslib::card_header(shiny::icon("university"), "Study Info"),
-      shiny::textOutput(ns("sites_info"))
-    )
+    shiny::uiOutput(ns("mod_info_cards"))
   )
 }
 
@@ -27,30 +20,24 @@ mod_info_ui <- function(id) {
 #' @noRd
 mod_info_server <- function(id, r) {
   shiny::moduleServer(id, function(input, output, session) {
-    dataset_info <- shiny::eventReactive(
-      c(r$unfiltered_data, r$filtered_data, r$adae_filtered),
-      {
-        validate_need(
-          r$filtered_data,
-          "No data to show! Please check the data filters."
-        )
-        display_info_summary(
-          data_unfiltered = r$unfiltered_data,
-          data_filtered = r$filtered_data,
-          adae_unfiltered = r$adae_data,
-          adae_filtered = r$adae_filtered,
-          verum_name = r$verum_name,
-          comparator_name = r$comparator_name
-        )
-      }
-    )
-    output$dataset_info <- shiny::renderUI({
-      validate_need(r$filtered_data, "No data to show!")
-      dataset_info()
+    dataset_info <- shiny::reactive({
+      shiny::req(r$unfiltered_data)
+      validate_need(
+        r$filtered_data,
+        "No data to show! Please check the data filters."
+      )
+      display_info_summary(
+        data_unfiltered = r$unfiltered_data,
+        data_filtered = r$filtered_data,
+        adae_unfiltered = r$adae_data,
+        adae_filtered = r$adae_filtered,
+        verum_name = r$verum_name,
+        comparator_name = r$comparator_name
+      )
     }) |>
-      shiny::bindEvent(r$unfiltered_data, r$filtered_data)
+      shiny::bindEvent(r$unfiltered_data, r$filtered_data, r$adae_filtered)
     ## Study site information ----
-    sites_info <- shiny::eventReactive(c(r$unfiltered_data, r$filtered_data), {
+    sites_info <- shiny::reactive({
       shiny::req(r$unfiltered_data, r$adae_data)
       validate_need(
         r$filtered_data,
@@ -77,11 +64,26 @@ mod_info_server <- function(id, r) {
           ""
         )
       )
-    })
-    output$sites_info <- shiny::renderText({
-      validate_need(r$filtered_data, "No data to show!")
-      sites_info()
     }) |>
       shiny::bindEvent(r$unfiltered_data, r$filtered_data)
+    output$mod_info_cards <- shiny::renderUI({
+      if (is.null(r$unfiltered_data)) {
+        bslib::card(
+          bslib::card_header(shiny::icon("lightbulb"), "Get started"),
+          "Please upload a dataset!"
+        )
+      } else {
+        shiny::tagList(
+          bslib::card(
+            bslib::card_header(shiny::icon("user"), "Subject Info"),
+            dataset_info()
+          ),
+          bslib::card(
+            bslib::card_header(shiny::icon("university"), "Study Info"),
+            sites_info()
+          )
+        )
+      }
+    })
   })
 }

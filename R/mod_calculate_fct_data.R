@@ -468,6 +468,6 @@ filter_ae_type <- function(
         filter_drug_related ~ .data[[drug_related_variable]] ==
           drug_related_value,
         .default = TRUE
-      ),
+      )
     )
 }

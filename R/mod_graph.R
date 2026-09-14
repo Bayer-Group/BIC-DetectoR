@@ -27,7 +27,7 @@ mod_graph_ui <- function(id) {
         ns = ns,
         shiny::span(
           shiny::icon("circle-info"),
-          "Click the Calculate! button to display the plot."
+          "Click the Calculate! button on the sidebar to display the plot."
         )
       ),
       bslib::layout_columns(

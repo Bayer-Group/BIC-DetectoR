@@ -27,7 +27,13 @@ app_ui <- function(request) {
           # Plot display options
           shiny::conditionalPanel(
             "input.tabs == 'welcome'",
-            "Upload data to get started!"
+            bslib::card(
+              bslib::card_header(
+                shiny::icon("lightbulb"),
+                "Get started"
+              ),
+              "Upload data to get started!"
+            )
           ),
           # Plot display options
           shiny::conditionalPanel(

@@ -48,11 +48,11 @@ mod_calculate_ui <- function(
       options = picker_input_options()
     ),
     if (calculate_mode == "double_dot") {
-      shinyWidgets::radioGroupButtons(
+      shinyWidgets::materialSwitch(
         ns("include_overall"),
-        "Include Overall",
-        choices = c("Yes" = TRUE, "No" = FALSE),
-        selected = FALSE
+        'Include "Overall" group',
+        value = FALSE,
+        status = "primary"
       )
     },
     ## AE type filter ----
@@ -469,15 +469,15 @@ mod_calculate_server <- function(id, r, calculate_mode) {
         variable <- "AEDECOD"
         effect_measure <- dplyr::case_when(
           heatmap_color %in% c("RR", "FDR", "DFDR") ~ "RR",
-          heatmap_color %in% c("RD") ~ "RD",
+          heatmap_color %in% c("RD") ~ "RD"
         )
         order_by <- dplyr::case_when(
           heatmap_color %in% c("RR", "RD") ~ "effect",
-          heatmap_color %in% c("FDR", "DFDR") ~ "p-value",
+          heatmap_color %in% c("FDR", "DFDR") ~ "p-value"
         )
         adjustment <- dplyr::case_when(
           heatmap_color %in% c("RR", "RD", "FDR") ~ "FDR",
-          heatmap_color %in% c("DFDR") ~ "DFDR",
+          heatmap_color %in% c("DFDR") ~ "DFDR"
         )
       } else if (calculate_mode == "volcano") {
         ## Volcano ----

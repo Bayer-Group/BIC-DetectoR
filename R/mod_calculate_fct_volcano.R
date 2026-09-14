@@ -73,7 +73,7 @@ color_volcano <- function(
       color = dplyr::case_when(
         .data$legend == "Non-significant" ~ "white",
         .data$legend == "Favours verum" ~ "blue",
-        .data$legend == "Favours comparator" ~ "red",
+        .data$legend == "Favours comparator" ~ "red"
       )
     )
 }
