@@ -16,4 +16,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: etiennebacher/setup-jarl@v0.1.1
+      - uses: etiennebacher/setup-jarl@eabf7e572f2991d165059007531b9bbe2987e39c #v0.1.1

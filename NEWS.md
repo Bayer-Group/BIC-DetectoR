@@ -1,3 +1,8 @@
+# DetectoR (development version)
+
+* Add logger messages if there is an error in incidence rate calculation, due to incorrect date variables.
+* Update default ADSL variables in select inputs.
+
 # DetectoR 3.0.1
 * Add jarl linter
 * Apply jarl fixes

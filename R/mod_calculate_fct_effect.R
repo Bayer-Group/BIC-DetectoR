@@ -196,7 +196,7 @@ get_fisher_rr_rates <- function(
       dplyr::starts_with("rr"),
       dplyr::starts_with("rd"),
       "p",
-      "p_value_label",
+      "p_value_label"
     ) |>
     dplyr::rename(
       "prob2" = "prop_verum",

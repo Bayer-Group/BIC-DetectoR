@@ -7,7 +7,7 @@
 calculate_results(
   joint_data,
   adsl_filtered_data,
-  variable = c("AEDECOD", "MLG_label", "SMQ_NAME", "AEBODSYS"),
+  variable = c("AEDECOD", "MLG_label", "SMQ_NAME", "ocmq", "AEBODSYS"),
   effect_measure = c("RR", "RD"),
   adjustment = c("FDR", "DFDR"),
   order_by = c("p-value", "effect"),
@@ -30,7 +30,7 @@ calculate_results(
 \item{adsl_filtered_data}{A dataframe with ADSL after filtering.}
 
 \item{variable}{A character, the variable name that will be shown in the plot
-("AEDECOD", "MLG_label", "SMQ_NAME" or "AEBODSYS").}
+("AEDECOD", "MLG_label", "SMQ_NAME", "ocmq" or "AEBODSYS").}
 
 \item{effect_measure}{Display option RR (relative risks) or RD (risk
 differences).}

@@ -7,12 +7,14 @@
 #' @noRd
 
 mod_manual_ui <- function(id) {
-  shiny::wellPanel(
-    class = "about",
+  bslib::card(
+    class = "about border-0 shadow-sm mx-auto",
+    fill = FALSE,
     shiny::h1("Data Manual Tab"),
-    shiny::div(
+    shiny::img(
+      src = "www/logos/AppIcon_BAG_DetectoR_210x210mm_RGB.png",
       class = "detector-logo-about",
-      alt = "DetectoR logo",
+      alt = "DetectoR logo"
     ),
     shiny::h2("File Format and Structure"),
     shiny::h3("File Format"),
@@ -20,7 +22,7 @@ mod_manual_ui <- function(id) {
       "DetectoR is designed to upload the CDISC datasets ADSL and ADAE."
     ),
     shiny::div(
-      class = "callout-info",
+      class = "alert alert-info",
       shiny::icon("info-circle"),
       shiny::strong("Note: "),
       "Accepted formats are SAS (.sas7bdat), R (.rds) or coma-separated (.csv)."
@@ -99,14 +101,14 @@ mod_manual_ui <- function(id) {
       )
     ),
     shiny::div(
-      class = "callout-info",
+      class = "alert alert-info",
       shiny::icon("info-circle"),
       shiny::strong("Note: "),
       "ADSL and ADAE will be merged by STUDYID and USUBJID."
     ),
     shiny::h3("MedDRA data information"),
     shiny::div(
-      class = "callout-info",
+      class = "alert alert-info",
       shiny::icon("info-circle"),
       shiny::strong("Note: "),
       "To use MedDRA within the app, the MedDRA datasets are
@@ -185,7 +187,7 @@ mod_manual_ui <- function(id) {
       )
     ),
     shiny::div(
-      class = "callout-warning",
+      class = "alert alert-warning",
       shiny::icon("warning"),
       shiny::strong("Important! "),
       "All variable names in the table above are case-sensitive, i.e., if
