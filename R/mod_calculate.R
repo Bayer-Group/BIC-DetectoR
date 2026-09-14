@@ -48,11 +48,11 @@ mod_calculate_ui <- function(
       options = picker_input_options()
     ),
     if (calculate_mode == "double_dot") {
-      shinyWidgets::radioGroupButtons(
+      shinyWidgets::materialSwitch(
         ns("include_overall"),
-        "Include Overall",
-        choices = c("Yes" = TRUE, "No" = FALSE),
-        selected = FALSE
+        'Include "Overall" group',
+        value = FALSE,
+        status = "primary"
       )
     },
     ## AE type filter ----

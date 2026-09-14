@@ -7,6 +7,7 @@
 mod_upload_ui <- function(id) {
   ns <- shiny::NS(id)
   bslib::card(
+    fill = FALSE,
     # Show before uploading data ----
     shiny::conditionalPanel(
       condition = "!output.upload_ready",
@@ -16,14 +17,14 @@ mod_upload_ui <- function(id) {
       bslib::card(
         fill = FALSE,
         ## Demo or files mode ----
-        shinyWidgets::radioGroupButtons(
+        shinyWidgets::prettyRadioButtons(
           ns("mode"),
           "Input mode:",
           choices = c(
             "Upload ADAM Files" = "sas",
             "Demo Data" = "demo"
           ),
-          direction = "vertical"
+          inline = TRUE
         ),
         shiny::conditionalPanel(
           ## Upload ADAE and ADSL files----
@@ -58,14 +59,14 @@ mod_upload_ui <- function(id) {
       bslib::card(
         fill = FALSE,
         flex_row(
-          shinyWidgets::radioGroupButtons(
+          shinyWidgets::prettyRadioButtons(
             ns("meddra_mode"),
             "Choose MedDRA mode:",
             choices = c(
               "Upload MedDRA data" = "with_meddra",
               "Run without MedDRA" = "without_meddra"
             ),
-            direction = "vertical"
+            inline = TRUE
           )
         ),
         ## Upload MedDRA files and select MedDRA version ----
@@ -236,7 +237,7 @@ mod_upload_ui <- function(id) {
             )
           ),
           # Duration-related variables (for incidence rates) ----
-          shinyWidgets::radioGroupButtons(
+          shinyWidgets::prettyRadioButtons(
             ns("duration_mode"),
             "Time at risk variables",
             choices = c(
@@ -245,7 +246,7 @@ mod_upload_ui <- function(id) {
               "None" = "none"
             ),
             selected = "none",
-            direction = "vertical"
+            inline = TRUE
           ),
           ## Choose duration or time start and end ----
           shiny::conditionalPanel(
