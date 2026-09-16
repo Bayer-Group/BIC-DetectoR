@@ -763,7 +763,7 @@ mod_upload_server <- function(id, r) {
         shiny::req(input$treatment_variable)
         # Select all possible values from the selected treatment arm variable
         choices <- adsl_data_prepared() |>
-          dplyr::select(tidyselect::all_of(input$treatment_variable)) |>
+          dplyr::select(dplyr::all_of(input$treatment_variable)) |>
           dplyr::filter(.data[[input$treatment_variable]] != "") |>
           # remove formats
           haven::zap_formats() |>
