@@ -329,7 +329,7 @@ add_incidence_rates <- function(
       no_count = .data$big_n - .data$count
     ) |>
     dplyr::select(
-      tidyselect::all_of(variable),
+      dplyr::all_of(variable),
       "trta_detector",
       "count",
       "no_count",

@@ -18,7 +18,7 @@ join_adsl_adae <- function(
     !common_variables %in% c("USUBJID", "STUDYID")
   ]
   adae <- adae |>
-    dplyr::select(-tidyselect::any_of(common_variables))
+    dplyr::select(-dplyr::any_of(common_variables))
   adsl_adae_data <- dplyr::left_join(adsl, adae, by = c("USUBJID", "STUDYID"))
   adsl_adae_data
 }

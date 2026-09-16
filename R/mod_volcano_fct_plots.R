@@ -42,37 +42,33 @@ draw_volcano <- function(
     "Risk difference (%)"
   )
   xaxis_type <- ifelse(effect_measure == "RR", "log", "linear")
-  max_rr <- data$rr |>
-    log10() |>
-    abs() |>
-    max(na.rm = TRUE)
-  max_rd <- data$rd |>
-    abs() |>
-    max(na.rm = TRUE)
-  range_x <- ifelse(
-    effect_measure == "RR",
-    10^max_rr * 1.2,
-    max_rd * 1.2
-  )
-  # At least show RR between 1/3 and 3
-  # At least show RD between -2% and 2%
-  max_x <- ifelse(
-    effect_measure == "RR",
-    max(log10(range_x), log10(3)),
-    max(range_x, 2)
-  )
-  min_x <- ifelse(
-    effect_measure == "RR",
-    min(-log10(range_x), -log10(3)),
-    min(-range_x, -2)
-  )
-  x_vline_min <- ifelse(effect_measure == "RR", 1 / 2, 0)
-  x_vline_max <- ifelse(effect_measure == "RR", 2, 0)
   if (effect_measure == "RR") {
+    max_rr <- data$rr |>
+      log10() |>
+      abs() |>
+      max(na.rm = TRUE)
+    range_x <- 10^max_rr * 1.2
+    # At least show RR between 1/3 and 3
+    max_x <- max(log10(range_x), log10(3))
+    min_x <- min(-log10(range_x), -log10(3))
+    x_vline_min <- 1 / 2
+    x_vline_max <- 2
     tickvals <- c(0.2, 0.5, 1, 2, 5)
-  } else {
+    effect_text <- "RR = %{x:.2f}"
+  } else if (effect_measure == "RD") {
+    max_rd <- data$rd |>
+      abs() |>
+      max(na.rm = TRUE)
+    range_x <- max_rd * 1.2
+    # At least show RD between -2% and 2%
+    max_x <- max(range_x, 2)
+    min_x <- min(-range_x, -2)
+    x_vline_min <- 0
+    x_vline_max <- 0
     tickvals <- c(-5, -2, -1, 0, 1, 2, 5)
+    effect_text <- "RD = %{x:.2f}%"
   }
+
   tickformat <- ".1r" # one significant number
   hovertemplate <- paste0(
     data$axis_var,
@@ -108,7 +104,7 @@ draw_volcano <- function(
     ),
     hovertemplate = paste0(
       hovertemplate,
-      ifelse(effect_measure == "RR", "RR = %{x:.2f}", "RD = %{x:.2f}%"),
+      effect_text,
       "<extra></extra>"
     ),
     height = 600
