@@ -313,7 +313,8 @@ mod_calculate_server <- function(id, r, calculate_mode) {
       } else if (input$stratified_by == "None") {
         choices <- list(
           "Two sided" = "two.sided",
-          "One sided" = "less"
+          "One sided (favours comparator)" = "greater",
+          "One sided (favours verum)" = "less"
         )
       }
       shiny::updateSelectInput(

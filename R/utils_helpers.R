@@ -10,10 +10,11 @@
 find_min_event <- function(
   n1,
   n2,
-  alternative = c("two.sided", "less"),
+  alternative = c("two.sided", "less", "greater"),
   alpha = 0.05
 ) {
   alternative <- match.arg(alternative)
+  alternative <- if (alternative == "greater") "less" else alternative
   # Create a numeric vectors of events, to try which yields significant results
   if (n1 < 1000) {
     x1 <- seq(1, round(0.1 * n1, 0), 1)

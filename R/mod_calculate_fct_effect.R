@@ -320,8 +320,11 @@ get_rr <- function(
 #'
 #' @returns A numeric vector with p-values
 get_fisher_p_value <- function(a, b, c, d, alternative) {
-  stats::fisher.test(
-    matrix(c(a, b, c, d), nrow = 2),
+  #TODO: remove
+  matrix <- matrix(c(a, b, c, d), nrow = 2)
+  out <- stats::fisher.test(
+    matrix,
     alternative = alternative
-  )$p.value
+  )
+  out$p.value
 }
