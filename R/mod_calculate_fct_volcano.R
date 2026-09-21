@@ -13,15 +13,15 @@ prepare_volcano <- function(
     dplyr::count(.data[[safety_variable]], wt = .data$count, name = "total")
   data_with_totals <- data |>
     dplyr::select(
-      tidyselect::all_of(safety_variable),
-      tidyselect::any_of(c(
+      dplyr::all_of(safety_variable),
+      dplyr::any_of(c(
         "DFDR",
         "p_value_label",
         "p_adj_label",
-        "DFDR_label"
+        "DFDR_label",
+        "rr",
+        "rd"
       )),
-      "rr",
-      "rd",
       "p",
       "p_adj",
       "trta_detector",

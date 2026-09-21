@@ -521,7 +521,7 @@ mod_calculate_server <- function(id, r, calculate_mode) {
         } else {
           joint_data <- filtered_data
         }
-        logger::log_info(
+        logger::log_debug(
           "joint_data: dim: {paste(dim(joint_data), collapse = ', ')}"
         )
 
@@ -536,7 +536,7 @@ mod_calculate_server <- function(id, r, calculate_mode) {
             drug_related_variable = drug_related_variable,
             drug_related_value = drug_related_value
           )
-        logger::log_info(
+        logger::log_debug(
           "joint_data_ae_type: dim: {paste(dim(joint_data_ae_type), collapse = ', ')}"
         )
 
@@ -572,7 +572,7 @@ mod_calculate_server <- function(id, r, calculate_mode) {
           ae_start_variable = r$ae_start_variable
         )
       })
-      logger::log_info(
+      logger::log_debug(
         "data_results: dim: {paste(dim(data_results), collapse = ', ')}"
       )
       data_results
@@ -613,7 +613,7 @@ mod_calculate_server <- function(id, r, calculate_mode) {
           number_aes <- as.numeric(input$number_aes_shown)
           ae_grouping_filter <- input$ae_grouping_filter
           # Get results ----
-          logger::log_info(
+          logger::log_debug(
             "results_all: dim: {paste(dim(results_all()), collapse = ', ')}"
           )
           # Also including OVERALL category
@@ -627,7 +627,7 @@ mod_calculate_server <- function(id, r, calculate_mode) {
             dplyr::filter(
               .data[[variable]] %in% ae_grouping
             )
-          logger::log_info(
+          logger::log_debug(
             "data_results: dim: {paste(dim(data_results), collapse = ', ')}"
           )
 
@@ -643,7 +643,7 @@ mod_calculate_server <- function(id, r, calculate_mode) {
               effect_measure = effect_measure,
               adjustment = adjustment
             )
-            logger::log_info(
+            logger::log_debug(
               "data_reordered_levels: dim: {paste(dim(data_reordered_levels), collapse = ', ')}"
             )
             # Reorder data rows to show all plots in the appropiate order
@@ -654,7 +654,7 @@ mod_calculate_server <- function(id, r, calculate_mode) {
               effect_measure = effect_measure,
               number_aes = number_aes
             )
-            logger::log_info(
+            logger::log_debug(
               "data_arranged: dim: {paste(dim(data_arranged), collapse = ', ')}"
             )
             data_arranged
