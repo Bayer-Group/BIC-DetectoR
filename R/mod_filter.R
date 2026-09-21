@@ -8,12 +8,12 @@
 
 mod_filter_ui <- function(id) {
   ns <- shiny::NS(id)
-  # shiny::verbatimTextOutput(ns("debug")), # uncomment to show debug prints
   bslib::accordion_panel(
     "Filter Data",
     icon = shiny::icon("filter"),
     shiny::strong("Add or remove filters"),
     # Select ADAE filters ----
+    # shiny::verbatimTextOutput(ns("debug")), # uncomment to show debug prints
     shinyWidgets::pickerInput(
       ns("picker_filter_adae"),
       "Select filter variable(s) for ADAE data set",
@@ -141,13 +141,16 @@ mod_filter_server <- function(id, r) {
         ]
         ## Remove buttons for deselected filters ----
         for (i in seq_along(deselected_filters)) {
-          id <- deselected_filters[i]
+          var <- deselected_filters[i]
+          id <- stringr::str_replace_all(var, " ", "_")
           shiny.destroy::removeInput(id)
         }
         ## Add buttons for new filter variables ----
         for (i in seq_along(new_filters)) {
-          id <- new_filters[i]
-          variable_name <- stringr::str_remove(id, "^filter_")
+          var <- new_filters[i]
+          variable_name <- stringr::str_remove(var, "^filter_")
+          # Remove spaces from variable names to allow for uninterrumped id string
+          id <- stringr::str_replace_all(var, " ", "_")
           if (variable_name %in% colnames(adae_data)) {
             variable <- adae_data |> dplyr::pull(variable_name)
             variable_label <- adae_names[adae_names == variable_name] |>
@@ -221,7 +224,8 @@ mod_filter_server <- function(id, r) {
     shiny::observeEvent(input$remove_filter, {
       # Remove filters from UI
       for (i in seq_along(active_filters())) {
-        id <- active_filters()[i]
+        var <- active_filters()[i]
+        id <- stringr::str_replace_all(var, " ", "_")
         shiny.destroy::removeInput(id)
       }
       # Remove filter from reactive value of active filters
@@ -252,8 +256,9 @@ mod_filter_server <- function(id, r) {
           data_filt <- data
           # Filtering using a for loop, one iteration per filter condition
           for (i in seq_along(ids)) {
-            id <- ids[i]
-            variable_name <- variables[i]
+            var <- ids[[i]]
+            id <- stringr::str_replace_all(var, " ", "_")
+            variable_name <- variables[[i]]
             if (variable_name %in% colnames(data)) {
               variable <- data |> dplyr::pull(variable_name)
               if (is.numeric(variable)) {
@@ -300,8 +305,9 @@ mod_filter_server <- function(id, r) {
           data_filt <- data
           # Filtering using a for loop, one iteration per filter condition
           for (i in seq_along(ids)) {
-            id <- ids[i]
-            variable_name <- variables[i]
+            var <- ids[[i]]
+            id <- stringr::str_replace_all(var, " ", "_")
+            variable_name <- variables[[i]]
             if (variable_name %in% colnames(data)) {
               # Logic for numerical variables
               variable <- data |> dplyr::pull(variable_name)
@@ -390,8 +396,9 @@ mod_filter_server <- function(id, r) {
           adsl_index <- 1
           # Extracts selected values for each filtered variable
           for (i in seq_along(active_filters())) {
-            id <- active_filters()[i]
-            variable_name <- stringr::str_remove(id, "^filter_")
+            var <- active_filters()[[i]]
+            id <- stringr::str_replace_all(var, " ", "_")
+            variable_name <- stringr::str_remove(var, "^filter_")
             if (variable_name %in% colnames(r$adae_data)) {
               data <- r$adae_data
               list <- "adae"
