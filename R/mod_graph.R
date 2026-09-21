@@ -54,6 +54,7 @@ mod_graph_ui <- function(id) {
           # Double dot plot footer
           shiny::div(
             shiny::icon("circle-info"),
+            shiny::uiOutput(ns("stratified_info_1")),
             shiny::span("**: significant by adjusted p-value; "),
             shiny::span("*: significant only by unadjusted p-value. Colors: "),
             shiny::span("Favours comparator", class = "comparator-col"),
@@ -66,6 +67,7 @@ mod_graph_ui <- function(id) {
           shiny::div(
             shiny::span(
               shiny::icon("circle-info"),
+              shiny::uiOutput(ns("stratified_info_2")),
               "CI: Confidence Interval; RD: Risk Difference; RR: Risk Ratio."
             )
           )
@@ -159,5 +161,21 @@ mod_graph_server <- function(id, r) {
       )
     }) |>
       shiny::bindEvent(r$go_double_dot)
+
+    stratified_info <- shiny::reactive({
+      if (r$stratified_by != "None") {
+        shiny::div(
+          shiny::icon("layer-group"),
+          paste0("Results stratified by", r$stratified_by)
+        )
+      }
+    }) |>
+      shiny::bindEvent(r$go_double_dot)
+    output$stratified_info_1 <- shiny::renderUI({
+      stratified_info()
+    })
+    output$stratified_info_2 <- shiny::renderUI({
+      stratified_info()
+    })
   })
 }

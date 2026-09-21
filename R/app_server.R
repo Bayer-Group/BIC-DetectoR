@@ -6,6 +6,7 @@
 app_server <- function(input, output, session) {
   # Increase UploadSize Limit
   options(shiny.maxRequestSize = 700 * 1024^2)
+  logger::log_threshold("DEBUG")
 
   # Time Count Feature
   tmp_time <- Sys.time()

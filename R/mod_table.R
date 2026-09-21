@@ -49,8 +49,8 @@ mod_table_server <- function(id, r) {
       rr_text <- paste0("RR ", confidence, "% CI")
       table <- r$table_data |>
         dplyr::select(
-          tidyselect::all_of(table_variable),
-          tidyselect::all_of(adjusted_p),
+          dplyr::all_of(table_variable),
+          dplyr::all_of(adjusted_p),
           "trta_detector",
           "count",
           "prop",

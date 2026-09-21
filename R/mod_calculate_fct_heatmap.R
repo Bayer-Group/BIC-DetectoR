@@ -53,8 +53,7 @@ prepare_heatmap_data <- function(
       "trta_detector",
       "prob1",
       "prob2",
-      "rr",
-      "rd",
+      dplyr::any_of(c("rr", "rd")),
       "p",
       "p_adj",
       "p_adj_label",
@@ -280,8 +279,7 @@ make_treemap_data <- function(
     # Keep only useful variables: safety variable, RR/RD, adjusted p-values
     dplyr::select(
       "AEDECOD",
-      "rr",
-      "rd",
+      dplyr::any_of(c("rr", "rd")),
       "p_adj",
       "p_adj_label",
       dplyr::any_of(c("DFDR", "DFDR_label"))
