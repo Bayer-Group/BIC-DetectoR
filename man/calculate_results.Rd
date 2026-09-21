@@ -12,7 +12,7 @@ calculate_results(
   adjustment = c("FDR", "DFDR"),
   order_by = c("p-value", "effect"),
   study_strat = "None",
-  alternative = c("two.sided", "less"),
+  alternative = c("two.sided", "less", "greater"),
   alpha = 0.05,
   filter = c("no_method", "one_percent", "min"),
   frequency_measure = c("proportions", "incidence rates"),

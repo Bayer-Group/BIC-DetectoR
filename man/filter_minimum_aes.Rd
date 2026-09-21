@@ -9,7 +9,7 @@ filter_minimum_aes(
   variable,
   big_n,
   method = c("no_method", "one_percent", "min"),
-  alternative = c("two.sided", "less"),
+  alternative = c("two.sided", "less", "greater"),
   alpha
 )
 }
@@ -25,7 +25,7 @@ treatment arm.}
 "one_percent" or "min". "min" calls find_min_event()}
 
 \item{alternative}{A character describing the alternative hypothesis for
-"min" method: "two.sided" or "less" (one-sided)}
+"min" method: "two.sided", "less" or "greater" (one-sided)}
 
 \item{alpha}{Numeric, alpha level of the test for "min" method.}
 }

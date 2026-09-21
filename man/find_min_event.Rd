@@ -4,7 +4,12 @@
 \alias{find_min_event}
 \title{Calculate the minimum number of events in verum}
 \usage{
-find_min_event(n1, n2, alternative = c("two.sided", "less"), alpha = 0.05)
+find_min_event(
+  n1,
+  n2,
+  alternative = c("two.sided", "less", "greater"),
+  alpha = 0.05
+)
 }
 \arguments{
 \item{n1}{Number of patients in Verum}
