@@ -1,7 +1,24 @@
 # DetectoR 3.1.0
 
-* Add logger messages if there is an error in incidence rate calculation, due to incorrect date variables.
-* Update default ADSL variables in select inputs.
+## New features
+
+* FDA's OCMQs support.
+* Optional "overall" group in Double Dot Plot shows the total number of subjects with the selected AEs in each group.
+
+## UI changes
+
+* bslib layout with cards that can be expanded to fullscreen.
+* Filter controls and plot settings are now on the resizable sidebar.
+* More sensible default ADAM variable names.
+* Simplified color scheme.
+
+## Bug fixes
+
+* [#7](https://github.com/Bayer-Group/BIC-DetectoR/issues/7) fixed RR/RD stratification by other variable than STUDYID.
+* [#14](https://github.com/Bayer-Group/BIC-DetectoR/issues/17) showing warning to prevent crash when calculating incidence rates and selecting wrong date variable.
+* [#19](https://github.com/Bayer-Group/BIC-DetectoR/issues/19) fixed data filters not being removed if the variable name contains whitespaces.
+* [#29](https://github.com/Bayer-Group/BIC-DetectoR/issues/29) delayed study info summary until a valid dataset is selected.
+* [#32](https://github.com/Bayer-Group/BIC-DetectoR/issues/32) fixed wrong direction of one-sided p-value calculation.
 
 # DetectoR 3.0.1
 * Add jarl linter

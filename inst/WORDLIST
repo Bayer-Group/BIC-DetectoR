@@ -24,6 +24,7 @@ DUREXP
 DescTools
 Devan
 Escobar
+FDA's
 GHA
 HLGT
 HLGTs
@@ -39,6 +40,7 @@ MedDRA
 MedDRA’
 Mehrotra
 OCMQ
+OCMQs
 PRL
 PTs
 README
@@ -64,12 +66,14 @@ adae
 adsl
 analytics
 bdat
+bslib
 colour
 comparator
 css
 csv
 fileInput
 formatter
+fullscreen
 golem
 hlt
 jarl
@@ -92,6 +96,7 @@ pvals
 rds
 renv
 renvs
+resizable
 rr
 sas
 smq

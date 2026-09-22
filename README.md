@@ -387,7 +387,7 @@ please follow these steps:
 
 ## About
 
-You are reading the doc about version : 3.0.1.9008
+You are reading the doc about version : 3.1.0
 
 [^1]: [Flagging clinical adverse experiences: reducing false discoveries
     without materially compromising power for detecting true signals
