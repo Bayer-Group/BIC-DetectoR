@@ -17,16 +17,8 @@ col_8 <- function(...) {
   shiny::column(8, ...)
 }
 
-col_7 <- function(...) {
-  shiny::column(7, ...)
-}
-
 col_6 <- function(...) {
   shiny::column(6, ...)
-}
-
-col_5 <- function(...) {
-  shiny::column(5, ...)
 }
 
 col_4 <- function(...) {

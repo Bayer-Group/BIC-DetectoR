@@ -129,7 +129,7 @@ get_new_dfdr <- function(
 #'
 count_total_proportions <- function(data, variable) {
   data |>
-    dplyr::select(tidyselect::all_of(variable), "count", "big_n", "p") |>
+    dplyr::select(dplyr::all_of(variable), "count", "big_n", "p") |>
     dplyr::group_by(.data[[variable]]) |>
     dplyr::summarise(
       Count = sum(.data$count),
@@ -166,7 +166,7 @@ get_stratified_rr_rd <- function(
     # Convert stratification variable to factor to allow 0 counts
     dplyr::mutate(
       dplyr::across(
-        tidyselect::all_of(c(variable, stratify_variable, "trta_detector")),
+        dplyr::all_of(c(variable, stratify_variable, "trta_detector")),
         factor
       )
     )
@@ -245,7 +245,7 @@ calculate_stratified_incidence <- function(
   weigthed_freqs <- split_data |>
     dplyr::count(.data[[stratify_variable]], wt = .data$n) |>
     dplyr::mutate(freq = .data$n / sum(.data$n)) |>
-    dplyr::select(tidyselect::all_of(stratify_variable), "freq")
+    dplyr::select(dplyr::all_of(stratify_variable), "freq")
   split_data <- split_data |>
     dplyr::left_join(weigthed_freqs, by = stratify_variable) |>
     dplyr::mutate(

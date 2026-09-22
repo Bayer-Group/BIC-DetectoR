@@ -1,2 +1,2 @@
 [lint]
-exclude = ["dev/"]
+exclude = ["dev/", "R/_disable_autoload.R"]

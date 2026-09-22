@@ -6,29 +6,23 @@
 #'
 mod_volcano_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::tagList(
-    mod_calculate_ui("calculate_volcano", calculate_mode = "volcano"),
-    shiny::conditionalPanel(
-      condition = "!output.volcano_plot",
-      ns = ns,
-      shiny::span(
-        shiny::icon("circle-info"),
-        "Click the Calculate! button to display the plot."
-      )
-    ),
-    ## Display volcano plot ----
-    shinycssloaders::withSpinner(
-      plotly::plotlyOutput(ns("volcano_plot"), height = 600),
-      type = 4
-    ),
-    shiny::br(),
-    shiny::conditionalPanel(
-      condition = "output.volcano_plot",
-      ns = ns,
-      shiny::wellPanel(
-        shiny::span(shiny::icon("filter"), "Filters applied:"),
-        shiny::textOutput(ns("filter_list_adae")),
-        shiny::textOutput(ns("filter_list_adsl"))
+  bslib::card(
+    full_screen = TRUE,
+    bslib::card_header("Volcano plot"),
+    bslib::card_body(
+      # Placeholder
+      shiny::conditionalPanel(
+        condition = "!output.volcano_plot",
+        ns = ns,
+        shiny::span(
+          shiny::icon("circle-info"),
+          "Click the Calculate! button to display the plot."
+        )
+      ),
+      ## Display volcano plot ----
+      shinycssloaders::withSpinner(
+        plotly::plotlyOutput(ns("volcano_plot"), height = 600),
+        type = 4
       )
     )
   )

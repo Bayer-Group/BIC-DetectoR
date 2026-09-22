@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Install
-        uses: posit-dev/setup-air@v1
+        uses: posit-dev/setup-air@cf390573ff4fe0f198f35df3a642b1409328d859 #v1
 
       - name: Check
         run: air format . --check

@@ -39,13 +39,16 @@ allowing users to focus on deriving insights rather than preparing data.
 With the capability to upload adverse event datasets (ADAE) and
 subject-level datasets (ADSL) in SAS, CSV, or RDS format, DetectoR
 offers a user-friendly interface for exploring complex safety data
-through interactive visualizations. The application features three main
-analysis displays—the Double Dot Plot, Heatmap, and Volcano Plot—plus a
-Filter data step and a View dataset tab. Each display is designed to
-facilitate the identification of safety signals and trends in clinical
-trial data. By integrating adequate statistical methods and visual
-analytics, DetectoR enhances the decision-making process for clinical
-researchers and regulatory professionals.
+through interactive visualizations. The application includes dedicated
+**Welcome** and **Upload** tabs, three main analysis displays—the Double
+Dot Plot, Heatmap, and Volcano Plot—and a **Table** tab for exploring
+the underlying data. Filtering options and calculation settings are
+accessible through a shared **sidebar panel** available across all
+visualization tabs. Each display is designed to facilitate the
+identification of safety signals and trends in clinical trial data. By
+integrating adequate statistical methods and visual analytics, DetectoR
+enhances the decision-making process for clinical researchers and
+regulatory professionals.
 
 ## Getting Started
 
@@ -229,9 +232,9 @@ the Comparator** need to be identified.
 
 Based on subject level characteristics and adverse event categories,
 generic **data filtering** can be applied any time by using the *Filter
-tab*. For example, the analyses can be restricted to Serious Adverse
-Events (SAEs) or adverse events leading to discontinuation, to focus on
-events of higher severity or impact.
+Data* options in the **sidebar panel**. For example, the analyses can be
+restricted to Serious Adverse Events (SAEs) or adverse events leading to
+discontinuation, to focus on events of higher severity or impact.
 
 Additionally, **patient-level filters** can be added, e.g., for baseline
 characteristics like the usual covariates (sex, age or BMI), but also
@@ -241,7 +244,9 @@ for any co-morbidity or risk factor included in the input data set.
 
 After the data is uploaded, treatment is defined and filters are
 applied, the tabs *Double Dot Plot*, *Heatmap*, *Volcano Plot*, and
-*View Dataset* are available to explore the data.
+*Table* are available to explore the data. Calculation settings, filter
+controls, and an active filters summary are available in the shared
+**sidebar panel**.
 
 ### The Double Dot Plot
 
@@ -308,10 +313,10 @@ The following advance settings can be adapted:
 
 - The **significance level (alpha)** can be chosen as 1, 5 or 10%.
 
-### The Data View
+### The Table View
 
-All data provided in the Double Dot Plot can also be found in the *View
-Dataset* tab and easily be filtered and sorted as required.
+All data provided in the Double Dot Plot can also be found in the
+*Table* tab and easily be filtered and sorted as required.
 
 ### The Heatmap
 
@@ -338,7 +343,7 @@ above, multiplicity adjustments, consideration of risk estimates and
 risk differences as well as study stratification are possible for the
 heatmap.
 
-The Volcano Plot
+### The Volcano Plot
 
 <figure>
 <img src="inst/app/www/screenshots/screenshot-volcano.jpeg"
@@ -374,7 +379,7 @@ please follow these steps:
 
 5.  Submit a pull request.
 
-<div align="center">
+<div data-align="center">
 
 <img src="inst/app/www/logos/AppIcon_BAG_DetectoR_210x210mm_RGB.png" alt="DetectoR logo" width="20%" height="20%"/>
 
@@ -382,7 +387,7 @@ please follow these steps:
 
 ## About
 
-You are reading the doc about version : 3.0.1
+You are reading the doc about version : 3.1.0
 
 [^1]: [Flagging clinical adverse experiences: reducing false discoveries
     without materially compromising power for detecting true signals

@@ -2,10 +2,10 @@
 #' Prepare adsl and adae for the volcano display
 #' @param data Results data.
 #' @param safety_variable The hierarchy level to display: "AEDECOD", "AEBODSYS",
-#'  "MLG_label", "SMQ_NAME".
+#'  "MLG_label", "SMQ_NAME", "ocmq".
 prepare_volcano <- function(
   data,
-  safety_variable = c("AEDECOD", "AEBODSYS", "MLG_label", "SMQ_NAME")
+  safety_variable = c("AEDECOD", "AEBODSYS", "MLG_label", "SMQ_NAME", "ocmq")
 ) {
   safety_variable <- match.arg(safety_variable)
   # Get total counts (will be the size of the circle)
@@ -13,15 +13,15 @@ prepare_volcano <- function(
     dplyr::count(.data[[safety_variable]], wt = .data$count, name = "total")
   data_with_totals <- data |>
     dplyr::select(
-      tidyselect::all_of(safety_variable),
-      tidyselect::any_of(c(
+      dplyr::all_of(safety_variable),
+      dplyr::any_of(c(
         "DFDR",
         "p_value_label",
         "p_adj_label",
-        "DFDR_label"
+        "DFDR_label",
+        "rr",
+        "rd"
       )),
-      "rr",
-      "rd",
       "p",
       "p_adj",
       "trta_detector",
@@ -73,7 +73,7 @@ color_volcano <- function(
       color = dplyr::case_when(
         .data$legend == "Non-significant" ~ "white",
         .data$legend == "Favours verum" ~ "blue",
-        .data$legend == "Favours comparator" ~ "red",
+        .data$legend == "Favours comparator" ~ "red"
       )
     )
 }

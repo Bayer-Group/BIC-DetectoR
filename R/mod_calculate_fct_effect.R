@@ -40,12 +40,12 @@ get_fisher_rr_proportions <- function(
   # Prepare data in wide format, one row per adverse event ----
   data_mod <- tidyr::pivot_wider(
     data = data,
-    id_cols = tidyselect::all_of(variable),
+    id_cols = dplyr::all_of(variable),
     names_from = "trta_detector",
     values_from = c("count", "no_count", "prop", "big_n")
   ) |>
     # lowercase names of variables except safety variable
-    dplyr::rename_with(tolower, -tidyselect::all_of(variable))
+    dplyr::rename_with(tolower, -dplyr::all_of(variable))
   checkmate::assert_data_frame(data_mod, any.missing = FALSE, min.rows = 1)
 
   ## Check column names are OK ----
@@ -146,12 +146,12 @@ get_fisher_rr_rates <- function(
   # Prepare data in wide format, one row per adverse event
   data_mod <- tidyr::pivot_wider(
     data = data,
-    id_cols = tidyselect::all_of(variable),
+    id_cols = dplyr::all_of(variable),
     names_from = "trta_detector",
     values_from = c("count", "no_count", "prop", "big_n", "pattime")
   ) |>
     # lowercase names of variables except safety variable
-    dplyr::rename_with(tolower, -tidyselect::all_of(variable)) |>
+    dplyr::rename_with(tolower, -dplyr::all_of(variable)) |>
     dplyr::mutate(
       # Calculates RR (zero-corrected) and CI
       rr = get_rr(
@@ -196,7 +196,7 @@ get_fisher_rr_rates <- function(
       dplyr::starts_with("rr"),
       dplyr::starts_with("rd"),
       "p",
-      "p_value_label",
+      "p_value_label"
     ) |>
     dplyr::rename(
       "prob2" = "prop_verum",
@@ -320,8 +320,11 @@ get_rr <- function(
 #'
 #' @returns A numeric vector with p-values
 get_fisher_p_value <- function(a, b, c, d, alternative) {
-  stats::fisher.test(
-    matrix(c(a, b, c, d), nrow = 2),
+  #TODO: remove
+  matrix <- matrix(c(a, b, c, d), nrow = 2)
+  out <- stats::fisher.test(
+    matrix,
     alternative = alternative
-  )$p.value
+  )
+  out$p.value
 }
